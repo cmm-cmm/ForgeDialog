@@ -1,0 +1,48 @@
+:root {
+  --fd-color-overlay: rgba(15, 17, 21, 0.5);
+  --fd-color-surface: #ffffff;
+  --fd-color-text: #1a1d23;
+  --fd-color-text-muted: #5b6270;
+  --fd-color-border: #e2e4e9;
+  --fd-color-primary: #3b6df0;
+  --fd-color-primary-text: #ffffff;
+  --fd-color-secondary: #eceef2;
+  --fd-color-secondary-text: #1a1d23;
+  --fd-color-danger: #e5484d;
+  --fd-color-danger-text: #ffffff;
+  --fd-radius: 10px;
+  --fd-shadow: 0 20px 60px rgba(15, 17, 21, 0.25);
+  --fd-spacing-sm: 8px;
+  --fd-spacing-md: 16px;
+  --fd-spacing-lg: 24px;
+  --fd-font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --fd-z-index-base: 1000;
+  --fd-duration-fast: 120ms;
+  --fd-duration-normal: 200ms;
+  --fd-easing: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-fd-theme='light']) {
+    --fd-color-overlay: rgba(0, 0, 0, 0.6);
+    --fd-color-surface: #1f2229;
+    --fd-color-text: #f2f3f5;
+    --fd-color-text-muted: #9aa1ad;
+    --fd-color-border: #33363f;
+    --fd-color-secondary: #2b2e37;
+    --fd-color-secondary-text: #f2f3f5;
+    --fd-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+}
+
+:root[data-fd-theme='dark'] {
+  --fd-color-overlay: rgba(0, 0, 0, 0.6);
+  --fd-color-surface: #1f2229;
+  --fd-color-text: #f2f3f5;
+  --fd-color-text-muted: #9aa1ad;
+  --fd-color-border: #33363f;
+  --fd-color-secondary: #2b2e37;
+  --fd-color-secondary-text: #f2f3f5;
+  --fd-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}

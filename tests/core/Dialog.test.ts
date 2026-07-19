@@ -132,6 +132,36 @@ describe('Dialog', () => {
     await first.close();
   });
 
+  it('does not resurrect state to "open" when close() is called synchronously during open()', async () => {
+    const { dialog } = makeDialog({});
+    const openPromise = dialog.open();
+    const closePromise = dialog.close('early');
+    await Promise.all([openPromise, closePromise]);
+    expect(dialog.isOpen()).toBe(false);
+    await expect(dialog.whenClosed()).resolves.toBe('early');
+  });
+
+  it('does not resurrect state to "open" when close() is called mid-animateIn', async () => {
+    const plugins = new PluginManager();
+    const order: string[] = [];
+    plugins.on('afterOpen', () => {
+      order.push('afterOpen');
+    });
+    plugins.on('afterClose', () => {
+      order.push('afterClose');
+    });
+    const { dialog } = makeDialog({}, new DialogStackManager(), plugins);
+
+    const openPromise = dialog.open();
+    await Promise.resolve();
+    const closePromise = dialog.close('early');
+    await Promise.all([openPromise, closePromise]);
+
+    expect(dialog.isOpen()).toBe(false);
+    expect(order).toEqual(['afterClose']);
+    await expect(dialog.whenClosed()).resolves.toBe('early');
+  });
+
   it('falls back to focusing the container when there is nothing focusable', async () => {
     const { dialog } = makeDialog({ closable: false });
     await dialog.open();

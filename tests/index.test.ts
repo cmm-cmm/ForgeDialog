@@ -12,6 +12,7 @@ describe('public plugin sugar', () => {
     const fn = vi.fn();
     on('afterOpen', fn);
     const promise = alert('hi');
+    await new Promise((resolve) => setTimeout(resolve));
     document.querySelector<HTMLButtonElement>('.fd-btn--primary')!.click();
     await promise;
     expect(fn).toHaveBeenCalledTimes(1);

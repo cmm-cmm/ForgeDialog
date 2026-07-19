@@ -28,6 +28,8 @@ const PRESETS: Record<Exclude<AnimationPreset, 'none'>, PresetKeyframes> = {
 
 const EASING = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
+const activeAnimations = new WeakMap<Element, Animation>();
+
 function prefersReducedMotion(): boolean {
   return typeof window.matchMedia === 'function'
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -38,7 +40,9 @@ function runAnimation(el: HTMLElement, keyframes: Keyframe[], duration: number):
   if (prefersReducedMotion() || typeof el.animate !== 'function') {
     return Promise.resolve();
   }
+  activeAnimations.get(el)?.cancel();
   const animation = el.animate(keyframes, { duration, easing: EASING, fill: 'both' });
+  activeAnimations.set(el, animation);
   return animation.finished.then(
     () => undefined,
     () => undefined,

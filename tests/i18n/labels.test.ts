@@ -1,9 +1,13 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { alert } from '../../src/api/alert';
+import { resetDialogStackForTests } from '../../src/core/DialogStack';
+import { resetScrollLockForTests } from '../../src/core/scrollLock';
 import { getLabels, resetLabelsForTests, setLabels } from '../../src/i18n/defaultLabels';
 
 afterEach(() => {
   resetLabelsForTests();
+  resetDialogStackForTests();
+  resetScrollLockForTests();
   document.body.innerHTML = '';
   document.body.style.overflow = '';
   document.body.style.paddingRight = '';

@@ -51,6 +51,23 @@ describe('prompt()', () => {
     await expect(promise).resolves.toBe('ok now');
   });
 
+  it('shows an inline error instead of throwing when validate() rejects', async () => {
+    const promise = prompt('Your age?', {
+      validate: () => {
+        throw new Error('boom');
+      },
+    });
+    document.querySelector<HTMLButtonElement>('.fd-btn--primary')!.click();
+    await Promise.resolve();
+    await Promise.resolve();
+
+    const error = document.querySelector('.fd-input-error');
+    expect(error?.textContent).toBe('boom');
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    await expect(promise).resolves.toBeNull();
+  });
+
   it('submits on Enter key in the input', async () => {
     const promise = prompt('Your name?');
     const input = document.querySelector<HTMLInputElement>('.fd-input')!;

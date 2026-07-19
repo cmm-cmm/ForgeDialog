@@ -30,7 +30,13 @@ export function prompt(
   async function submit(instance: DialogInstance): Promise<void> {
     const value = inputEl.value;
     if (options.validate) {
-      const result = await options.validate(value);
+      let result: boolean | string;
+      try {
+        result = await options.validate(value);
+      } catch (err) {
+        showError(err instanceof Error ? err.message : 'Invalid value');
+        return;
+      }
       if (result !== true) {
         showError(typeof result === 'string' ? result : 'Invalid value');
         return;
@@ -41,6 +47,7 @@ export function prompt(
   }
 
   const instance = open({
+    ...options,
     type: 'prompt',
     role: 'dialog',
     message,
@@ -63,7 +70,6 @@ export function prompt(
       { text: labels.cancel, role: 'secondary', onClick: (i) => i.close(null) },
       { text: labels.ok, role: 'primary', onClick: (i) => submit(i) },
     ],
-    ...options,
   });
   ref.instance = instance;
 

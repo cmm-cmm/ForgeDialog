@@ -46,6 +46,11 @@ export class DialogStackManager {
     }
   }
 
+  resetForTests(): void {
+    this.stack = [];
+    this.detachEscapeListener();
+  }
+
   private attachEscapeListener(): void {
     if (this.escapeListenerAttached) return;
     this.escapeListenerAttached = true;
@@ -68,3 +73,7 @@ export class DialogStackManager {
 }
 
 export const dialogStack = new DialogStackManager();
+
+export function resetDialogStackForTests(): void {
+  dialogStack.resetForTests();
+}

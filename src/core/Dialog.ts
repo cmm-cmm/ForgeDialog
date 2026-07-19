@@ -71,7 +71,9 @@ export class Dialog implements DialogInstance {
     this.focusTrap.activate(this.getInitialFocusTarget());
 
     await this.plugins.runHook('beforeOpen', { instance: this, options: this.options });
+    if (this.state !== 'opening') return;
     await animateIn(this.element, this.dialogEl, this.options.animation);
+    if (this.state !== 'opening') return;
 
     this.state = 'open';
     await this.plugins.runHook('afterOpen', { instance: this, options: this.options });

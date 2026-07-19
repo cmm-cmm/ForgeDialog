@@ -31,7 +31,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests",
     "format": "prettier --write .",
-    "demo": "npm run build && npx --yes serve demo",
+    "demo": "npm run build && npx --yes serve -l 3000 .",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

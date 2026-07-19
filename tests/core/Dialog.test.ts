@@ -169,4 +169,34 @@ describe('Dialog', () => {
     expect(document.activeElement).toBe(el);
     await dialog.close();
   });
+
+  it('makes the header draggable when draggable is true', async () => {
+    const { dialog } = makeDialog({ draggable: true });
+    await dialog.open();
+    const header = dialog.element.querySelector('.fd-dialog__header')!;
+    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(true);
+    await dialog.close();
+  });
+
+  it('does not make the header draggable by default', async () => {
+    const { dialog } = makeDialog({});
+    await dialog.open();
+    const header = dialog.element.querySelector('.fd-dialog__header')!;
+    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(false);
+    await dialog.close();
+  });
+
+  it('toggles draggable via update()', async () => {
+    const { dialog } = makeDialog({});
+    await dialog.open();
+    const header = dialog.element.querySelector('.fd-dialog__header')!;
+    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(false);
+
+    dialog.update({ draggable: true });
+    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(true);
+
+    dialog.update({ draggable: false });
+    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(false);
+    await dialog.close();
+  });
 });

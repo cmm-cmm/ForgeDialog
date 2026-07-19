@@ -10,6 +10,7 @@ import {
   updateDialogButtons,
   updateDialogTitle,
 } from './domBuilder';
+import { type DraggableHandle, makeDraggable } from './draggable';
 import { FocusTrap } from './FocusTrap';
 
 type DialogState = 'idle' | 'opening' | 'open' | 'closing' | 'closed';
@@ -22,9 +23,11 @@ export class Dialog implements DialogInstance {
   private readonly dialogEl: HTMLElement;
   private readonly bodyEl: HTMLDivElement;
   private buttonElements: HTMLButtonElement[];
+  private readonly headerEl: HTMLDivElement;
   private readonly focusTrap: FocusTrap;
   private readonly stack: DialogStackManager;
   private readonly plugins: PluginManager;
+  private draggableHandle: DraggableHandle | null = null;
   private state: DialogState = 'idle';
   private readonly closedPromise: Promise<unknown>;
   private resolveClosed!: (result: unknown) => void;
@@ -44,6 +47,7 @@ export class Dialog implements DialogInstance {
     const built = buildDialogDom(this.id, options, role, labels, () => this);
     this.element = built.overlay;
     this.dialogEl = built.dialog;
+    this.headerEl = built.header;
     this.bodyEl = built.body;
     this.buttonElements = built.buttonElements;
     this.focusTrap = new FocusTrap(this.dialogEl);
@@ -54,6 +58,10 @@ export class Dialog implements DialogInstance {
 
     if (options.closeOnOverlayClick !== false) {
       this.element.addEventListener('mousedown', this.handleOverlayMouseDown);
+    }
+
+    if (options.draggable) {
+      this.draggableHandle = makeDraggable(this.dialogEl, this.headerEl);
     }
   }
 
@@ -89,6 +97,8 @@ export class Dialog implements DialogInstance {
 
     this.focusTrap.deactivate();
     this.element.removeEventListener('mousedown', this.handleOverlayMouseDown);
+    this.draggableHandle?.destroy();
+    this.draggableHandle = null;
     await animateOut(this.element, this.dialogEl, this.options.animation);
     this.element.remove();
     this.stack.remove(this);
@@ -119,6 +129,13 @@ export class Dialog implements DialogInstance {
 
     if (partial.buttons !== undefined) {
       this.buttonElements = updateDialogButtons(this.dialogEl, partial.buttons, () => this);
+    }
+
+    if (partial.draggable !== undefined) {
+      this.draggableHandle?.destroy();
+      this.draggableHandle = partial.draggable
+        ? makeDraggable(this.dialogEl, this.headerEl)
+        : null;
     }
   }
 

@@ -5,6 +5,8 @@ const defaultLabels: DialogLabels = {
   cancel: 'Cancel',
   close: 'Close',
   promptPlaceholder: '',
+  submit: 'Submit',
+  fieldRequired: 'This field is required.',
 };
 
 let currentLabels: DialogLabels = { ...defaultLabels };

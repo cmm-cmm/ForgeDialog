@@ -20,4 +20,18 @@ describe('animation', () => {
     const dialog = document.createElement('div');
     await expect(animateOut(overlay, dialog, 'scale')).resolves.toBeUndefined();
   });
+
+  it('resolves in and out for the bounce preset (which uses explicit offsets)', async () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+    await expect(animateIn(overlay, dialog, 'bounce')).resolves.toBeUndefined();
+    await expect(animateOut(overlay, dialog, 'bounce')).resolves.toBeUndefined();
+  });
+
+  it('resolves in and out for the blur preset', async () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+    await expect(animateIn(overlay, dialog, 'blur')).resolves.toBeUndefined();
+    await expect(animateOut(overlay, dialog, 'blur')).resolves.toBeUndefined();
+  });
 });

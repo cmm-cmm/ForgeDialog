@@ -25,6 +25,35 @@ if (!Element.prototype.animate) {
   };
 }
 
+if (typeof window.PointerEvent === 'undefined') {
+  class PointerEventPolyfill extends MouseEvent {
+    pointerId: number;
+    constructor(type: string, params: PointerEventInit = {}) {
+      super(type, params);
+      this.pointerId = params.pointerId ?? 0;
+    }
+  }
+  window.PointerEvent = PointerEventPolyfill as unknown as typeof PointerEvent;
+}
+
+if (typeof window.DragEvent === 'undefined') {
+  class DragEventPolyfill extends Event {
+    dataTransfer: DataTransfer | null;
+    constructor(type: string, params: DragEventInit = {}) {
+      super(type, params);
+      this.dataTransfer = params.dataTransfer ?? null;
+    }
+  }
+  window.DragEvent = DragEventPolyfill as unknown as typeof DragEvent;
+}
+
+if (typeof URL.createObjectURL !== 'function') {
+  URL.createObjectURL = () => 'blob:mock-url';
+}
+if (typeof URL.revokeObjectURL !== 'function') {
+  URL.revokeObjectURL = () => {};
+}
+
 if (!window.matchMedia) {
   window.matchMedia = (query: string) =>
     ({

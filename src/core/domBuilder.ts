@@ -4,6 +4,7 @@ import { fallbackTitleForType } from './aria';
 export interface BuiltDialog {
   overlay: HTMLDivElement;
   dialog: HTMLDivElement;
+  header: HTMLDivElement;
   body: HTMLDivElement;
   buttonElements: HTMLButtonElement[];
 }
@@ -42,6 +43,7 @@ function buildButton(
   btn.className = `fd-btn fd-btn--${config.role ?? 'secondary'}`;
   btn.textContent = config.text;
   if (config.id) btn.id = config.id;
+  btn.disabled = Boolean(config.disabled);
   btn.addEventListener('click', () => {
     const instance = getInstance();
     if (!instance) return;
@@ -61,7 +63,13 @@ export function buildDialogDom(
   overlay.className = 'fd-overlay';
 
   const dialog = document.createElement('div');
-  dialog.className = ['fd-dialog', options.className].filter(Boolean).join(' ');
+  dialog.className = [
+    'fd-dialog',
+    options.type ? `fd-dialog--${options.type}` : null,
+    options.className,
+  ]
+    .filter(Boolean)
+    .join(' ');
   dialog.setAttribute('role', role);
   dialog.setAttribute('aria-modal', 'true');
   dialog.id = id;
@@ -121,7 +129,7 @@ export function buildDialogDom(
 
   overlay.appendChild(dialog);
 
-  return { overlay, dialog, body, buttonElements };
+  return { overlay, dialog, header, body, buttonElements };
 }
 
 export function updateDialogTitle(dialog: HTMLElement, title: string): void {

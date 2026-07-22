@@ -1,4 +1,4 @@
-# ForgeDialog
+# ForgeDialog 0.4
 
 _A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows._
 
@@ -88,12 +88,44 @@ const result = await instance.whenClosed();
 
 Lifecycle hooks: `beforeOpen`, `afterOpen`, `beforeClose`, `afterClose`, `beforeDestroy`.
 
+`content` strings are rendered as text. For trusted markup, use `unsafeHtml`; never pass
+unsanitized user input to that option. Lifecycle failures are cleaned up automatically and may be
+observed with `onError(error, instance)`.
+
+## Advanced UI and workflows
+
+ForgeDialog uses the native `<dialog>` top layer and adds typed outcomes, close reasons,
+`AbortSignal`, drawers, bottom sheets, lightboxes, loading states, toast notifications, command
+palettes, and persisted branching wizards.
+
+```ts
+import { drawer, toast, wizard } from 'forgedialog';
+
+toast('Saved', { tone: 'success' });
+drawer({ title: 'Settings', side: 'right', content: renderSettings });
+
+const flow = wizard({
+  initialData: { email: '' },
+  steps: [
+    { id: 'account', title: 'Account', render: renderAccount, validate: validateAccount },
+    { id: 'review', title: 'Review', render: renderReview },
+  ],
+});
+const data = await flow.result;
+```
+
+Tree-shakable entry points are available at `forgedialog/core`, `forgedialog/presentation`, and
+`forgedialog/workflows`. Framework integrations are exported from `forgedialog/react`,
+`forgedialog/vue`, `forgedialog/svelte`, and `forgedialog/web-component`.
+
 ## Development
 
 ```sh
 npm install
 npm run build       # emit dist/ (ESM, CJS, IIFE, .d.ts, CSS)
 npm run test         # vitest + jsdom
+npm run test:coverage # unit tests with enforced coverage thresholds
+npm run test:e2e      # Chromium accessibility/focus checks with Playwright
 npm run typecheck
 npm run lint
 npm run demo         # build and serve the demo/ page

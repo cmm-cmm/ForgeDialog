@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { getTheme, setTheme } from '../src/theme/index';
+import { getTheme, getThemePreset, setTheme, setThemePreset } from '../src/theme/index';
 
 afterEach(() => {
   document.documentElement.removeAttribute('data-fd-theme');
@@ -8,6 +8,15 @@ afterEach(() => {
 describe('theme', () => {
   it('defaults to system', () => {
     expect(getTheme()).toBe('system');
+  });
+
+  it('sets and clears visual theme presets', () => {
+    setThemePreset('glass');
+    expect(getThemePreset()).toBe('glass');
+    expect(document.documentElement.dataset.fdThemePreset).toBe('glass');
+    setThemePreset('default');
+    expect(getThemePreset()).toBe('default');
+    expect(document.documentElement.hasAttribute('data-fd-theme-preset')).toBe(false);
   });
 
   it('sets and reads an explicit light/dark theme', () => {

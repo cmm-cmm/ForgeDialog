@@ -1,6 +1,6 @@
 {
   "name": "forgedialog",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "description": "A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows.",
   "type": "module",
   "license": "MIT",
@@ -8,7 +8,8 @@
     "*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "!dist/**/*.map"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -20,6 +21,41 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.mjs",
+      "require": "./dist/core.cjs"
+    },
+    "./presentation": {
+      "types": "./dist/presentation.d.ts",
+      "import": "./dist/presentation.mjs",
+      "require": "./dist/presentation.cjs"
+    },
+    "./workflows": {
+      "types": "./dist/workflows.d.ts",
+      "import": "./dist/workflows.mjs",
+      "require": "./dist/workflows.cjs"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.mjs",
+      "require": "./dist/react.cjs"
+    },
+    "./vue": {
+      "types": "./dist/vue.d.ts",
+      "import": "./dist/vue.mjs",
+      "require": "./dist/vue.cjs"
+    },
+    "./svelte": {
+      "types": "./dist/svelte.d.ts",
+      "import": "./dist/svelte.mjs",
+      "require": "./dist/svelte.cjs"
+    },
+    "./web-component": {
+      "types": "./dist/web-component.d.ts",
+      "import": "./dist/web-component.mjs",
+      "require": "./dist/web-component.cjs"
+    },
     "./style.css": "./dist/index.css",
     "./package.json": "./package.json"
   },
@@ -28,10 +64,14 @@
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:all": "npm test && npm run test:coverage && npm run test:e2e",
+    "size": "npm run build && node scripts/check-size.mjs",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src tests",
+    "lint": "eslint src tests e2e",
     "format": "prettier --write .",
-    "demo": "npm run build && npx --yes serve demo",
+    "demo": "npm run build && serve .",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -43,15 +83,38 @@
     "ui"
   ],
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^20.14.0",
+    "@types/react": "^19.2.17",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
+    "@vitest/coverage-v8": "^4.1.10",
+    "esbuild": "^0.28.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "jsdom": "^24.1.0",
     "prettier": "^3.3.2",
+    "react": "^19.2.8",
+    "serve": "^14.2.6",
     "tsup": "^8.1.0",
     "typescript": "^5.5.3",
-    "vitest": "^1.6.0"
+    "vitest": "^4.1.10",
+    "vue": "^3.5.40"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "vue": ">=3"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "overrides": {
+    "esbuild": "^0.28.1"
   }
 }

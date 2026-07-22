@@ -27,4 +27,13 @@ describe('alert()', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     await expect(promise).resolves.toBeUndefined();
   });
+
+  it('keeps its own OK button even if the caller passes options.buttons', async () => {
+    const promise = alert('hi', { buttons: [{ text: 'Custom' }] });
+    const buttons = document.querySelectorAll('.fd-dialog__footer .fd-btn');
+    expect(buttons).toHaveLength(1);
+    expect(buttons[0].textContent).toBe('OK');
+    document.querySelector<HTMLButtonElement>('.fd-btn--primary')!.click();
+    await expect(promise).resolves.toBeUndefined();
+  });
 });

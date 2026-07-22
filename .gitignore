@@ -1,5 +1,11 @@
 node_modules
 dist
 coverage
+playwright-report
+test-results
 *.log
 .DS_Store
+
+# Claude Code
+.claude/
+CLAUDE.md

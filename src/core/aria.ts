@@ -13,6 +13,10 @@ export function fallbackTitleForType(type: DialogType): string {
       return 'Confirm';
     case 'prompt':
       return 'Prompt';
+    case 'form':
+      return 'Form';
+    case 'wizard':
+      return 'Wizard';
     default:
       return 'Dialog';
   }

@@ -5,14 +5,14 @@ import { open } from './open';
 export function confirm(message: string, options: Partial<DialogOptions> = {}): Promise<boolean> {
   const labels = { ...getLabels(), ...options.labels };
   const instance = open({
+    ...options,
     type: 'confirm',
     role: 'alertdialog',
     message,
     buttons: [
-      { text: labels.cancel, role: 'secondary', onClick: (i) => i.close(false) },
-      { text: labels.ok, role: 'primary', autoFocus: true, onClick: (i) => i.close(true) },
+      { text: labels.cancel, role: 'secondary', autoFocus: true, onClick: (i) => i.close(false) },
+      { text: labels.ok, role: 'primary', onClick: (i) => i.close(true) },
     ],
-    ...options,
   });
   return instance.whenClosed().then((result) => Boolean(result));
 }

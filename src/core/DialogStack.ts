@@ -1,15 +1,21 @@
 import { isEscapeKey } from './keyboard';
 import { lockScroll, unlockScroll } from './scrollLock';
-import type { Dialog } from './Dialog';
+import type { CloseReason } from '../types';
+
+interface StackDialog {
+  allowsEscapeClose(): boolean;
+  close(result?: never, reason?: CloseReason): Promise<void>;
+  cancel?: (reason?: CloseReason) => Promise<void>;
+}
 
 const Z_INDEX_BASE = 1000;
 const Z_INDEX_STEP = 10;
 
 export class DialogStackManager {
-  private stack: Dialog[] = [];
+  private stack: StackDialog[] = [];
   private escapeListenerAttached = false;
 
-  push(dialog: Dialog): number {
+  push(dialog: StackDialog): number {
     this.stack.push(dialog);
     if (this.stack.length === 1) {
       lockScroll();
@@ -18,7 +24,7 @@ export class DialogStackManager {
     return Z_INDEX_BASE + (this.stack.length - 1) * Z_INDEX_STEP;
   }
 
-  remove(dialog: Dialog): void {
+  remove(dialog: StackDialog): void {
     const index = this.stack.indexOf(dialog);
     if (index === -1) return;
     this.stack.splice(index, 1);
@@ -28,7 +34,7 @@ export class DialogStackManager {
     }
   }
 
-  top(): Dialog | undefined {
+  top(): StackDialog | undefined {
     return this.stack[this.stack.length - 1];
   }
 
@@ -36,7 +42,7 @@ export class DialogStackManager {
     return this.stack.length;
   }
 
-  closeTop(result?: unknown): void {
+  closeTop(result?: never): void {
     void this.top()?.close(result);
   }
 
@@ -44,6 +50,11 @@ export class DialogStackManager {
     for (const dialog of [...this.stack].reverse()) {
       void dialog.close();
     }
+  }
+
+  resetForTests(): void {
+    this.stack = [];
+    this.detachEscapeListener();
   }
 
   private attachEscapeListener(): void {
@@ -62,9 +73,14 @@ export class DialogStackManager {
     if (!isEscapeKey(event)) return;
     const top = this.top();
     if (top && top.allowsEscapeClose()) {
-      void top.close();
+      if (top.cancel) void top.cancel('escape');
+      else void top.close(undefined, 'escape');
     }
   };
 }
 
 export const dialogStack = new DialogStackManager();
+
+export function resetDialogStackForTests(): void {
+  dialogStack.resetForTests();
+}

@@ -90,6 +90,13 @@
       <button class="demo-btn" data-theme="dark">Dark</button>
       <button class="demo-btn" data-theme="system">System</button>
     </div>
+    <div class="theme-row">
+      <strong>Preset:</strong>
+      <button class="demo-btn" data-preset="default">Default</button>
+      <button class="demo-btn" data-preset="minimal">Minimal</button>
+      <button class="demo-btn" data-preset="glass">Glass</button>
+      <button class="demo-btn" data-preset="material">Material</button>
+    </div>
 
     <div class="demo-grid">
       <button class="demo-btn" id="btn-alert">Show Alert</button>
@@ -100,6 +107,11 @@
       <button class="demo-btn" id="btn-stacked">Two Stacked Dialogs</button>
       <button class="demo-btn" id="btn-no-animation">Alert (no animation)</button>
       <button class="demo-btn" id="btn-slide">Confirm (slide animation)</button>
+      <button class="demo-btn" id="btn-drawer">Open Drawer</button>
+      <button class="demo-btn" id="btn-sheet">Bottom Sheet</button>
+      <button class="demo-btn" id="btn-toast">Success Toast</button>
+      <button class="demo-btn" id="btn-commands">Command Palette</button>
+      <button class="demo-btn" id="btn-wizard">Typed Wizard</button>
     </div>
 
     <strong>Result log</strong>
@@ -107,7 +119,20 @@
 
     <script src="../dist/index.global.js"></script>
     <script>
-      const { alert, confirm, prompt, open, setTheme, registerPlugin } = ForgeDialog;
+      const {
+        alert,
+        confirm,
+        prompt,
+        open,
+        setTheme,
+        setThemePreset,
+        registerPlugin,
+        drawer,
+        bottomSheet,
+        toast,
+        commandPalette,
+        wizard,
+      } = ForgeDialog;
       const log = document.getElementById('log');
 
       function print(label, value) {
@@ -125,6 +150,9 @@
 
       document.querySelectorAll('[data-theme]').forEach((btn) => {
         btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+      });
+      document.querySelectorAll('[data-preset]').forEach((btn) => {
+        btn.addEventListener('click', () => setThemePreset(btn.dataset.preset));
       });
 
       document.getElementById('btn-alert').addEventListener('click', async () => {
@@ -193,6 +221,67 @@
       document.getElementById('btn-slide').addEventListener('click', async () => {
         const result = await confirm('This dialog slides in from below.', { animation: 'slide' });
         print('confirm() slide', result);
+      });
+
+      document.getElementById('btn-drawer').addEventListener('click', () =>
+        drawer({
+          title: 'Project settings',
+          message: 'A native, focus-safe right drawer.',
+          buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+        }),
+      );
+      document.getElementById('btn-sheet').addEventListener('click', () =>
+        bottomSheet({
+          title: 'Quick actions',
+          message: 'Drag down to dismiss this mobile sheet.',
+          buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+        }),
+      );
+      document
+        .getElementById('btn-toast')
+        .addEventListener('click', () => toast('Changes saved successfully.', { tone: 'success' }));
+      document.getElementById('btn-commands').addEventListener('click', () =>
+        commandPalette([
+          {
+            id: 'theme-dark',
+            label: 'Switch to dark theme',
+            keywords: ['appearance'],
+            run: () => setTheme('dark'),
+          },
+          {
+            id: 'theme-light',
+            label: 'Switch to light theme',
+            keywords: ['appearance'],
+            run: () => setTheme('light'),
+          },
+        ]),
+      );
+      document.getElementById('btn-wizard').addEventListener('click', async () => {
+        const flow = wizard({
+          initialData: { name: '' },
+          steps: [
+            {
+              id: 'profile',
+              title: 'Your profile',
+              render: (el, ctx) => {
+                const input = document.createElement('input');
+                input.className = 'fd-input';
+                input.placeholder = 'Name';
+                input.addEventListener('input', () => ctx.set({ name: input.value }));
+                el.append(input);
+              },
+              validate: (ctx) => (ctx.data.name ? true : 'Please enter your name.'),
+            },
+            {
+              id: 'review',
+              title: 'Review',
+              render: (el, ctx) => {
+                el.textContent = `Ready to welcome ${ctx.data.name}.`;
+              },
+            },
+          ],
+        });
+        print('wizard()', await flow.result);
       });
     </script>
   </body>

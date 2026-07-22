@@ -85,11 +85,20 @@ describe('Dialog', () => {
     plugins.on('afterClose', () => {
       order.push('afterClose');
     });
+    plugins.on('beforeDestroy', () => {
+      order.push('beforeDestroy');
+    });
 
     const { dialog } = makeDialog({}, new DialogStackManager(), plugins);
     await dialog.open();
     await dialog.close();
-    expect(order).toEqual(['beforeOpen', 'afterOpen', 'beforeClose', 'afterClose']);
+    expect(order).toEqual([
+      'beforeOpen',
+      'afterOpen',
+      'beforeClose',
+      'beforeDestroy',
+      'afterClose',
+    ]);
   });
 
   it('calls onOpen/onClose/onBeforeClose option callbacks', async () => {
@@ -137,6 +146,51 @@ describe('Dialog', () => {
     await dialog.open();
     const el = dialog.element.querySelector('.fd-dialog')!;
     expect(document.activeElement).toBe(el);
+    await dialog.close();
+  });
+
+  it('does not return to open state when closed during beforeOpen', async () => {
+    const plugins = new PluginManager();
+    let release!: () => void;
+    plugins.on('beforeOpen', () => new Promise<void>((resolve) => (release = resolve)));
+    const { dialog } = makeDialog({}, new DialogStackManager(), plugins);
+
+    const opening = dialog.open();
+    const closing = dialog.close('early');
+    release();
+    await Promise.all([opening, closing]);
+
+    expect(dialog.isOpen()).toBe(false);
+    expect(dialog.element.isConnected).toBe(false);
+    await expect(dialog.whenClosed()).resolves.toBe('early');
+  });
+
+  it('cleans up and reports lifecycle hook failures', async () => {
+    const error = new Error('plugin failed');
+    const onError = vi.fn();
+    const plugins = new PluginManager();
+    plugins.on('beforeClose', () => {
+      throw error;
+    });
+    const { dialog, stack } = makeDialog({ onError }, new DialogStackManager(), plugins);
+    await dialog.open();
+    await dialog.close();
+
+    expect(onError).toHaveBeenCalledWith(error, dialog);
+    expect(dialog.element.isConnected).toBe(false);
+    expect(stack.size()).toBe(0);
+    await expect(dialog.whenClosed()).resolves.toBeUndefined();
+  });
+
+  it('updates aria-describedby when body content changes', async () => {
+    const { dialog } = makeDialog({});
+    await dialog.open();
+    const el = dialog.element.querySelector<HTMLElement>('.fd-dialog')!;
+    expect(el.hasAttribute('aria-describedby')).toBe(false);
+    dialog.update({ message: 'Now described' });
+    expect(el.getAttribute('aria-describedby')).toBe(`${dialog.id}-desc`);
+    dialog.update({ message: undefined, content: undefined });
+    expect(el.hasAttribute('aria-describedby')).toBe(false);
     await dialog.close();
   });
 });

@@ -2,9 +2,19 @@ export type DialogType = 'alert' | 'confirm' | 'prompt' | 'form' | 'wizard' | 'c
 
 export type DialogRole = 'dialog' | 'alertdialog';
 
-export type AnimationPreset = 'fade' | 'scale' | 'slide' | 'bounce' | 'blur' | 'none';
+export type AnimationPreset = 'fade' | 'scale' | 'slide' | 'spring' | 'bounce' | 'blur' | 'none';
 
 export type ButtonRole = 'primary' | 'secondary' | 'danger';
+export type DialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
+export type DialogPresentation =
+  'modal' | 'drawer-left' | 'drawer-right' | 'bottom-sheet' | 'lightbox';
+export type DialogState = 'idle' | 'opening' | 'open' | 'closing' | 'closed' | 'destroyed';
+export type CloseReason = 'button' | 'escape' | 'backdrop' | 'api' | 'abort' | 'destroy';
+
+export interface DialogOutcome<TResult = unknown> {
+  result: TResult | undefined;
+  reason: CloseReason;
+}
 
 export interface DialogLabels {
   ok: string;
@@ -15,52 +25,75 @@ export interface DialogLabels {
   fieldRequired?: string;
 }
 
-export interface ButtonConfig {
+export interface ButtonConfig<TResult = unknown> {
   id?: string;
   text: string;
   role?: ButtonRole;
   autoFocus?: boolean;
   closesDialog?: boolean;
   disabled?: boolean;
-  onClick?: (instance: DialogInstance) => void | Promise<void>;
+  result?: TResult;
+  onClick?: (instance: DialogInstance<TResult>) => void | Promise<void>;
 }
 
-export interface DialogOptions {
+export interface DialogOptions<TResult = unknown> {
   type?: DialogType;
   title?: string;
   message?: string | HTMLElement;
   content?: string | HTMLElement | ((container: HTMLElement) => void);
-  buttons?: ButtonConfig[];
+  /** Trusted HTML only. Never pass unsanitized user input. */
+  unsafeHtml?: string;
+  buttons?: ButtonConfig<TResult>[];
   closable?: boolean;
   closeOnEscape?: boolean;
   closeOnOverlayClick?: boolean;
   draggable?: boolean;
   className?: string;
+  size?: DialogSize;
+  presentation?: DialogPresentation;
   role?: DialogRole;
   animation?: AnimationPreset;
   labels?: Partial<DialogLabels>;
   data?: unknown;
-  onOpen?: (instance: DialogInstance) => void | Promise<void>;
-  onClose?: (instance: DialogInstance, result: unknown) => void | Promise<void>;
-  onBeforeClose?: (instance: DialogInstance, result: unknown) => void | Promise<void>;
+  signal?: AbortSignal;
+  portalTarget?: HTMLElement;
+  initialFocus?: string | HTMLElement | ((element: HTMLElement) => HTMLElement | null);
+  restoreFocus?: boolean;
+  onOpen?: (instance: DialogInstance<TResult>) => void | Promise<void>;
+  onClose?: (
+    instance: DialogInstance<TResult>,
+    result: TResult | undefined,
+  ) => void | Promise<void>;
+  onBeforeClose?: (
+    instance: DialogInstance<TResult>,
+    result: TResult | undefined,
+  ) => boolean | void | Promise<boolean | void>;
+  onError?: (error: unknown, instance: DialogInstance<TResult>) => void;
 }
 
-export interface DialogInstance {
+export interface DialogInstance<TResult = unknown> {
   readonly id: string;
   readonly element: HTMLElement;
   open(): Promise<void>;
-  close(result?: unknown): Promise<void>;
-  whenClosed(): Promise<unknown>;
-  update(options: Partial<DialogOptions>): void;
+  close(result?: TResult, reason?: CloseReason): Promise<void>;
+  cancel(reason?: CloseReason): Promise<void>;
+  destroy(): Promise<void>;
+  whenClosed(): Promise<TResult | undefined>;
+  whenSettled(): Promise<DialogOutcome<TResult>>;
+  update(options: Partial<DialogOptions<TResult>>): void;
   isOpen(): boolean;
+  getState(): DialogState;
 }
 
 export type HookName = 'beforeOpen' | 'afterOpen' | 'beforeClose' | 'afterClose' | 'beforeDestroy';
 
 export interface HookContext {
-  instance: DialogInstance;
-  options: DialogOptions;
+  instance: DialogInstance<unknown>;
+  options: DialogOptions<unknown>;
   result?: unknown;
+  reason?: CloseReason;
+  readonly defaultPrevented?: boolean;
+  preventClose?: () => void;
 }
 
 export type HookFn = (ctx: HookContext) => void | Promise<void>;
@@ -80,6 +113,7 @@ export interface PromptOptions extends DialogOptions {
   defaultValue?: string;
   placeholder?: string;
   inputType?: 'text' | 'password' | 'email' | 'number';
+  inputLabel?: string;
   validate?: (value: string) => boolean | string | Promise<boolean | string>;
 }
 
@@ -96,7 +130,6 @@ export type FormFieldType =
   | 'file';
 
 export type FormFieldValue = string | string[] | number | boolean | File[];
-
 export type FormValues = Record<string, FormFieldValue>;
 
 export interface FormFieldOption {
@@ -119,11 +152,8 @@ export interface FormFieldConfig {
   max?: number;
   step?: number;
   autoFocus?: boolean;
-  /** `type: 'file'` — MIME types / extensions passed straight to the native accept attribute. */
   accept?: string;
-  /** `type: 'file'` — caps how many files are kept after each add (extras are dropped). */
   maxFiles?: number;
-  /** `type: 'file'` — files larger than this are rejected with a field error. */
   maxSizeBytes?: number;
   validate?: (
     value: FormFieldValue,
@@ -131,17 +161,12 @@ export interface FormFieldConfig {
   ) => boolean | string | Promise<boolean | string>;
 }
 
-export interface FormOptions extends Partial<DialogOptions> {
+export interface FormOptions extends Partial<DialogOptions<FormValues | null>> {
   submitText?: string;
   cancelText?: string;
   validate?: (values: FormValues) => boolean | string | Promise<boolean | string>;
 }
 
-/**
- * Maps a single field config to its collected value type, so `form()`/`wizard()` can return a
- * precisely-typed values object instead of a loose `FormValues` record. `multiple` select fields
- * collect `string[]`; everything else follows its `type`.
- */
 type FieldValueOf<F extends FormFieldConfig> = F['type'] extends 'checkbox'
   ? boolean
   : F['type'] extends 'number'
@@ -149,19 +174,16 @@ type FieldValueOf<F extends FormFieldConfig> = F['type'] extends 'checkbox'
     : F['type'] extends 'file'
       ? File[]
       : F['type'] extends 'select'
-        ? (F['multiple'] extends true ? string[] : string)
+        ? F['multiple'] extends true
+          ? string[]
+          : string
         : string;
 
-/**
- * Infers a `{ [fieldName]: value }` object type from a `const`-typed `FormFieldConfig[]` tuple.
- * Falls back to a loose index signature when `F` isn't a literal tuple (e.g. a plain
- * `FormFieldConfig[]`-typed variable), so untyped callers keep working unchanged.
- */
 export type InferFormValues<F extends readonly FormFieldConfig[]> = {
   [K in F[number] as K['name']]: FieldValueOf<K>;
 };
 
-export interface WizardStep {
+export interface FormWizardStep {
   id: string;
   title?: string;
   fields?: readonly FormFieldConfig[];
@@ -172,19 +194,20 @@ export interface WizardStep {
   ) => boolean | string | Promise<boolean | string>;
 }
 
-export interface WizardOptions extends Partial<Omit<DialogOptions, 'content' | 'buttons'>> {
+export interface FormWizardOptions extends Partial<
+  Omit<DialogOptions<FormValues | null>, 'content' | 'buttons'>
+> {
   backText?: string;
   nextText?: string;
   finishText?: string;
   cancelText?: string;
-  onStepChange?: (index: number, step: WizardStep) => void;
+  onStepChange?: (index: number, step: FormWizardStep) => void;
 }
 
-type AllFieldsOf<Steps extends readonly WizardStep[]> = NonNullable<
+type AllFieldsOf<Steps extends readonly FormWizardStep[]> = NonNullable<
   Steps[number]['fields']
 >[number];
 
-/** Same idea as {@link InferFormValues}, merged across every step's `fields`. */
-export type InferWizardValues<Steps extends readonly WizardStep[]> = {
+export type InferWizardValues<Steps extends readonly FormWizardStep[]> = {
   [K in AllFieldsOf<Steps> as K['name']]: FieldValueOf<K>;
 };

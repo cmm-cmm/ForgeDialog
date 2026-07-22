@@ -200,9 +200,15 @@ describe('form()', () => {
       ];
       const promise = form(fields);
       const input = document.querySelector<HTMLInputElement>('.fd-dropzone__input')!;
-      Object.defineProperty(input, 'files', { value: [makeFile('keep.txt', 5)], configurable: true });
+      Object.defineProperty(input, 'files', {
+        value: [makeFile('keep.txt', 5)],
+        configurable: true,
+      });
       input.dispatchEvent(new Event('change'));
-      Object.defineProperty(input, 'files', { value: [makeFile('drop.txt', 5)], configurable: true });
+      Object.defineProperty(input, 'files', {
+        value: [makeFile('drop.txt', 5)],
+        configurable: true,
+      });
       input.dispatchEvent(new Event('change'));
 
       expect(document.querySelectorAll('.fd-dropzone__item')).toHaveLength(2);

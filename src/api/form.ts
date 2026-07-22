@@ -1,7 +1,13 @@
 import { buildFormFields } from '../core/formBuilder';
 import { validateFields } from '../core/validateFields';
 import { getLabels } from '../i18n/defaultLabels';
-import type { DialogInstance, FormFieldConfig, FormOptions, InferFormValues } from '../types';
+import type {
+  DialogInstance,
+  FormFieldConfig,
+  FormOptions,
+  FormValues,
+  InferFormValues,
+} from '../types';
 import { generateId } from '../utils/id';
 import { open } from './open';
 
@@ -11,10 +17,10 @@ export function form<const F extends readonly FormFieldConfig[]>(
 ): Promise<InferFormValues<F> | null> {
   const labels = { ...getLabels(), ...options.labels };
   const formId = generateId('fd-form');
-  const ref: { instance?: DialogInstance } = {};
+  const ref: { instance?: DialogInstance<FormValues | null> } = {};
   let built: ReturnType<typeof buildFormFields> | undefined;
 
-  async function submit(instance: DialogInstance): Promise<void> {
+  async function submit(instance: DialogInstance<FormValues | null>): Promise<void> {
     if (!built) return;
     built.clearErrors();
 
@@ -54,7 +60,11 @@ export function form<const F extends readonly FormFieldConfig[]>(
       });
     },
     buttons: [
-      { text: options.cancelText ?? labels.cancel, role: 'secondary', onClick: (i) => i.close(null) },
+      {
+        text: options.cancelText ?? labels.cancel,
+        role: 'secondary',
+        onClick: (i) => i.close(null),
+      },
       {
         text: options.submitText ?? labels.submit ?? 'Submit',
         role: 'primary',

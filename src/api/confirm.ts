@@ -10,8 +10,8 @@ export function confirm(message: string, options: Partial<DialogOptions> = {}): 
     role: 'alertdialog',
     message,
     buttons: [
-      { text: labels.cancel, role: 'secondary', onClick: (i) => i.close(false) },
-      { text: labels.ok, role: 'primary', autoFocus: true, onClick: (i) => i.close(true) },
+      { text: labels.cancel, role: 'secondary', autoFocus: true, onClick: (i) => i.close(false) },
+      { text: labels.ok, role: 'primary', onClick: (i) => i.close(true) },
     ],
   });
   return instance.whenClosed().then((result) => Boolean(result));

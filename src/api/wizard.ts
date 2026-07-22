@@ -8,15 +8,15 @@ import type {
   FormFieldConfig,
   FormValues,
   InferWizardValues,
-  WizardOptions,
-  WizardStep,
+  FormWizardOptions,
+  FormWizardStep,
 } from '../types';
 import { generateId } from '../utils/id';
 import { open } from './open';
 
-export function wizard<const S extends readonly WizardStep[]>(
+export function wizard<const S extends readonly FormWizardStep[]>(
   steps: S,
-  options: WizardOptions = {},
+  options: FormWizardOptions = {},
 ): Promise<InferWizardValues<S> | null> {
   if (steps.length === 0) {
     throw new Error('wizard() requires at least one step');
@@ -30,7 +30,7 @@ export function wizard<const S extends readonly WizardStep[]>(
   let index = 0;
   let busy = false;
 
-  function fieldsWithDefaults(step: WizardStep): FormFieldConfig[] {
+  function fieldsWithDefaults(step: FormWizardStep): FormFieldConfig[] {
     return (step.fields ?? []).map((field) =>
       field.name in collected ? { ...field, defaultValue: collected[field.name] } : field,
     );
@@ -48,10 +48,10 @@ export function wizard<const S extends readonly WizardStep[]>(
 
   // Disabled while `busy`, so a click mid-transition is visibly rejected instead of silently
   // dropped by the `busy` guard in goNext/goBack.
-  function computeButtons(): ButtonConfig[] {
+  function computeButtons(): ButtonConfig<FormValues | null>[] {
     const isFirst = index === 0;
     const isLast = index === steps.length - 1;
-    const buttons: ButtonConfig[] = [
+    const buttons: ButtonConfig<FormValues | null>[] = [
       {
         text: options.cancelText ?? labels.cancel,
         role: 'secondary',
@@ -77,12 +77,12 @@ export function wizard<const S extends readonly WizardStep[]>(
     return buttons;
   }
 
-  function syncChrome(instance: DialogInstance): void {
+  function syncChrome(instance: DialogInstance<FormValues | null>): void {
     stepperHandle?.setActiveIndex(index);
     instance.update({ buttons: computeButtons(), title: steps[index].title ?? options.title });
   }
 
-  async function goNext(instance: DialogInstance): Promise<void> {
+  async function goNext(instance: DialogInstance<FormValues | null>): Promise<void> {
     if (busy) return;
     busy = true;
     instance.update({ buttons: computeButtons() });
@@ -129,7 +129,7 @@ export function wizard<const S extends readonly WizardStep[]>(
     }
   }
 
-  async function goBack(instance: DialogInstance): Promise<void> {
+  async function goBack(instance: DialogInstance<FormValues | null>): Promise<void> {
     if (busy || index === 0) return;
     busy = true;
     instance.update({ buttons: computeButtons() });

@@ -3,341 +3,135 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ForgeDialog — Live Demo</title>
-    <link rel="stylesheet" href="/dist/index.css" />
+    <title>ForgeDialog Demo</title>
+    <link rel="stylesheet" href="../dist/index.css" />
     <style>
       :root {
         color-scheme: light dark;
-        --bg: #f7f8fa;
-        --text: #1a1d23;
-        --muted: #5b6270;
-        --card-bg: #ffffff;
-        --border: #d6d9e0;
-        --card-hover: #eceef2;
-        --accent: #4f46e5;
-        --log-bg: #11131a;
-        --log-text: #d7f9d0;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #14161b;
-          --text: #f2f3f5;
-          --muted: #9ea3ad;
-          --card-bg: #1f2229;
-          --border: #33363f;
-          --card-hover: #2b2e37;
-        }
-      }
-      html[data-fd-theme='dark'] {
-        --bg: #14161b;
-        --text: #f2f3f5;
-        --muted: #9ea3ad;
-        --card-bg: #1f2229;
-        --border: #33363f;
-        --card-hover: #2b2e37;
-      }
-      html[data-fd-theme='light'] {
-        --bg: #f7f8fa;
-        --text: #1a1d23;
-        --muted: #5b6270;
-        --card-bg: #ffffff;
-        --border: #d6d9e0;
-        --card-hover: #eceef2;
-      }
-      * {
-        box-sizing: border-box;
       }
       body {
         margin: 0;
         padding: 40px 24px 80px;
         font-family:
           -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        max-width: 880px;
+        max-width: 720px;
         margin-inline: auto;
-        color: var(--text);
-        background: var(--bg);
-        transition:
-          background 0.15s ease,
-          color 0.15s ease;
+        color: #1a1d23;
+        background: #f7f8fa;
       }
-      header {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 32px;
+      @media (prefers-color-scheme: dark) {
+        body {
+          color: #f2f3f5;
+          background: #14161b;
+        }
       }
       h1 {
-        font-size: 1.6rem;
-        margin: 0 0 4px;
+        font-size: 1.5rem;
+        margin-bottom: 4px;
       }
       p.lead {
-        color: var(--muted);
-        margin: 0;
-        max-width: 46ch;
-      }
-      .badge-row {
-        display: flex;
-        gap: 8px;
-        font-size: 0.8rem;
-        color: var(--muted);
-        margin-top: 8px;
-      }
-      .badge {
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 2px 10px;
-      }
-      .theme-row {
-        display: flex;
-        gap: 6px;
-        align-items: center;
-      }
-      section {
-        margin: 28px 0;
-        padding: 18px 20px 20px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: color-mix(in srgb, var(--card-bg) 60%, transparent);
-      }
-      section h2 {
-        font-size: 1.05rem;
-        margin: 0 0 2px;
-      }
-      section p.desc {
-        color: var(--muted);
-        margin: 0 0 14px;
-        font-size: 0.88rem;
+        color: #5b6270;
+        margin-top: 0;
       }
       .demo-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+        margin: 24px 0;
       }
       .demo-btn {
-        padding: 10px 14px;
+        padding: 12px 16px;
         border-radius: 8px;
-        border: 1px solid var(--border);
-        background: var(--card-bg);
-        color: var(--text);
+        border: 1px solid #d6d9e0;
+        background: white;
         cursor: pointer;
-        font-size: 0.88rem;
-        text-align: left;
+        font-size: 0.95rem;
       }
       .demo-btn:hover {
-        background: var(--card-hover);
+        background: #eceef2;
       }
-      .demo-btn:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 1px;
+      @media (prefers-color-scheme: dark) {
+        .demo-btn {
+          background: #1f2229;
+          border-color: #33363f;
+          color: #f2f3f5;
+        }
+        .demo-btn:hover {
+          background: #2b2e37;
+        }
       }
-      .demo-btn.accent {
-        border-color: var(--accent);
-        color: var(--accent);
-      }
-      .log-header {
+      .theme-row {
         display: flex;
+        gap: 8px;
         align-items: center;
-        justify-content: space-between;
+        margin-bottom: 24px;
       }
       #log {
-        background: var(--log-bg);
-        color: var(--log-text);
+        background: #11131a;
+        color: #d7f9d0;
         padding: 16px;
         border-radius: 8px;
-        min-height: 140px;
-        max-height: 360px;
+        min-height: 120px;
+        max-height: 320px;
         overflow-y: auto;
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 0.82rem;
+        font-size: 0.85rem;
         white-space: pre-wrap;
-        margin-top: 8px;
-      }
-      button.small {
-        padding: 4px 10px;
-        border-radius: 6px;
-        border: 1px solid var(--border);
-        background: var(--card-bg);
-        color: var(--text);
-        cursor: pointer;
-        font-size: 0.8rem;
       }
     </style>
   </head>
   <body>
-    <header>
-      <div>
-        <h1>ForgeDialog — Live Demo</h1>
-        <p class="lead">
-          Every public API — <code>alert</code>, <code>confirm</code>, <code>prompt</code>,
-          <code>form</code>, <code>wizard</code>, <code>open</code>, draggable dialogs, drag &amp;
-          drop file upload, theming, i18n, and plugin hooks — wired up and clickable.
-        </p>
-        <div class="badge-row">
-          <span class="badge">version: <span id="version-badge">-</span></span>
-          <span class="badge">theme: <span id="theme-badge">-</span></span>
-        </div>
-      </div>
-      <div class="theme-row">
-        <strong>Theme:</strong>
-        <button class="demo-btn" data-theme="light">Light</button>
-        <button class="demo-btn" data-theme="dark">Dark</button>
-        <button class="demo-btn" data-theme="system">System</button>
-      </div>
-    </header>
+    <h1>ForgeDialog Demo</h1>
+    <p class="lead">Manual verification page for alert / confirm / prompt / open() and stacking.</p>
 
-    <section>
-      <h2>Core dialogs</h2>
-      <p class="desc">The three high-level helpers, plus prompt input variants.</p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-alert">Show Alert</button>
-        <button class="demo-btn" id="btn-confirm">Show Confirm</button>
-        <button class="demo-btn" id="btn-prompt">Show Prompt</button>
-        <button class="demo-btn" id="btn-prompt-validate">Prompt with validation</button>
-        <button class="demo-btn" id="btn-prompt-password">Prompt (password input)</button>
-      </div>
-    </section>
+    <div class="theme-row">
+      <strong>Theme:</strong>
+      <button class="demo-btn" data-theme="light">Light</button>
+      <button class="demo-btn" data-theme="dark">Dark</button>
+      <button class="demo-btn" data-theme="system">System</button>
+    </div>
+    <div class="theme-row">
+      <strong>Preset:</strong>
+      <button class="demo-btn" data-preset="default">Default</button>
+      <button class="demo-btn" data-preset="minimal">Minimal</button>
+      <button class="demo-btn" data-preset="glass">Glass</button>
+      <button class="demo-btn" data-preset="material">Material</button>
+    </div>
 
-    <section>
-      <h2>Animation presets</h2>
-      <p class="desc"><code>options.animation</code>: fade / scale / slide / bounce / blur / none.</p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-anim-fade">Alert (fade)</button>
-        <button class="demo-btn" id="btn-anim-scale">Alert (scale)</button>
-        <button class="demo-btn" id="btn-anim-slide">Confirm (slide)</button>
-        <button class="demo-btn" id="btn-anim-bounce">Alert (bounce)</button>
-        <button class="demo-btn" id="btn-anim-blur">Confirm (blur backdrop)</button>
-        <button class="demo-btn" id="btn-anim-none">Alert (no animation)</button>
-      </div>
-    </section>
+    <div class="demo-grid">
+      <button class="demo-btn" id="btn-alert">Show Alert</button>
+      <button class="demo-btn" id="btn-confirm">Show Confirm</button>
+      <button class="demo-btn" id="btn-prompt">Show Prompt</button>
+      <button class="demo-btn" id="btn-prompt-validate">Prompt with validation</button>
+      <button class="demo-btn" id="btn-custom">Custom open()</button>
+      <button class="demo-btn" id="btn-stacked">Two Stacked Dialogs</button>
+      <button class="demo-btn" id="btn-no-animation">Alert (no animation)</button>
+      <button class="demo-btn" id="btn-slide">Confirm (slide animation)</button>
+      <button class="demo-btn" id="btn-drawer">Open Drawer</button>
+      <button class="demo-btn" id="btn-sheet">Bottom Sheet</button>
+      <button class="demo-btn" id="btn-toast">Success Toast</button>
+      <button class="demo-btn" id="btn-commands">Command Palette</button>
+      <button class="demo-btn" id="btn-wizard">Typed Wizard</button>
+    </div>
 
-    <section>
-      <h2>Forms</h2>
-      <p class="desc">
-        <code>form()</code> — a versatile sub-form dialog with a declarative field set (text,
-        textarea, select, checkbox, radio, number, date), per-field and whole-form validation.
-      </p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-form-signup">Sign-up form</button>
-        <button class="demo-btn" id="btn-form-feedback">Feedback form (textarea + radio)</button>
-        <button class="demo-btn" id="btn-form-upload">Form with drag &amp; drop file upload</button>
-      </div>
-    </section>
+    <strong>Result log</strong>
+    <pre id="log"></pre>
 
-    <section>
-      <h2>Wizard (multi-step dialog)</h2>
-      <p class="desc">
-        <code>wizard(steps, options)</code> — an animated multi-step sub-form with a progress
-        stepper, per-step validation, Back/Next/Finish navigation, and values merged across every
-        step into a single typed result.
-      </p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-wizard">Start onboarding wizard (3 steps)</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Draggable dialogs</h2>
-      <p class="desc">
-        <code>options.draggable</code> — grab the header and move the dialog anywhere on screen,
-        like a desktop window. Position is clamped to the viewport.
-      </p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-draggable">Open draggable dialog</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Buttons &amp; roles</h2>
-      <p class="desc">Custom button sets via <code>open()</code>, including the danger role.</p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-custom">Custom open() — 3 buttons</button>
-        <button class="demo-btn" id="btn-danger">Danger confirm (delete)</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Behavior options</h2>
-      <p class="desc">
-        <code>closable</code>, <code>closeOnEscape</code>, <code>closeOnOverlayClick</code>.
-      </p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-strict">Strict modal (no × / Esc / overlay)</button>
-        <button class="demo-btn" id="btn-no-escape">No Escape close</button>
-        <button class="demo-btn" id="btn-no-overlay">No overlay-click close</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Dynamic dialog (<code>update()</code>)</h2>
-      <p class="desc">
-        Opens a "processing" dialog, then swaps title/message/buttons in place after a delay.
-      </p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-update">Async save flow</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Stacking</h2>
-      <p class="desc">Multiple dialogs open at once, layered with focus restore on close.</p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-stacked2">Two stacked dialogs</button>
-        <button class="demo-btn" id="btn-stacked3">Three stacked dialogs</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Labels &amp; i18n</h2>
-      <p class="desc"><code>setLabels()</code> (global) vs. per-call <code>options.labels</code>.</p>
-      <div class="demo-grid">
-        <button class="demo-btn" id="btn-labels-vi">Switch global labels → Vietnamese</button>
-        <button class="demo-btn" id="btn-labels-reset">Reset global labels → English</button>
-        <button class="demo-btn" id="btn-confirm-custom-labels">Confirm with per-call labels</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Plugins &amp; hooks</h2>
-      <p class="desc">
-        A logger plugin is always registered below. Toggle an extra <code>on()</code>/<code
-          >off()</code
-        >
-        hook to see it attach/detach live.
-      </p>
-      <div class="demo-grid">
-        <button class="demo-btn accent" id="btn-toggle-hook">
-          Extra beforeClose hook: OFF (click to enable)
-        </button>
-      </div>
-    </section>
-
-    <section>
-      <div class="log-header">
-        <strong>Result log</strong>
-        <button class="small" id="btn-clear-log">Clear</button>
-      </div>
-      <pre id="log"></pre>
-    </section>
-
-    <script src="/dist/index.global.js"></script>
+    <script src="../dist/index.global.js"></script>
     <script>
       const {
         alert,
         confirm,
         prompt,
-        form,
-        wizard,
         open,
         setTheme,
-        getTheme,
-        setLabels,
-        getLabels,
+        setThemePreset,
         registerPlugin,
-        on,
-        off,
-        VERSION,
+        drawer,
+        bottomSheet,
+        toast,
+        commandPalette,
+        wizard,
       } = ForgeDialog;
       const log = document.getElementById('log');
 
@@ -346,18 +140,6 @@
         log.textContent = line + log.textContent;
       }
 
-      document.getElementById('btn-clear-log').addEventListener('click', () => {
-        log.textContent = '';
-      });
-
-      // --- header badges ---
-      document.getElementById('version-badge').textContent = VERSION;
-      function refreshThemeBadge() {
-        document.getElementById('theme-badge').textContent = getTheme();
-      }
-      refreshThemeBadge();
-
-      // --- always-on logger plugin ---
       registerPlugin({
         name: 'demo-logger',
         hooks: {
@@ -366,15 +148,13 @@
         },
       });
 
-      // --- theme switcher ---
       document.querySelectorAll('[data-theme]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          setTheme(btn.dataset.theme);
-          refreshThemeBadge();
-        });
+        btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+      });
+      document.querySelectorAll('[data-preset]').forEach((btn) => {
+        btn.addEventListener('click', () => setThemePreset(btn.dataset.preset));
       });
 
-      // --- core dialogs ---
       document.getElementById('btn-alert').addEventListener('click', async () => {
         await alert('This is an alert dialog.', { title: 'Heads up' });
         print('alert()', 'closed');
@@ -408,314 +188,100 @@
         print('prompt() validated', result);
       });
 
-      document.getElementById('btn-prompt-password').addEventListener('click', async () => {
-        const result = await prompt('Enter a password:', {
-          title: 'Password prompt',
-          inputType: 'password',
-          placeholder: 'At least 6 characters',
-          validate: (value) => (value.length >= 6 ? true : 'Password must be at least 6 characters'),
-        });
-        print('prompt() password', result === null ? null : '••••••');
-      });
-
-      // --- animation presets ---
-      document.getElementById('btn-anim-fade').addEventListener('click', async () => {
-        await alert('This alert fades in and out.', { animation: 'fade' });
-        print('alert() fade', 'closed');
-      });
-
-      document.getElementById('btn-anim-scale').addEventListener('click', async () => {
-        await alert('This alert scales in and out.', { animation: 'scale' });
-        print('alert() scale', 'closed');
-      });
-
-      document.getElementById('btn-anim-slide').addEventListener('click', async () => {
-        const result = await confirm('This dialog slides in from below.', { animation: 'slide' });
-        print('confirm() slide', result);
-      });
-
-      document.getElementById('btn-anim-bounce').addEventListener('click', async () => {
-        await alert('This alert bounces in with a little overshoot.', { animation: 'bounce' });
-        print('alert() bounce', 'closed');
-      });
-
-      document.getElementById('btn-anim-blur').addEventListener('click', async () => {
-        const result = await confirm('The backdrop blurs in behind this dialog.', {
-          animation: 'blur',
-        });
-        print('confirm() blur', result);
-      });
-
-      document.getElementById('btn-anim-none').addEventListener('click', async () => {
-        await alert('This alert opens/closes instantly.', { animation: 'none' });
-        print('alert() no animation', 'closed');
-      });
-
-      // --- buttons & roles ---
       document.getElementById('btn-custom').addEventListener('click', () => {
         const instance = open({
           title: 'Custom dialog',
           content: (container) => {
             const p = document.createElement('p');
-            p.textContent = 'Built with the generic open() API, showing all three button roles.';
+            p.textContent = 'This dialog was built with the generic open() API.';
             container.appendChild(p);
           },
           buttons: [
-            { text: 'Discard', role: 'danger', onClick: (i) => i.close('discard') },
-            { text: 'Cancel', role: 'secondary', onClick: (i) => i.close('cancel') },
-            { text: 'Save', role: 'primary', autoFocus: true, onClick: (i) => i.close('save') },
+            { text: 'Close', role: 'primary', autoFocus: true, onClick: (i) => i.close('done') },
           ],
         });
         instance.whenClosed().then((result) => print('open()', result));
       });
 
-      document.getElementById('btn-danger').addEventListener('click', async () => {
-        const instance = open({
-          type: 'confirm',
-          role: 'alertdialog',
-          title: 'Delete item',
-          message: 'This action cannot be undone.',
-          buttons: [
-            { text: 'Cancel', role: 'secondary', onClick: (i) => i.close(false) },
-            { text: 'Delete', role: 'danger', autoFocus: true, onClick: (i) => i.close(true) },
-          ],
+      document.getElementById('btn-stacked').addEventListener('click', async () => {
+        const first = confirm('First dialog. Open a second one on top?', { title: 'Dialog 1' });
+        const second = await confirm('This is stacked above the first dialog.', {
+          title: 'Dialog 2',
         });
-        const result = await instance.whenClosed();
-        print('danger confirm', result);
-      });
-
-      // --- behavior options ---
-      document.getElementById('btn-strict').addEventListener('click', async () => {
-        const result = await confirm('No × button, Escape, or overlay click will close this.', {
-          title: 'Strict modal',
-          closable: false,
-          closeOnEscape: false,
-          closeOnOverlayClick: false,
-        });
-        print('strict confirm', result);
-      });
-
-      document.getElementById('btn-no-escape').addEventListener('click', async () => {
-        const result = await confirm('Escape is disabled (overlay click and × still work).', {
-          title: 'No Escape',
-          closeOnEscape: false,
-        });
-        print('no-escape confirm', result);
-      });
-
-      document.getElementById('btn-no-overlay').addEventListener('click', async () => {
-        const result = await confirm('Clicking the backdrop will not close this.', {
-          title: 'No overlay click',
-          closeOnOverlayClick: false,
-        });
-        print('no-overlay confirm', result);
-      });
-
-      // --- update() ---
-      document.getElementById('btn-update').addEventListener('click', () => {
-        const instance = open({
-          title: 'Processing…',
-          message: 'Please wait while we save your changes.',
-          closable: false,
-          closeOnEscape: false,
-          closeOnOverlayClick: false,
-        });
-        print('open()+update()', 'processing, isOpen=' + instance.isOpen());
-        setTimeout(() => {
-          instance.update({
-            title: 'Saved!',
-            message: 'Your changes have been saved successfully.',
-            buttons: [{ text: 'Close', role: 'primary', autoFocus: true, onClick: (i) => i.close('done') }],
-          });
-        }, 1200);
-        instance.whenClosed().then((result) => print('open()+update() result', result));
-      });
-
-      // --- stacking ---
-      document.getElementById('btn-stacked2').addEventListener('click', async () => {
-        const first = confirm('Dialog 1. A second one will open on top.', { title: 'Layer 1' });
-        const second = await confirm('This is stacked above dialog 1.', { title: 'Layer 2' });
-        print('stack 2: top', second);
+        print('stacked: second result', second);
         const firstResult = await first;
-        print('stack 2: bottom', firstResult);
+        print('stacked: first result', firstResult);
       });
 
-      document.getElementById('btn-stacked3').addEventListener('click', async () => {
-        const first = confirm('Dialog 1 of 3.', { title: 'Layer 1' });
-        const second = confirm('Dialog 2 of 3.', { title: 'Layer 2' });
-        const third = await confirm('Dialog 3 of 3 (topmost).', { title: 'Layer 3' });
-        print('stack 3: top', third);
-        const secondResult = await second;
-        print('stack 3: middle', secondResult);
-        const firstResult = await first;
-        print('stack 3: bottom', firstResult);
+      document.getElementById('btn-no-animation').addEventListener('click', async () => {
+        await alert('This alert opens/closes instantly.', { animation: 'none' });
+        print('alert() no animation', 'closed');
       });
 
-      // --- labels / i18n ---
-      document.getElementById('btn-labels-vi').addEventListener('click', () => {
-        setLabels({ ok: 'Đồng ý', cancel: 'Huỷ', close: 'Đóng', promptPlaceholder: 'Nhập nội dung…' });
-        print('setLabels()', getLabels());
+      document.getElementById('btn-slide').addEventListener('click', async () => {
+        const result = await confirm('This dialog slides in from below.', { animation: 'slide' });
+        print('confirm() slide', result);
       });
 
-      document.getElementById('btn-labels-reset').addEventListener('click', () => {
-        setLabels({ ok: 'OK', cancel: 'Cancel', close: 'Close', promptPlaceholder: '' });
-        print('setLabels() reset', getLabels());
-      });
-
-      document.getElementById('btn-confirm-custom-labels').addEventListener('click', async () => {
-        const result = await confirm('This dialog has custom per-call button labels.', {
-          title: 'Custom labels',
-          labels: { ok: 'Yes, do it', cancel: 'No, go back' },
-        });
-        print('confirm() custom labels', result);
-      });
-
-      // --- forms ---
-      document.getElementById('btn-form-signup').addEventListener('click', async () => {
-        const result = await form(
-          [
-            { type: 'text', name: 'name', label: 'Full name', required: true, autoFocus: true },
-            { type: 'email', name: 'email', label: 'Email', required: true },
-            {
-              type: 'password',
-              name: 'password',
-              label: 'Password',
-              required: true,
-              helpText: 'At least 6 characters.',
-              validate: (value) =>
-                String(value).length >= 6 ? true : 'Password must be at least 6 characters',
-            },
-            {
-              type: 'select',
-              name: 'plan',
-              label: 'Plan',
-              defaultValue: 'free',
-              options: [
-                { label: 'Free', value: 'free' },
-                { label: 'Pro', value: 'pro' },
-                { label: 'Team', value: 'team' },
-              ],
-            },
-            { type: 'checkbox', name: 'newsletter', label: 'Subscribe to the newsletter' },
-          ],
-          { title: 'Create account', submitText: 'Sign up' },
-        );
-        print('form() signup', result);
-      });
-
-      document.getElementById('btn-form-feedback').addEventListener('click', async () => {
-        const result = await form(
-          [
-            {
-              type: 'radio',
-              name: 'rating',
-              label: 'How was your experience?',
-              required: true,
-              options: [
-                { label: 'Great', value: 'great' },
-                { label: 'Okay', value: 'okay' },
-                { label: 'Poor', value: 'poor' },
-              ],
-            },
-            { type: 'textarea', name: 'comments', label: 'Comments', rows: 4 },
-          ],
-          { title: 'Send feedback', animation: 'blur' },
-        );
-        print('form() feedback', result);
-      });
-
-      document.getElementById('btn-form-upload').addEventListener('click', async () => {
-        const result = await form(
-          [
-            { type: 'text', name: 'title', label: 'Title', required: true },
-            {
-              type: 'file',
-              name: 'attachments',
-              label: 'Attachments',
-              multiple: true,
-              accept: 'image/*,.pdf',
-              maxFiles: 5,
-              maxSizeBytes: 5 * 1024 * 1024,
-              helpText: 'Up to 5 files, 5 MB each. Images get a thumbnail preview.',
-            },
-          ],
-          { title: 'Upload files', submitText: 'Upload' },
-        );
-        print(
-          'form() upload',
-          result ? { title: result.title, attachments: result.attachments.map((f) => f.name) } : null,
-        );
-      });
-
-      // --- wizard ---
+      document.getElementById('btn-drawer').addEventListener('click', () =>
+        drawer({
+          title: 'Project settings',
+          message: 'A native, focus-safe right drawer.',
+          buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+        }),
+      );
+      document.getElementById('btn-sheet').addEventListener('click', () =>
+        bottomSheet({
+          title: 'Quick actions',
+          message: 'Drag down to dismiss this mobile sheet.',
+          buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+        }),
+      );
+      document
+        .getElementById('btn-toast')
+        .addEventListener('click', () => toast('Changes saved successfully.', { tone: 'success' }));
+      document.getElementById('btn-commands').addEventListener('click', () =>
+        commandPalette([
+          {
+            id: 'theme-dark',
+            label: 'Switch to dark theme',
+            keywords: ['appearance'],
+            run: () => setTheme('dark'),
+          },
+          {
+            id: 'theme-light',
+            label: 'Switch to light theme',
+            keywords: ['appearance'],
+            run: () => setTheme('light'),
+          },
+        ]),
+      );
       document.getElementById('btn-wizard').addEventListener('click', async () => {
-        const result = await wizard(
-          [
+        const flow = wizard({
+          initialData: { name: '' },
+          steps: [
             {
-              id: 'welcome',
-              title: 'Welcome',
-              content: (container) => {
-                const p = document.createElement('p');
-                p.textContent =
-                  "Let's set up your account in 3 quick steps. Click Next to begin.";
-                container.appendChild(p);
+              id: 'profile',
+              title: 'Your profile',
+              render: (el, ctx) => {
+                const input = document.createElement('input');
+                input.className = 'fd-input';
+                input.placeholder = 'Name';
+                input.addEventListener('input', () => ctx.set({ name: input.value }));
+                el.append(input);
+              },
+              validate: (ctx) => (ctx.data.name ? true : 'Please enter your name.'),
+            },
+            {
+              id: 'review',
+              title: 'Review',
+              render: (el, ctx) => {
+                el.textContent = `Ready to welcome ${ctx.data.name}.`;
               },
             },
-            {
-              id: 'account',
-              title: 'Account',
-              fields: [
-                { type: 'text', name: 'name', label: 'Full name', required: true, autoFocus: true },
-                { type: 'email', name: 'email', label: 'Email', required: true },
-              ],
-            },
-            {
-              id: 'preferences',
-              title: 'Preferences',
-              fields: [
-                {
-                  type: 'radio',
-                  name: 'plan',
-                  label: 'Choose a plan',
-                  required: true,
-                  options: [
-                    { label: 'Free', value: 'free' },
-                    { label: 'Pro', value: 'pro' },
-                  ],
-                },
-                { type: 'checkbox', name: 'newsletter', label: 'Subscribe to the newsletter' },
-              ],
-              validate: (stepValues) =>
-                stepValues.plan ? true : 'Please choose a plan before finishing',
-            },
           ],
-          { finishText: 'Create account' },
-        );
-        print('wizard()', result);
-      });
-
-      // --- draggable ---
-      document.getElementById('btn-draggable').addEventListener('click', async () => {
-        const result = await confirm('Grab the header and drag this dialog around the page.', {
-          title: 'Draggable dialog',
-          draggable: true,
         });
-        print('draggable confirm', result);
-      });
-
-      // --- plugins / hooks toggle ---
-      let hookActive = false;
-      const extraCloseLogger = (ctx) => print('on(beforeClose) extra hook', ctx.instance.id);
-      document.getElementById('btn-toggle-hook').addEventListener('click', (event) => {
-        hookActive = !hookActive;
-        if (hookActive) {
-          on('beforeClose', extraCloseLogger);
-        } else {
-          off('beforeClose', extraCloseLogger);
-        }
-        event.target.textContent = hookActive
-          ? 'Extra beforeClose hook: ON (click to disable)'
-          : 'Extra beforeClose hook: OFF (click to enable)';
+        print('wizard()', await flow.result);
       });
     </script>
   </body>

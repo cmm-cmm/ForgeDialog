@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { wizard } from '../../src/api/wizard';
-import type { WizardStep } from '../../src/types';
+import type { FormWizardStep as WizardStep } from '../../src/types';
 
 afterEach(() => {
   document.body.innerHTML = '';
@@ -49,9 +49,7 @@ describe('wizard()', () => {
     await Promise.resolve();
 
     expect(document.querySelector('[name="bio"]')).toBeNull();
-    expect(document.querySelector('.fd-field__error')?.textContent).toBe(
-      'This field is required.',
-    );
+    expect(document.querySelector('.fd-field__error')?.textContent).toBe('This field is required.');
   });
 
   it('advances to the next step, shows Back, and finishes with merged values from every step', async () => {

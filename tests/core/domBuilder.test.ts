@@ -74,4 +74,55 @@ describe('buildDialogDom', () => {
     expect(contentFn).toHaveBeenCalledWith(body);
     expect(body.querySelector('input')).not.toBeNull();
   });
+
+  it('renders string content as text and requires unsafeHtml for markup', () => {
+    const safe = buildDialogDom(
+      'd10',
+      { content: '<img src=x onerror=alert(1)>' },
+      'dialog',
+      labels,
+      noInstance,
+    );
+    expect(safe.body.querySelector('img')).toBeNull();
+    expect(safe.body.textContent).toContain('<img');
+
+    const trusted = buildDialogDom(
+      'd11',
+      { unsafeHtml: '<strong>Trusted</strong>' },
+      'dialog',
+      labels,
+      noInstance,
+    );
+    expect(trusted.body.querySelector('strong')?.textContent).toBe('Trusted');
+  });
+
+  it('closes when a button opts into closesDialog', async () => {
+    const close = vi.fn().mockResolvedValue(undefined);
+    const fakeInstance = { close } as unknown as DialogInstance;
+    const { buttonElements } = buildDialogDom(
+      'd12',
+      { buttons: [{ text: 'Done', closesDialog: true }] },
+      'dialog',
+      labels,
+      () => fakeInstance,
+    );
+    buttonElements[0].click();
+    await vi.waitFor(() => expect(close).toHaveBeenCalledTimes(1));
+  });
+
+  it('reports async button handler failures', async () => {
+    const error = new Error('button failed');
+    const onError = vi.fn();
+    const fakeInstance = {} as DialogInstance;
+    const { buttonElements } = buildDialogDom(
+      'd13',
+      { buttons: [{ text: 'Fail', onClick: () => Promise.reject(error) }] },
+      'dialog',
+      labels,
+      () => fakeInstance,
+      onError,
+    );
+    buttonElements[0].click();
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledWith(error));
+  });
 });

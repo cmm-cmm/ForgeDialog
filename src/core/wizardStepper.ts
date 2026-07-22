@@ -21,7 +21,10 @@ function buildMarker(index: number): HTMLDivElement {
   return marker;
 }
 
-export function buildWizardStepper(root: HTMLElement, stepTitles: (string | undefined)[]): WizardStepperHandle {
+export function buildWizardStepper(
+  root: HTMLElement,
+  stepTitles: (string | undefined)[],
+): WizardStepperHandle {
   const wizard = document.createElement('div');
   wizard.className = 'fd-wizard';
 

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { prompt } from '../../src/api/prompt';
 
 afterEach(() => {
@@ -46,26 +46,28 @@ describe('prompt()', () => {
     expect(error?.textContent).toBe('Value is required');
 
     const input = document.querySelector<HTMLInputElement>('.fd-input')!;
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(input.getAttribute('aria-describedby')).toBe(error?.id);
     input.value = 'ok now';
     document.querySelector<HTMLButtonElement>('.fd-btn--primary')!.click();
     await expect(promise).resolves.toBe('ok now');
   });
 
-  it('shows an inline error instead of throwing when validate() rejects', async () => {
-    const promise = prompt('Your age?', {
-      validate: () => {
-        throw new Error('boom');
-      },
-    });
+  it('provides an accessible input label', () => {
+    void prompt('Your name?', { inputLabel: 'Full name' });
+    const input = document.querySelector<HTMLInputElement>('.fd-input')!;
+    const label = document.querySelector<HTMLLabelElement>(`label[for="${input.id}"]`);
+    expect(label?.textContent).toBe('Full name');
+  });
+
+  it('shows a stable error when async validation rejects', async () => {
+    void prompt('Value?', { validate: () => Promise.reject(new Error('network details')) });
     document.querySelector<HTMLButtonElement>('.fd-btn--primary')!.click();
-    await Promise.resolve();
-    await Promise.resolve();
-
-    const error = document.querySelector('.fd-input-error');
-    expect(error?.textContent).toBe('boom');
-
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-    await expect(promise).resolves.toBeNull();
+    await vi.waitFor(() => {
+      expect(document.querySelector('.fd-input-error')?.textContent).toBe(
+        'Unable to validate value',
+      );
+    });
   });
 
   it('submits on Enter key in the input', async () => {

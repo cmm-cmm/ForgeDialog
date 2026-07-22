@@ -3,7 +3,6 @@ import type { AnimationPreset } from '../types';
 interface PresetKeyframes {
   overlay: Keyframe[];
   dialog: Keyframe[];
-  /** Explicit exit shape for `dialog`; falls back to reversing `dialog` when omitted. */
   dialogExit?: Keyframe[];
 }
 
@@ -26,6 +25,14 @@ const PRESETS: Record<Exclude<AnimationPreset, 'none'>, PresetKeyframes> = {
       { opacity: 1, transform: 'translateY(0)' },
     ],
   },
+  spring: {
+    overlay: [{ opacity: 0 }, { opacity: 1 }],
+    dialog: [
+      { opacity: 0, transform: 'translateY(24px) scale(0.96)' },
+      { opacity: 1, transform: 'translateY(-3px) scale(1.01)', offset: 0.72 },
+      { opacity: 1, transform: 'translateY(0) scale(1)' },
+    ],
+  },
   bounce: {
     overlay: [{ opacity: 0 }, { opacity: 1 }],
     dialog: [
@@ -43,7 +50,7 @@ const PRESETS: Record<Exclude<AnimationPreset, 'none'>, PresetKeyframes> = {
     overlay: [
       { opacity: 0, backdropFilter: 'blur(0px)' },
       { opacity: 1, backdropFilter: 'blur(6px)' },
-    ] as Keyframe[],
+    ],
     dialog: [
       { opacity: 0, transform: 'scale(0.92)' },
       { opacity: 1, transform: 'scale(1)' },
@@ -52,7 +59,6 @@ const PRESETS: Record<Exclude<AnimationPreset, 'none'>, PresetKeyframes> = {
 };
 
 export const EASING = 'cubic-bezier(0.16, 1, 0.3, 1)';
-
 const activeAnimations = new WeakMap<Element, Animation>();
 
 export function prefersReducedMotion(): boolean {
@@ -61,7 +67,11 @@ export function prefersReducedMotion(): boolean {
     : false;
 }
 
-export function runAnimation(el: HTMLElement, keyframes: Keyframe[], duration: number): Promise<void> {
+export function runAnimation(
+  el: HTMLElement,
+  keyframes: Keyframe[],
+  duration: number,
+): Promise<void> {
   if (prefersReducedMotion() || typeof el.animate !== 'function') {
     return Promise.resolve();
   }

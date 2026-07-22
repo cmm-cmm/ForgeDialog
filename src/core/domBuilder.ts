@@ -2,14 +2,14 @@ import type { ButtonConfig, DialogLabels, DialogOptions, DialogRole } from '../t
 import { fallbackTitleForType } from './aria';
 
 export interface BuiltDialog {
-  overlay: HTMLDivElement;
+  overlay: HTMLDialogElement;
   dialog: HTMLDivElement;
   header: HTMLDivElement;
   body: HTMLDivElement;
   buttonElements: HTMLButtonElement[];
 }
 
-function appendContent(body: HTMLDivElement, options: DialogOptions): void {
+function appendContent<TResult>(body: HTMLDivElement, options: DialogOptions<TResult>): void {
   if (options.message !== undefined) {
     if (typeof options.message === 'string') {
       const p = document.createElement('p');
@@ -26,17 +26,24 @@ function appendContent(body: HTMLDivElement, options: DialogOptions): void {
       options.content(body);
     } else if (typeof options.content === 'string') {
       const wrapper = document.createElement('div');
-      wrapper.innerHTML = options.content;
+      wrapper.textContent = options.content;
       body.appendChild(wrapper);
     } else {
       body.appendChild(options.content);
     }
   }
+
+  if (options.unsafeHtml !== undefined) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = options.unsafeHtml;
+    body.appendChild(wrapper);
+  }
 }
 
-function buildButton(
-  config: ButtonConfig,
-  getInstance: () => import('../types').DialogInstance | null,
+function buildButton<TResult>(
+  config: ButtonConfig<TResult>,
+  getInstance: () => import('../types').DialogInstance<TResult> | null,
+  onError?: (error: unknown) => void,
 ): HTMLButtonElement {
   const btn = document.createElement('button');
   btn.type = 'button';
@@ -44,28 +51,37 @@ function buildButton(
   btn.textContent = config.text;
   if (config.id) btn.id = config.id;
   btn.disabled = Boolean(config.disabled);
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', async () => {
     const instance = getInstance();
     if (!instance) return;
-    void config.onClick?.(instance);
+    try {
+      await config.onClick?.(instance);
+      if (config.closesDialog ?? 'result' in config) {
+        await instance.close(config.result, 'button');
+      }
+    } catch (error) {
+      onError?.(error);
+    }
   });
   return btn;
 }
 
-export function buildDialogDom(
+export function buildDialogDom<TResult = unknown>(
   id: string,
-  options: DialogOptions,
+  options: DialogOptions<TResult>,
   role: DialogRole,
   labels: DialogLabels,
-  getInstance: () => import('../types').DialogInstance | null,
+  getInstance: () => import('../types').DialogInstance<TResult> | null,
+  onError?: (error: unknown) => void,
 ): BuiltDialog {
-  const overlay = document.createElement('div');
+  const overlay = document.createElement('dialog');
   overlay.className = 'fd-overlay';
 
   const dialog = document.createElement('div');
   dialog.className = [
     'fd-dialog',
-    options.type ? `fd-dialog--${options.type}` : null,
+    `fd-dialog--${options.size ?? 'md'}`,
+    `fd-dialog--${options.presentation ?? 'modal'}`,
     options.className,
   ]
     .filter(Boolean)
@@ -120,7 +136,7 @@ export function buildDialogDom(
     const footer = document.createElement('div');
     footer.className = 'fd-dialog__footer';
     for (const config of buttons) {
-      const btn = buildButton(config, getInstance);
+      const btn = buildButton(config, getInstance, onError);
       buttonElements.push(btn);
       footer.appendChild(btn);
     }
@@ -132,25 +148,36 @@ export function buildDialogDom(
   return { overlay, dialog, header, body, buttonElements };
 }
 
-export function updateDialogTitle(dialog: HTMLElement, title: string): void {
+export function updateDialogTitle(
+  dialog: HTMLElement,
+  title: string | undefined,
+  type: DialogOptions['type'] = 'custom',
+): void {
   const titleEl = dialog.querySelector<HTMLElement>('.fd-dialog__title');
   if (!titleEl) return;
-  titleEl.textContent = title;
-  titleEl.classList.remove('fd-dialog__title--visually-hidden');
+  titleEl.textContent = title ?? fallbackTitleForType(type ?? 'custom');
+  titleEl.classList.toggle('fd-dialog__title--visually-hidden', !title);
 }
 
 export function updateDialogBody(
   body: HTMLDivElement,
-  options: Pick<DialogOptions, 'message' | 'content'>,
+  options: Pick<DialogOptions, 'message' | 'content' | 'unsafeHtml'>,
 ): void {
   body.innerHTML = '';
-  appendContent(body, options as DialogOptions);
+  appendContent(body, options as DialogOptions<unknown>);
+  const dialog = body.closest<HTMLElement>('.fd-dialog');
+  if (body.childNodes.length > 0) {
+    dialog?.setAttribute('aria-describedby', body.id);
+  } else {
+    dialog?.removeAttribute('aria-describedby');
+  }
 }
 
-export function updateDialogButtons(
+export function updateDialogButtons<TResult = unknown>(
   dialog: HTMLElement,
-  buttons: ButtonConfig[],
-  getInstance: () => import('../types').DialogInstance | null,
+  buttons: ButtonConfig<TResult>[],
+  getInstance: () => import('../types').DialogInstance<TResult> | null,
+  onError?: (error: unknown) => void,
 ): HTMLButtonElement[] {
   let footer = dialog.querySelector<HTMLElement>('.fd-dialog__footer');
   if (!footer) {
@@ -159,7 +186,7 @@ export function updateDialogButtons(
     dialog.appendChild(footer);
   }
   footer.innerHTML = '';
-  const buttonElements = buttons.map((config) => buildButton(config, getInstance));
+  const buttonElements = buttons.map((config) => buildButton(config, getInstance, onError));
   for (const btn of buttonElements) footer.appendChild(btn);
   return buttonElements;
 }

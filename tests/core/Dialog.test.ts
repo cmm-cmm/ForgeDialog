@@ -85,11 +85,20 @@ describe('Dialog', () => {
     plugins.on('afterClose', () => {
       order.push('afterClose');
     });
+    plugins.on('beforeDestroy', () => {
+      order.push('beforeDestroy');
+    });
 
     const { dialog } = makeDialog({}, new DialogStackManager(), plugins);
     await dialog.open();
     await dialog.close();
-    expect(order).toEqual(['beforeOpen', 'afterOpen', 'beforeClose', 'afterClose']);
+    expect(order).toEqual([
+      'beforeOpen',
+      'afterOpen',
+      'beforeClose',
+      'beforeDestroy',
+      'afterClose',
+    ]);
   });
 
   it('calls onOpen/onClose/onBeforeClose option callbacks', async () => {
@@ -132,36 +141,6 @@ describe('Dialog', () => {
     await first.close();
   });
 
-  it('does not resurrect state to "open" when close() is called synchronously during open()', async () => {
-    const { dialog } = makeDialog({});
-    const openPromise = dialog.open();
-    const closePromise = dialog.close('early');
-    await Promise.all([openPromise, closePromise]);
-    expect(dialog.isOpen()).toBe(false);
-    await expect(dialog.whenClosed()).resolves.toBe('early');
-  });
-
-  it('does not resurrect state to "open" when close() is called mid-animateIn', async () => {
-    const plugins = new PluginManager();
-    const order: string[] = [];
-    plugins.on('afterOpen', () => {
-      order.push('afterOpen');
-    });
-    plugins.on('afterClose', () => {
-      order.push('afterClose');
-    });
-    const { dialog } = makeDialog({}, new DialogStackManager(), plugins);
-
-    const openPromise = dialog.open();
-    await Promise.resolve();
-    const closePromise = dialog.close('early');
-    await Promise.all([openPromise, closePromise]);
-
-    expect(dialog.isOpen()).toBe(false);
-    expect(order).toEqual(['afterClose']);
-    await expect(dialog.whenClosed()).resolves.toBe('early');
-  });
-
   it('falls back to focusing the container when there is nothing focusable', async () => {
     const { dialog } = makeDialog({ closable: false });
     await dialog.open();
@@ -170,33 +149,48 @@ describe('Dialog', () => {
     await dialog.close();
   });
 
-  it('makes the header draggable when draggable is true', async () => {
-    const { dialog } = makeDialog({ draggable: true });
-    await dialog.open();
-    const header = dialog.element.querySelector('.fd-dialog__header')!;
-    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(true);
-    await dialog.close();
+  it('does not return to open state when closed during beforeOpen', async () => {
+    const plugins = new PluginManager();
+    let release!: () => void;
+    plugins.on('beforeOpen', () => new Promise<void>((resolve) => (release = resolve)));
+    const { dialog } = makeDialog({}, new DialogStackManager(), plugins);
+
+    const opening = dialog.open();
+    const closing = dialog.close('early');
+    release();
+    await Promise.all([opening, closing]);
+
+    expect(dialog.isOpen()).toBe(false);
+    expect(dialog.element.isConnected).toBe(false);
+    await expect(dialog.whenClosed()).resolves.toBe('early');
   });
 
-  it('does not make the header draggable by default', async () => {
-    const { dialog } = makeDialog({});
+  it('cleans up and reports lifecycle hook failures', async () => {
+    const error = new Error('plugin failed');
+    const onError = vi.fn();
+    const plugins = new PluginManager();
+    plugins.on('beforeClose', () => {
+      throw error;
+    });
+    const { dialog, stack } = makeDialog({ onError }, new DialogStackManager(), plugins);
     await dialog.open();
-    const header = dialog.element.querySelector('.fd-dialog__header')!;
-    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(false);
     await dialog.close();
+
+    expect(onError).toHaveBeenCalledWith(error, dialog);
+    expect(dialog.element.isConnected).toBe(false);
+    expect(stack.size()).toBe(0);
+    await expect(dialog.whenClosed()).resolves.toBeUndefined();
   });
 
-  it('toggles draggable via update()', async () => {
+  it('updates aria-describedby when body content changes', async () => {
     const { dialog } = makeDialog({});
     await dialog.open();
-    const header = dialog.element.querySelector('.fd-dialog__header')!;
-    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(false);
-
-    dialog.update({ draggable: true });
-    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(true);
-
-    dialog.update({ draggable: false });
-    expect(header.classList.contains('fd-dialog__header--draggable')).toBe(false);
+    const el = dialog.element.querySelector<HTMLElement>('.fd-dialog')!;
+    expect(el.hasAttribute('aria-describedby')).toBe(false);
+    dialog.update({ message: 'Now described' });
+    expect(el.getAttribute('aria-describedby')).toBe(`${dialog.id}-desc`);
+    dialog.update({ message: undefined, content: undefined });
+    expect(el.hasAttribute('aria-describedby')).toBe(false);
     await dialog.close();
   });
 });

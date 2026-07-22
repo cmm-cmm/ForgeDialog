@@ -88,6 +88,35 @@ describe('form()', () => {
     await expect(promise).resolves.toEqual({ password: 'a', confirm: 'a' });
   });
 
+  it('handles boolean and thrown form validation failures', async () => {
+    const fields: FormFieldConfig[] = [{ type: 'text', name: 'value' }];
+    const first = form(fields, { validate: () => false });
+    document.querySelector<HTMLButtonElement>('.fd-btn--primary')!.click();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(document.querySelector('.fd-form__error')?.textContent).toBe('Invalid form');
+
+    document.querySelector<HTMLButtonElement>('.fd-btn--secondary')!.click();
+    await first;
+    void form(fields, {
+      validate: () => {
+        throw new Error('Validation unavailable');
+      },
+    });
+    document.querySelector<HTMLButtonElement>('.fd-btn--primary')!.click();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(document.querySelector('.fd-form__error')?.textContent).toBe('Validation unavailable');
+  });
+
+  it('submits on Enter outside a textarea', async () => {
+    const promise = form([{ type: 'text', name: 'value', defaultValue: 'ready' }]);
+    document
+      .querySelector<HTMLInputElement>('[name="value"]')!
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    await expect(promise).resolves.toEqual({ value: 'ready' });
+  });
+
   it('collects checkbox, radio, select, and number field values correctly', async () => {
     const fields: FormFieldConfig[] = [
       { type: 'checkbox', name: 'subscribe', label: 'Subscribe', defaultValue: true },

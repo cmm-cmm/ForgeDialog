@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.5.0
+
+- Added scoped surface/backdrop opacity, backdrop blur, border, and shadow appearance controls.
+- Expanded draggable dialogs with axis and bounds constraints, custom handles, keyboard movement,
+  position persistence, lifecycle callbacks, and programmatic position APIs.
+- Added an interactive appearance/drag builder and browser coverage for viewport constraints.
+- Split form and workflow styling into focused CSS modules while retaining one public stylesheet.
+- Added interaction and layered CSS entry points, CSS-backed shadow presets, tree-shaking fixtures,
+  per-artifact gzip budgets, bundle analysis, and automated package export/type validation.
+- Added lightweight alert/confirm/prompt entries and capability-based advanced interactions,
+  reducing the alert-only fixture below 6 KiB gzip.
+- Added animation-frame drag batching, resize-aware bounds, mobile visual viewport constraints,
+  component CSS layers, API reports, consumer builds, Changesets, bundle diffs, SBOM generation,
+  and npm provenance release automation.
+- Split animation runners into an opt-in capability so focused entries avoid unused presets while
+  the main entry retains the complete behavior.
+- Added sanitizer-gated HTML rendering, reactive Web Component attributes, adapter cleanup tests,
+  cross-browser/mobile coverage, forced-colors styling, and p50/p95 runtime cleanup budgets.
+
 ## 0.4.0
 
 - Rebuilt modal rendering on native `<dialog>` with a fallback path.

@@ -21,14 +21,13 @@ export class FocusTrap {
     if (!this.active) return;
     this.active = false;
     document.removeEventListener('keydown', this.handleKeydown, true);
+    if (restoreFocus) this.restoreFocus();
+  }
+
+  restoreFocus(): void {
     const restoreTo = this.previouslyFocused;
     this.previouslyFocused = null;
-    if (
-      restoreFocus &&
-      restoreTo &&
-      typeof restoreTo.focus === 'function' &&
-      document.contains(restoreTo)
-    ) {
+    if (restoreTo && typeof restoreTo.focus === 'function' && document.contains(restoreTo)) {
       restoreTo.focus();
     }
   }

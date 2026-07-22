@@ -96,6 +96,24 @@ describe('buildDialogDom', () => {
     expect(trusted.body.querySelector('strong')?.textContent).toBe('Trusted');
   });
 
+  it('requires and applies a sanitizer for untrusted HTML', () => {
+    expect(() =>
+      buildDialogDom('unsafe', { html: '<img onerror="bad()">' }, 'dialog', labels, noInstance),
+    ).toThrow('requires a sanitizeHtml function');
+
+    const sanitizeHtml = vi.fn(() => '<strong>Sanitized</strong>');
+    const safe = buildDialogDom(
+      'safe',
+      { html: '<img onerror="bad()">', sanitizeHtml },
+      'dialog',
+      labels,
+      noInstance,
+    );
+    expect(sanitizeHtml).toHaveBeenCalledWith('<img onerror="bad()">');
+    expect(safe.body.querySelector('strong')?.textContent).toBe('Sanitized');
+    expect(safe.body.querySelector('img')).toBeNull();
+  });
+
   it('closes when a button opts into closesDialog', async () => {
     const close = vi.fn().mockResolvedValue(undefined);
     const fakeInstance = { close } as unknown as DialogInstance;

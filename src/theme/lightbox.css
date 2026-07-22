@@ -1,0 +1,34 @@
+@layer forgedialog.components {
+  .fd-dialog--lightbox {
+    background: #0b0c0f;
+    color: #fff;
+  }
+  .fd-lightbox {
+    display: grid;
+    place-items: center;
+    gap: var(--fd-spacing-md);
+    min-height: 0;
+    margin: 0;
+  }
+  .fd-lightbox img {
+    display: block;
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+  }
+  .fd-spinner {
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-inline-end: var(--fd-spacing-sm);
+    border: 2px solid var(--fd-color-border);
+    border-top-color: var(--fd-color-primary);
+    border-radius: 50%;
+    animation: fd-spin 0.7s linear infinite;
+  }
+  @keyframes fd-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

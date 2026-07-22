@@ -38,6 +38,15 @@ function appendContent<TResult>(body: HTMLDivElement, options: DialogOptions<TRe
     wrapper.innerHTML = options.unsafeHtml;
     body.appendChild(wrapper);
   }
+
+  if (options.html !== undefined) {
+    if (!options.sanitizeHtml) {
+      throw new TypeError('DialogOptions.html requires a sanitizeHtml function');
+    }
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = options.sanitizeHtml(options.html) as string;
+    body.appendChild(wrapper);
+  }
 }
 
 function buildButton<TResult>(
@@ -161,7 +170,7 @@ export function updateDialogTitle(
 
 export function updateDialogBody(
   body: HTMLDivElement,
-  options: Pick<DialogOptions, 'message' | 'content' | 'unsafeHtml'>,
+  options: Pick<DialogOptions, 'message' | 'content' | 'unsafeHtml' | 'html' | 'sanitizeHtml'>,
 ): void {
   body.innerHTML = '';
   appendContent(body, options as DialogOptions<unknown>);

@@ -1,0 +1,16 @@
+@layer forgedialog.interactions {
+  .fd-dialog__header--draggable {
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .fd-dialog--dragging {
+    cursor: grabbing;
+    transition: none !important;
+  }
+
+  .fd-dialog--dragging .fd-dialog__header--draggable {
+    cursor: grabbing;
+  }
+}

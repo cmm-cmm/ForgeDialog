@@ -66,6 +66,23 @@
         align-items: center;
         margin-bottom: 24px;
       }
+      .appearance-builder {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        padding: 16px;
+        margin: 24px 0;
+        border: 1px solid #d6d9e0;
+        border-radius: 12px;
+      }
+      .appearance-builder label {
+        display: grid;
+        gap: 6px;
+        font-size: 0.85rem;
+      }
+      .appearance-builder .wide {
+        grid-column: 1 / -1;
+      }
       #log {
         background: #11131a;
         color: #d7f9d0;
@@ -90,6 +107,40 @@
       <button class="demo-btn" data-theme="dark">Dark</button>
       <button class="demo-btn" data-theme="system">System</button>
     </div>
+
+    <fieldset class="appearance-builder">
+      <legend>Appearance &amp; drag builder</legend>
+      <label
+        >Surface opacity
+        <input id="appearance-opacity" type="range" min="0.2" max="1" step="0.05" value="0.9"
+      /></label>
+      <label
+        >Overlay opacity
+        <input id="appearance-overlay" type="range" min="0" max="1" step="0.05" value="0.65"
+      /></label>
+      <label
+        >Backdrop blur
+        <input id="appearance-blur" type="range" min="0" max="30" step="1" value="10"
+      /></label>
+      <label
+        >Border width
+        <input id="appearance-border-width" type="range" min="0" max="8" step="1" value="2"
+      /></label>
+      <label
+        >Border color <input id="appearance-border-color" type="color" value="#7c5cff"
+      /></label>
+      <label
+        >Shadow
+        <select id="appearance-shadow">
+          <option value="none">None</option>
+          <option value="sm">Small</option>
+          <option value="md">Medium</option>
+          <option value="lg" selected>Large</option>
+          <option value="xl">Extra large</option>
+        </select>
+      </label>
+      <button class="demo-btn wide" id="btn-appearance">Open interactive preview</button>
+    </fieldset>
     <div class="theme-row">
       <strong>Preset:</strong>
       <button class="demo-btn" data-preset="default">Default</button>
@@ -153,6 +204,53 @@
       });
       document.querySelectorAll('[data-preset]').forEach((btn) => {
         btn.addEventListener('click', () => setThemePreset(btn.dataset.preset));
+      });
+
+      const value = (id) => document.getElementById(id).value;
+      const currentAppearance = () => ({
+        opacity: Number(value('appearance-opacity')),
+        overlayOpacity: Number(value('appearance-overlay')),
+        backdropBlur: Number(value('appearance-blur')),
+        borderWidth: Number(value('appearance-border-width')),
+        borderColor: value('appearance-border-color'),
+        shadow: value('appearance-shadow'),
+      });
+      let appearancePreview;
+      document
+        .querySelectorAll('.appearance-builder input, .appearance-builder select')
+        .forEach((control) => {
+          control.addEventListener('input', () =>
+            appearancePreview?.update({ appearance: currentAppearance() }),
+          );
+        });
+
+      document.getElementById('btn-appearance').addEventListener('click', () => {
+        const instance = open({
+          title: 'Interactive appearance preview',
+          message:
+            'Drag this dialog by its header. Focus the header and use arrow keys for precise movement.',
+          appearance: currentAppearance(),
+          draggable: {
+            bounds: 'viewport',
+            persistKey: 'appearance-demo',
+            keyboardStep: 8,
+            onDragEnd: ({ position }) => print('dialog position', position),
+          },
+          buttons: [
+            {
+              text: 'Reset position',
+              role: 'secondary',
+              closesDialog: false,
+              onClick: (dialog) => dialog.resetPosition(),
+            },
+            { text: 'Done', role: 'primary', closesDialog: true },
+          ],
+        });
+        appearancePreview = instance;
+        instance.whenSettled().then((outcome) => {
+          appearancePreview = undefined;
+          print('appearance preview', outcome);
+        });
       });
 
       document.getElementById('btn-alert').addEventListener('click', async () => {

@@ -10,7 +10,18 @@ test('open dialog has no detectable WCAG A/AA violations', async ({ page }) => {
   expect(results.violations).toEqual([]);
 });
 
-test('alert visual remains stable', async ({ page }) => {
+test('dialog remains distinguishable in Windows forced-colors mode', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'chromium', 'Chromium provides the canonical emulation');
+  await page.emulateMedia({ forcedColors: 'active' });
+  await page.goto('/demo/');
+  await page.getByRole('button', { name: 'Show Alert' }).click();
+  const dialog = page.getByRole('alertdialog', { name: 'Heads up' });
+  await expect(dialog).toHaveCSS('border-top-style', 'solid');
+  await expect(dialog).toHaveCSS('box-shadow', 'none');
+});
+
+test('alert visual remains stable', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'chromium', 'Uses the canonical Chromium snapshot');
   await page.goto('/demo/');
   await page.getByRole('button', { name: 'Show Alert' }).click();
   await expect(page).toHaveScreenshot('alert-dialog.png', {
@@ -19,17 +30,31 @@ test('alert visual remains stable', async ({ page }) => {
   });
 });
 
-test('average open and close scripting time stays below budget', async ({ page }) => {
+test('open and close latency and DOM cleanup stay within budgets', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'chromium', 'Records the canonical performance budget');
   await page.goto('/demo/');
-  const average = await page.evaluate(async () => {
+  const metrics = await page.evaluate(async () => {
     const api = (window as typeof window & { ForgeDialog: typeof import('../src/index') })
       .ForgeDialog;
-    const start = performance.now();
-    for (let index = 0; index < 50; index += 1) {
+    const samples: number[] = [];
+    for (let index = 0; index < 200; index += 1) {
+      const start = performance.now();
       const instance = api.open({ animation: 'none', closable: false });
       await instance.close();
+      samples.push(performance.now() - start);
     }
-    return (performance.now() - start) / 50;
+    samples.sort((left, right) => left - right);
+    return {
+      p50: samples[Math.floor(samples.length * 0.5)],
+      p95: samples[Math.floor(samples.length * 0.95)],
+      remainingDialogs: document.querySelectorAll('.fd-overlay').length,
+    };
   });
-  expect(average).toBeLessThan(16);
+  await testInfo.attach('runtime-metrics', {
+    body: JSON.stringify(metrics, null, 2),
+    contentType: 'application/json',
+  });
+  expect(metrics.p50).toBeLessThan(12);
+  expect(metrics.p95).toBeLessThan(24);
+  expect(metrics.remainingDialogs).toBe(0);
 });

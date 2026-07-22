@@ -193,4 +193,73 @@ describe('Dialog', () => {
     expect(el.hasAttribute('aria-describedby')).toBe(false);
     await dialog.close();
   });
+
+  it('updates scoped appearance and exposes draggable position controls', async () => {
+    const { dialog } = makeDialog({
+      draggable: { initialPosition: { x: 10, y: 12 } },
+      appearance: { opacity: 0.75, borderColor: 'rebeccapurple' },
+    });
+    const el = dialog.element.querySelector<HTMLElement>('.fd-dialog')!;
+    expect(el.style.getPropertyValue('--fd-dialog-opacity')).toBe('75%');
+    expect(dialog.getPosition()).toEqual({ x: 10, y: 12 });
+    expect(dialog.setPosition({ x: 20, y: 24 })).toEqual({ x: 20, y: 24 });
+    dialog.resetPosition();
+    expect(dialog.getPosition()).toEqual({ x: 10, y: 12 });
+    dialog.update({ appearance: { shadow: 'none' }, draggable: false });
+    expect(el.style.getPropertyValue('--fd-dialog-opacity')).toBe('');
+    expect(el.dataset.fdShadow).toBe('none');
+    expect(dialog.getPosition()).toEqual({ x: 0, y: 0 });
+  });
+
+  it('updates layout classes and sanitized HTML at runtime', () => {
+    const { dialog } = makeDialog({
+      size: 'sm',
+      presentation: 'drawer-left',
+      className: 'before extra',
+      html: '<em>before</em>',
+      sanitizeHtml: (html) => html,
+    });
+    const el = dialog.element.querySelector<HTMLElement>('.fd-dialog')!;
+    dialog.update({
+      size: 'lg',
+      presentation: 'lightbox',
+      className: 'after',
+      html: '<strong>after</strong>',
+    });
+    expect(el.classList).toContain('fd-dialog--lg');
+    expect(el.classList).toContain('fd-dialog--lightbox');
+    expect(el.classList).toContain('after');
+    expect(el.classList).not.toContain('before');
+    expect(el.querySelector('strong')?.textContent).toBe('after');
+
+    dialog.update({ size: undefined, presentation: undefined, className: undefined });
+    expect(el.classList).toContain('fd-dialog--md');
+    expect(el.classList).toContain('fd-dialog--modal');
+    expect(el.classList).not.toContain('after');
+  });
+
+  it('resolves custom drag handles and disables generic dragging for bottom sheets', () => {
+    const selectorDialog = makeDialog({
+      draggable: { handle: '.grab' },
+      content: (container) => {
+        const handle = document.createElement('div');
+        handle.className = 'grab';
+        container.append(handle);
+      },
+    }).dialog;
+    expect(selectorDialog.element.querySelector('.grab')?.classList).toContain(
+      'fd-dialog__header--draggable',
+    );
+
+    const external = document.createElement('div');
+    const elementDialog = makeDialog({ draggable: { handle: external } }).dialog;
+    expect(external.classList).toContain('fd-dialog__header--draggable');
+    elementDialog.update({ draggable: undefined });
+    expect(elementDialog.getPosition()).toEqual({ x: 0, y: 0 });
+    expect(elementDialog.setPosition({ x: 8, y: 9 })).toEqual({ x: 0, y: 0 });
+    elementDialog.resetPosition();
+
+    const sheet = makeDialog({ presentation: 'bottom-sheet', draggable: true }).dialog;
+    expect(sheet.element.querySelector('.fd-dialog__header--draggable')).toBeNull();
+  });
 });

@@ -13,7 +13,7 @@ test('open dialog has no detectable WCAG A/AA violations', async ({ page }) => {
 test('alert visual remains stable', async ({ page }) => {
   await page.goto('/demo/');
   await page.getByRole('button', { name: 'Show Alert' }).click();
-  await expect(page.getByRole('alertdialog')).toHaveScreenshot('alert-dialog.png', {
+  await expect(page).toHaveScreenshot('alert-dialog.png', {
     animations: 'disabled',
     maxDiffPixelRatio: 0.05,
   });

@@ -11,7 +11,7 @@
   "homepage": "https://github.com/cmm-cmm/ForgeDialog#readme",
   "bugs": "https://github.com/cmm-cmm/ForgeDialog/issues",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "browserslist": [
     "Chrome >= 88",
@@ -185,7 +185,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "test:all": "npm test && npm run test:coverage && npm run test:e2e",
+    "test:all": "npm run test:coverage && npm run test:e2e",
     "size": "npm run build && node scripts/check-size.mjs",
     "analyze": "node scripts/analyze-bundle.mjs",
     "test:treeshake": "node scripts/check-treeshaking.mjs",
@@ -199,7 +199,7 @@
     "package:size": "node scripts/check-tarball.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "npm run build && npm run check:package && npm publish --provenance --access public",
+    "release": "npm run validate:all && npm publish --access public",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests e2e",
     "format": "prettier --write .",

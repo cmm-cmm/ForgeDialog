@@ -18,6 +18,8 @@
   the main entry retains the complete behavior.
 - Added sanitizer-gated HTML rendering, reactive Web Component attributes, adapter cleanup tests,
   cross-browser/mobile coverage, forced-colors styling, and p50/p95 runtime cleanup budgets.
+- Moved release automation to Node 24 actions, separated Changesets from tag publishing, and
+  removed duplicate CI and release work.
 
 ## 0.4.0
 

@@ -217,7 +217,7 @@ Releases use Changesets (`npm run changeset`) and the protected GitHub release w
 workflow generates a CycloneDX SBOM and publishes with npm provenance through trusted publishing;
 local development and pull requests never publish packages.
 
-Supported baselines are Chrome/Edge 88+, Firefox 78+, Safari 15.4+, and Node.js 18+ for package
+Supported baselines are Chrome/Edge 88+, Firefox 78+, Safari 15.4+, and Node.js 20+ for package
 tooling and SSR imports.
 
 ## License

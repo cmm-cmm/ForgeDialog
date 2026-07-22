@@ -11,6 +11,46 @@ export type DialogPresentation =
 export type DialogState = 'idle' | 'opening' | 'open' | 'closing' | 'closed' | 'destroyed';
 export type CloseReason = 'button' | 'escape' | 'backdrop' | 'api' | 'abort' | 'destroy';
 
+export interface DialogPosition {
+  x: number;
+  y: number;
+}
+
+export interface DialogAppearance {
+  /** Dialog surface opacity from 0 (transparent) to 1 (opaque). */
+  opacity?: number;
+  /** Backdrop opacity from 0 (transparent) to 1 (opaque). */
+  overlayOpacity?: number;
+  /** Backdrop blur in CSS pixels, or any CSS length. */
+  backdropBlur?: number | string;
+  borderColor?: string;
+  borderWidth?: number | string;
+  borderStyle?: 'none' | 'solid' | 'dashed' | 'dotted' | 'double';
+  /** A built-in preset or any valid CSS box-shadow value. */
+  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | string;
+}
+
+export interface DialogDragEvent {
+  position: DialogPosition;
+  originalEvent: PointerEvent | KeyboardEvent;
+}
+
+export interface DraggableOptions {
+  /** Header by default; accepts a selector inside the dialog or an element. */
+  handle?: 'header' | string | HTMLElement;
+  axis?: 'both' | 'x' | 'y';
+  /** Constrain movement to the viewport (default), an element, or a fixed rectangle. */
+  bounds?: 'viewport' | HTMLElement | DOMRect;
+  initialPosition?: DialogPosition;
+  /** Persist the position in localStorage under this key. */
+  persistKey?: string;
+  keyboard?: boolean;
+  keyboardStep?: number;
+  onDragStart?: (event: DialogDragEvent) => void;
+  onDrag?: (event: DialogDragEvent) => void;
+  onDragEnd?: (event: DialogDragEvent) => void;
+}
+
 export interface DialogOutcome<TResult = unknown> {
   result: TResult | undefined;
   reason: CloseReason;
@@ -36,6 +76,13 @@ export interface ButtonConfig<TResult = unknown> {
   onClick?: (instance: DialogInstance<TResult>) => void | Promise<void>;
 }
 
+/** Structural subset accepted from browser Trusted Types implementations. */
+export interface TrustedHtmlLike {
+  toString(): string;
+}
+
+export type HtmlSanitizer = (html: string) => string | TrustedHtmlLike;
+
 export interface DialogOptions<TResult = unknown> {
   type?: DialogType;
   title?: string;
@@ -43,11 +90,15 @@ export interface DialogOptions<TResult = unknown> {
   content?: string | HTMLElement | ((container: HTMLElement) => void);
   /** Trusted HTML only. Never pass unsanitized user input. */
   unsafeHtml?: string;
+  /** Untrusted HTML. A sanitizer must be supplied before it can be rendered. */
+  html?: string;
+  sanitizeHtml?: HtmlSanitizer;
   buttons?: ButtonConfig<TResult>[];
   closable?: boolean;
   closeOnEscape?: boolean;
   closeOnOverlayClick?: boolean;
-  draggable?: boolean;
+  draggable?: boolean | DraggableOptions;
+  appearance?: DialogAppearance;
   className?: string;
   size?: DialogSize;
   presentation?: DialogPresentation;
@@ -83,6 +134,9 @@ export interface DialogInstance<TResult = unknown> {
   update(options: Partial<DialogOptions<TResult>>): void;
   isOpen(): boolean;
   getState(): DialogState;
+  getPosition(): DialogPosition;
+  setPosition(position: DialogPosition): DialogPosition;
+  resetPosition(): void;
 }
 
 export type HookName = 'beforeOpen' | 'afterOpen' | 'beforeClose' | 'afterClose' | 'beforeDestroy';

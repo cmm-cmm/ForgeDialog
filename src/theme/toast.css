@@ -1,0 +1,60 @@
+@layer forgedialog.components {
+  .fd-toast-region {
+    position: fixed;
+    z-index: 2147483647;
+    inset-block-start: 16px;
+    inset-inline-end: 16px;
+    display: grid;
+    gap: 8px;
+    width: min(360px, calc(100vw - 32px));
+    pointer-events: none;
+  }
+  .fd-toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-inline-start: 4px solid var(--fd-color-primary);
+    border-radius: 8px;
+    background: var(--fd-color-surface);
+    color: var(--fd-color-text);
+    box-shadow: var(--fd-shadow);
+    pointer-events: auto;
+  }
+  .fd-toast--success {
+    border-inline-start-color: #16a34a;
+  }
+  .fd-toast--warning {
+    border-inline-start-color: #d97706;
+  }
+  .fd-toast--danger {
+    border-inline-start-color: var(--fd-color-danger);
+  }
+  .fd-toast__action {
+    border: 0;
+    background: transparent;
+    color: var(--fd-color-primary);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .fd-notification-list {
+    display: grid;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .fd-notification {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px;
+    border-bottom: 1px solid var(--fd-color-border);
+  }
+  .fd-notification time {
+    color: var(--fd-color-text-muted);
+    font-size: 0.8rem;
+  }
+}

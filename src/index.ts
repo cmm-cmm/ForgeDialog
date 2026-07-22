@@ -1,6 +1,9 @@
 import type { HookFn, HookName, Plugin } from './types';
 import { pluginManager } from './plugins/PluginManager';
-import packageJson from '../package.json';
+import './interactions-entry';
+import './animations-entry';
+
+declare const __FORGEDIALOG_VERSION__: string;
 
 export { alert } from './api/alert';
 export { confirm } from './api/confirm';
@@ -32,6 +35,9 @@ export type {
   ButtonRole,
   CloseReason,
   DialogOutcome,
+  DialogAppearance,
+  DialogDragEvent,
+  DialogPosition,
   DialogPresentation,
   DialogSize,
   DialogState,
@@ -40,6 +46,7 @@ export type {
   DialogOptions,
   DialogRole,
   DialogType,
+  DraggableOptions,
   FormFieldConfig,
   FormFieldOption,
   FormFieldType,
@@ -70,4 +77,4 @@ export function off(hook: HookName, fn: HookFn): void {
   pluginManager.off(hook, fn);
 }
 
-export const VERSION: string = packageJson.version;
+export const VERSION: string = __FORGEDIALOG_VERSION__;

@@ -6,11 +6,14 @@ import type {
   DialogLabels,
   DialogOptions,
   DialogOutcome,
+  DialogPosition,
   DialogState,
+  DraggableOptions,
 } from '../types';
 import { generateId } from '../utils/id';
 import { resolveRole } from './aria';
-import { animateIn, animateOut } from './animation';
+import { animateDialogIn, animateDialogOut } from './animationRegistry';
+import { applyAppearance } from './appearance';
 import type { DialogStackManager } from './DialogStack';
 import {
   buildDialogDom,
@@ -19,7 +22,7 @@ import {
   updateDialogTitle,
 } from './domBuilder';
 import { FocusTrap } from './FocusTrap';
-import { type DraggableHandle, makeDraggable } from './draggable';
+import { createDraggable, type DraggableHandle } from './interactionRegistry';
 
 export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
   readonly id: string;
@@ -68,7 +71,8 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
     this.bodyEl = built.body;
     this.buttonElements = built.buttonElements;
     this.focusTrap = new FocusTrap(this.dialogEl);
-    if (options.draggable) this.draggableHandle = makeDraggable(this.dialogEl, built.header);
+    applyAppearance(this.element, this.dialogEl, options.appearance);
+    this.setupDraggable(options.draggable, built.header);
 
     this.closedPromise = new Promise((resolve) => {
       this.resolveClosed = resolve;
@@ -115,7 +119,7 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
         options: this.options,
       } as unknown as import('../types').HookContext);
       if (this.state !== 'opening') return;
-      await animateIn(this.element, this.dialogEl, this.options.animation);
+      await animateDialogIn(this.element, this.dialogEl, this.options.animation);
       if (this.state !== 'opening') return;
 
       this.state = 'open';
@@ -184,17 +188,26 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
   }
 
   update(partial: Partial<DialogOptions<TResult>>): void {
+    const previous = this.options;
     this.options = { ...this.options, ...partial };
 
     if ('title' in partial) {
       updateDialogTitle(this.dialogEl, partial.title ?? undefined, this.options.type ?? 'custom');
     }
 
-    if ('message' in partial || 'content' in partial || 'unsafeHtml' in partial) {
+    if (
+      'message' in partial ||
+      'content' in partial ||
+      'unsafeHtml' in partial ||
+      'html' in partial ||
+      'sanitizeHtml' in partial
+    ) {
       updateDialogBody(this.bodyEl, {
         message: this.options.message,
         content: this.options.content,
         unsafeHtml: this.options.unsafeHtml,
+        html: this.options.html,
+        sanitizeHtml: this.options.sanitizeHtml,
       });
     }
 
@@ -208,10 +221,21 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
     }
 
     if ('draggable' in partial) {
-      this.draggableHandle?.destroy();
       const header = this.dialogEl.querySelector<HTMLElement>('.fd-dialog__header');
-      this.draggableHandle =
-        partial.draggable && header ? makeDraggable(this.dialogEl, header) : undefined;
+      this.setupDraggable(partial.draggable, header ?? undefined);
+    }
+    if ('appearance' in partial) applyAppearance(this.element, this.dialogEl, partial.appearance);
+    if ('size' in partial) {
+      this.dialogEl.classList.remove(`fd-dialog--${previous.size ?? 'md'}`);
+      this.dialogEl.classList.add(`fd-dialog--${partial.size ?? 'md'}`);
+    }
+    if ('presentation' in partial) {
+      this.dialogEl.classList.remove(`fd-dialog--${previous.presentation ?? 'modal'}`);
+      this.dialogEl.classList.add(`fd-dialog--${partial.presentation ?? 'modal'}`);
+    }
+    if ('className' in partial) {
+      if (previous.className) this.dialogEl.classList.remove(...previous.className.split(/\s+/));
+      if (partial.className) this.dialogEl.classList.add(...partial.className.split(/\s+/));
     }
   }
 
@@ -221,6 +245,34 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
 
   getState(): DialogState {
     return this.state;
+  }
+
+  getPosition(): DialogPosition {
+    return this.draggableHandle?.getPosition() ?? { x: 0, y: 0 };
+  }
+
+  setPosition(position: DialogPosition): DialogPosition {
+    return this.draggableHandle?.setPosition(position) ?? { x: 0, y: 0 };
+  }
+
+  resetPosition(): void {
+    this.draggableHandle?.resetPosition();
+  }
+
+  private setupDraggable(
+    configured: boolean | DraggableOptions | undefined,
+    defaultHandle?: HTMLElement,
+  ): void {
+    this.draggableHandle?.destroy();
+    this.draggableHandle = undefined;
+    if (!configured || !defaultHandle || this.options.presentation === 'bottom-sheet') return;
+    const options = typeof configured === 'object' ? configured : {};
+    let handle = defaultHandle;
+    if (options.handle instanceof HTMLElement) handle = options.handle;
+    else if (options.handle && options.handle !== 'header') {
+      handle = this.dialogEl.querySelector<HTMLElement>(options.handle) ?? defaultHandle;
+    }
+    this.draggableHandle = createDraggable(this.dialogEl, handle, options);
   }
 
   private getInitialFocusTarget(): HTMLElement | undefined {
@@ -270,12 +322,12 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
     animate: boolean,
   ): Promise<void> {
     if (this.state === 'closed') return;
-    this.focusTrap.deactivate(this.options.restoreFocus !== false);
+    this.focusTrap.deactivate(false);
     this.element.removeEventListener('mousedown', this.handleOverlayMouseDown);
 
     try {
       if (animate && this.element.isConnected) {
-        await animateOut(this.element, this.dialogEl, this.options.animation);
+        await animateDialogOut(this.element, this.dialogEl, this.options.animation);
       }
       await this.plugins.runHook('beforeDestroy', {
         instance: this,
@@ -289,6 +341,7 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
       const nativeDialog = this.element as HTMLDialogElement;
       if (typeof nativeDialog.close === 'function' && nativeDialog.open) nativeDialog.close();
       this.element.remove();
+      if (this.options.restoreFocus !== false) this.focusTrap.restoreFocus();
       this.cleanupGesture?.();
       this.draggableHandle?.destroy();
       this.draggableHandle = undefined;

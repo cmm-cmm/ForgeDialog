@@ -1,0 +1,103 @@
+@layer forgedialog.components {
+  .fd-dialog--wizard {
+    max-width: 520px;
+  }
+
+  .fd-wizard__stepper {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: var(--fd-spacing-lg);
+  }
+
+  .fd-wizard__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .fd-wizard__marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--fd-color-border);
+    color: var(--fd-color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: var(--fd-color-surface);
+    transition:
+      border-color var(--fd-duration-normal) var(--fd-easing),
+      background var(--fd-duration-normal) var(--fd-easing),
+      color var(--fd-duration-normal) var(--fd-easing),
+      transform var(--fd-duration-normal) var(--fd-easing);
+  }
+
+  .fd-wizard__step[data-state='current'] .fd-wizard__marker {
+    border-color: var(--fd-color-primary);
+    color: var(--fd-color-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--fd-color-primary) 18%, transparent);
+    transform: scale(1.08);
+  }
+
+  .fd-wizard__step[data-state='completed'] .fd-wizard__marker {
+    border-color: var(--fd-color-primary);
+    background: var(--fd-color-primary);
+    color: var(--fd-color-primary-text);
+  }
+
+  .fd-wizard__step-label {
+    font-size: 0.72rem;
+    color: var(--fd-color-text-muted);
+    max-width: 84px;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .fd-wizard__step[data-state='current'] .fd-wizard__step-label {
+    color: var(--fd-color-text);
+    font-weight: 600;
+  }
+
+  .fd-wizard__connector {
+    flex: 1;
+    height: 2px;
+    margin: 13px 4px 0;
+    background: var(--fd-color-border);
+    transition: background var(--fd-duration-normal) var(--fd-easing);
+  }
+
+  .fd-wizard__connector[data-state='completed'] {
+    background: var(--fd-color-primary);
+  }
+
+  .fd-wizard__viewport {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fd-wizard__panel {
+    min-height: 40px;
+  }
+
+  .fd-wizard {
+    display: grid;
+    gap: var(--fd-spacing-md);
+  }
+  .fd-wizard__progress {
+    color: var(--fd-color-text-muted);
+    font-size: 0.8rem;
+  }
+  .fd-wizard__title {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .fd-wizard__navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--fd-spacing-sm);
+  }
+}

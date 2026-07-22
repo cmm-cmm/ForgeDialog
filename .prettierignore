@@ -1,0 +1,8 @@
+dist
+coverage
+etc
+node_modules
+playwright-report
+test-results
+temp
+.consumer-builds

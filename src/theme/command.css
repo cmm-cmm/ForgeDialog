@@ -1,0 +1,26 @@
+@layer forgedialog.components {
+  .fd-command-palette {
+    align-self: flex-start;
+    margin-top: min(15vh, 120px);
+  }
+  .fd-command-list {
+    display: grid;
+    gap: 4px;
+    margin-top: 8px;
+    max-height: 50vh;
+    overflow: auto;
+  }
+  .fd-command {
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .fd-command:hover,
+  .fd-command:focus-visible {
+    background: var(--fd-color-secondary);
+  }
+}

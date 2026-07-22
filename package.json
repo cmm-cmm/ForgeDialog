@@ -1,15 +1,37 @@
 {
   "name": "forgedialog",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmm-cmm/ForgeDialog.git"
+  },
+  "homepage": "https://github.com/cmm-cmm/ForgeDialog#readme",
+  "bugs": "https://github.com/cmm-cmm/ForgeDialog/issues",
+  "engines": {
+    "node": ">=18"
+  },
+  "browserslist": [
+    "Chrome >= 88",
+    "Firefox >= 78",
+    "Safari >= 15.4",
+    "Edge >= 88"
+  ],
   "sideEffects": [
-    "*.css"
+    "**/*.css",
+    "./src/interactions-entry.ts",
+    "./dist/interactions.mjs",
+    "./dist/interactions.cjs",
+    "./src/animations-entry.ts",
+    "./dist/animations.mjs",
+    "./dist/animations.cjs"
   ],
   "files": [
     "dist",
-    "!dist/**/*.map"
+    "!dist/**/*.map",
+    "!dist/style-*.mjs"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -17,50 +39,147 @@
   "unpkg": "./dist/index.global.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./core": {
-      "types": "./dist/core.d.ts",
-      "import": "./dist/core.mjs",
-      "require": "./dist/core.cjs"
+      "import": {
+        "types": "./dist/core.d.ts",
+        "default": "./dist/core.mjs"
+      },
+      "require": {
+        "types": "./dist/core.d.cts",
+        "default": "./dist/core.cjs"
+      }
+    },
+    "./alert": {
+      "import": {
+        "types": "./dist/alert.d.ts",
+        "default": "./dist/alert.mjs"
+      },
+      "require": {
+        "types": "./dist/alert.d.cts",
+        "default": "./dist/alert.cjs"
+      }
+    },
+    "./confirm": {
+      "import": {
+        "types": "./dist/confirm.d.ts",
+        "default": "./dist/confirm.mjs"
+      },
+      "require": {
+        "types": "./dist/confirm.d.cts",
+        "default": "./dist/confirm.cjs"
+      }
+    },
+    "./prompt": {
+      "import": {
+        "types": "./dist/prompt.d.ts",
+        "default": "./dist/prompt.mjs"
+      },
+      "require": {
+        "types": "./dist/prompt.d.cts",
+        "default": "./dist/prompt.cjs"
+      }
     },
     "./presentation": {
-      "types": "./dist/presentation.d.ts",
-      "import": "./dist/presentation.mjs",
-      "require": "./dist/presentation.cjs"
+      "import": {
+        "types": "./dist/presentation.d.ts",
+        "default": "./dist/presentation.mjs"
+      },
+      "require": {
+        "types": "./dist/presentation.d.cts",
+        "default": "./dist/presentation.cjs"
+      }
+    },
+    "./interactions": {
+      "import": {
+        "types": "./dist/interactions.d.ts",
+        "default": "./dist/interactions.mjs"
+      },
+      "require": {
+        "types": "./dist/interactions.d.cts",
+        "default": "./dist/interactions.cjs"
+      }
+    },
+    "./animations": {
+      "import": {
+        "types": "./dist/animations.d.ts",
+        "default": "./dist/animations.mjs"
+      },
+      "require": {
+        "types": "./dist/animations.d.cts",
+        "default": "./dist/animations.cjs"
+      }
     },
     "./workflows": {
-      "types": "./dist/workflows.d.ts",
-      "import": "./dist/workflows.mjs",
-      "require": "./dist/workflows.cjs"
+      "import": {
+        "types": "./dist/workflows.d.ts",
+        "default": "./dist/workflows.mjs"
+      },
+      "require": {
+        "types": "./dist/workflows.d.cts",
+        "default": "./dist/workflows.cjs"
+      }
     },
     "./react": {
-      "types": "./dist/react.d.ts",
-      "import": "./dist/react.mjs",
-      "require": "./dist/react.cjs"
+      "import": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.mjs"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
     },
     "./vue": {
-      "types": "./dist/vue.d.ts",
-      "import": "./dist/vue.mjs",
-      "require": "./dist/vue.cjs"
+      "import": {
+        "types": "./dist/vue.d.ts",
+        "default": "./dist/vue.mjs"
+      },
+      "require": {
+        "types": "./dist/vue.d.cts",
+        "default": "./dist/vue.cjs"
+      }
     },
     "./svelte": {
-      "types": "./dist/svelte.d.ts",
-      "import": "./dist/svelte.mjs",
-      "require": "./dist/svelte.cjs"
+      "import": {
+        "types": "./dist/svelte.d.ts",
+        "default": "./dist/svelte.mjs"
+      },
+      "require": {
+        "types": "./dist/svelte.d.cts",
+        "default": "./dist/svelte.cjs"
+      }
     },
     "./web-component": {
-      "types": "./dist/web-component.d.ts",
-      "import": "./dist/web-component.mjs",
-      "require": "./dist/web-component.cjs"
+      "import": {
+        "types": "./dist/web-component.d.ts",
+        "default": "./dist/web-component.mjs"
+      },
+      "require": {
+        "types": "./dist/web-component.d.cts",
+        "default": "./dist/web-component.cjs"
+      }
     },
     "./style.css": "./dist/index.css",
+    "./style/core.css": "./dist/style-core.css",
+    "./style/forms.css": "./dist/style-forms.css",
+    "./style/workflows.css": "./dist/style-workflows.css",
+    "./style/toast.css": "./dist/style-toast.css",
+    "./style/lightbox.css": "./dist/style-lightbox.css",
+    "./style/command.css": "./dist/style-command.css",
+    "./style/draggable.css": "./dist/style-draggable.css",
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && node scripts/clean-dist.mjs",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -68,9 +187,25 @@
     "test:e2e": "playwright test",
     "test:all": "npm test && npm run test:coverage && npm run test:e2e",
     "size": "npm run build && node scripts/check-size.mjs",
+    "analyze": "node scripts/analyze-bundle.mjs",
+    "test:treeshake": "node scripts/check-treeshaking.mjs",
+    "check:package": "publint && attw --pack . --ignore-rules=no-resolution",
+    "api:check": "api-extractor run",
+    "api:update": "api-extractor run --local",
+    "api:subpaths": "node scripts/check-subpath-apis.mjs",
+    "api:subpaths:update": "node scripts/check-subpath-apis.mjs --local",
+    "test:consumers": "node scripts/check-consumers.mjs",
+    "test:csp": "node scripts/check-csp.mjs",
+    "package:size": "node scripts/check-tarball.mjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "npm run build && npm run check:package && npm publish --provenance --access public",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests e2e",
     "format": "prettier --write .",
+    "format:check": "prettier --check src tests e2e scripts docs .github README.md CHANGELOG.md package.json playwright.config.ts tsup.config.ts vitest.config.ts",
+    "validate": "npm run typecheck && npm run lint && npm run test:coverage && npm run size && npm run test:treeshake && npm run check:package && npm run api:check && npm run api:subpaths && npm run test:consumers && npm run test:csp && npm run package:size",
+    "validate:all": "npm run validate && npm run test:e2e",
     "demo": "npm run build && serve .",
     "prepublishOnly": "npm run build"
   },
@@ -83,10 +218,14 @@
     "ui"
   ],
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@axe-core/playwright": "^4.12.1",
+    "@changesets/cli": "^2.31.1",
+    "@microsoft/api-extractor": "^7.58.12",
     "@playwright/test": "^1.61.1",
     "@types/node": "^20.14.0",
     "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "@vitest/coverage-v8": "^4.1.10",
@@ -95,12 +234,17 @@
     "eslint-config-prettier": "^9.1.0",
     "jsdom": "^24.1.0",
     "prettier": "^3.3.2",
+    "publint": "^0.3.21",
     "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "serve": "^14.2.6",
     "tsup": "^8.1.0",
     "typescript": "^5.5.3",
+    "vite": "^8.1.5",
     "vitest": "^4.1.10",
-    "vue": "^3.5.40"
+    "vue": "^3.5.40",
+    "webpack": "^5.108.4",
+    "webpack-cli": "^7.2.1"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -116,5 +260,8 @@
   },
   "overrides": {
     "esbuild": "^0.28.1"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true
   }
 }

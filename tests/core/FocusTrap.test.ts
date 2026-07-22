@@ -71,6 +71,15 @@ describe('FocusTrap', () => {
     expect(document.activeElement).toBe(outsideButton);
   });
 
+  it('can defer focus restoration until a native dialog has been removed', () => {
+    const trap = new FocusTrap(container);
+    trap.activate();
+    trap.deactivate(false);
+    expect(document.activeElement).toBe(first);
+    trap.restoreFocus();
+    expect(document.activeElement).toBe(outsideButton);
+  });
+
   it('ignores Tab events when focus is outside the trapped container', () => {
     const other = document.createElement('div');
     const otherButton = document.createElement('button');

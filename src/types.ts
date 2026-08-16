@@ -63,6 +63,8 @@ export interface DialogLabels {
   promptPlaceholder?: string;
   submit?: string;
   fieldRequired?: string;
+  /** Accessible name for the toast notification region. */
+  notifications?: string;
 }
 
 export interface ButtonConfig<TResult = unknown> {

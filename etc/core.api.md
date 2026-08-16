@@ -103,6 +103,7 @@ export interface DialogLabels {
     close: string;
     // (undocumented)
     fieldRequired?: string;
+    notifications?: string;
     // (undocumented)
     ok: string;
     // (undocumented)

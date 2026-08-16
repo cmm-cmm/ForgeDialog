@@ -14,6 +14,28 @@ describe('Dialog v2 lifecycle', () => {
     await expect(dialog.whenSettled()).resolves.toEqual({ result: true, reason: 'button' });
   });
 
+  it('updates className safely when it contains padding or repeated whitespace', async () => {
+    const dialog = new Dialog(
+      { className: '  legacy  theme ' },
+      labels,
+      new DialogStackManager(),
+      new PluginManager(),
+    );
+    await dialog.open();
+    const surface = dialog.element.querySelector<HTMLElement>('.fd-dialog')!;
+    expect(surface.classList.contains('legacy')).toBe(true);
+
+    // Regression: empty tokens from split() made classList throw a SyntaxError.
+    expect(() => dialog.update({ className: ' fresh  skin ' })).not.toThrow();
+    expect(surface.classList.contains('legacy')).toBe(false);
+    expect(surface.classList.contains('fresh')).toBe(true);
+    expect(surface.classList.contains('skin')).toBe(true);
+
+    expect(() => dialog.update({ className: undefined })).not.toThrow();
+    expect(surface.classList.contains('fresh')).toBe(false);
+    await dialog.close();
+  });
+
   it('supports cancellable beforeClose hooks', async () => {
     const plugins = new PluginManager();
     plugins.on('beforeClose', (context) => context.preventClose?.());

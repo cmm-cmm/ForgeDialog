@@ -26,6 +26,9 @@ for (const entry of entries) {
       docModel: { enabled: false },
       dtsRollup: { enabled: false },
       tsdocMetadata: { enabled: false },
+      // Keep reports byte-identical across platforms so checked-in API
+      // snapshots do not churn on Windows checkouts.
+      newlineKind: 'lf',
       messages: {
         extractorMessageReporting: {
           default: { logLevel: 'warning' },

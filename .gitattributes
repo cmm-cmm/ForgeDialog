@@ -1,0 +1,7 @@
+# Normalize line endings so generated reports and sources stay byte-identical
+# across platforms.
+* text=auto eol=lf
+
+# Generated snapshots: keep diffs readable but do not treat them as authored.
+etc/*.api.md linguist-generated=true
+package-lock.json linguist-generated=true

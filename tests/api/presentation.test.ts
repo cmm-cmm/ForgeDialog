@@ -1,4 +1,5 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { resetLabelsForTests, setLabels } from '../../src/i18n/defaultLabels';
 import { bottomSheet, drawer, lightbox, loading } from '../../src/api/presentation';
 import { commandPalette } from '../../src/api/commandPalette';
 import {
@@ -33,6 +34,69 @@ describe('presentation APIs', () => {
     expect(getNotificationHistory()[0]).toMatchObject({ message: 'Saved', tone: 'success' });
     handle.dismiss();
     expect(document.getElementById(handle.id)).toBeNull();
+  });
+
+  it('keeps toasts until dismissed when the duration is zero or infinite', () => {
+    vi.useFakeTimers();
+    try {
+      const sticky = toast('Upload in progress', { duration: 0 });
+      const endless = toast('Connection lost', { tone: 'danger', duration: Infinity });
+
+      // Regression: setTimeout coerces these delays to 0, so the toasts used to
+      // disappear on the next tick instead of waiting for an explicit dismiss.
+      vi.advanceTimersByTime(60_000);
+      expect(document.getElementById(sticky.id)).not.toBeNull();
+      expect(document.getElementById(endless.id)).not.toBeNull();
+
+      sticky.dismiss();
+      endless.dismiss();
+      expect(document.getElementById(sticky.id)).toBeNull();
+      expect(document.getElementById(endless.id)).toBeNull();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('auto-dismisses after the configured duration and clears the timer on action', async () => {
+    vi.useFakeTimers();
+    try {
+      const expiring = toast('Saved', { duration: 5_000 });
+      vi.advanceTimersByTime(4_999);
+      expect(document.getElementById(expiring.id)).not.toBeNull();
+      vi.advanceTimersByTime(1);
+      expect(document.getElementById(expiring.id)).toBeNull();
+
+      let undone = false;
+      const withAction = toast('Item deleted', {
+        duration: 5_000,
+        action: {
+          text: 'Undo',
+          onClick: () => {
+            undone = true;
+          },
+        },
+      });
+      const element = document.getElementById(withAction.id)!;
+      element.querySelector<HTMLButtonElement>('.fd-toast__action')!.click();
+      await vi.runAllTimersAsync();
+      expect(undone).toBe(true);
+      expect(document.getElementById(withAction.id)).toBeNull();
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('labels the toast region using the configured locale', () => {
+    setLabels({ notifications: 'Thông báo' });
+    try {
+      toast('Xin chào', { duration: 10_000 });
+      expect(document.querySelector('.fd-toast-region')?.getAttribute('aria-label')).toBe(
+        'Thông báo',
+      );
+    } finally {
+      resetLabelsForTests();
+    }
   });
 
   it('opens bottom sheets and accessible lightboxes', async () => {

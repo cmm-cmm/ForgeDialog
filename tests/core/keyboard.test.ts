@@ -24,4 +24,50 @@ describe('keyboard utils', () => {
     const focusable = getFocusableElements(container);
     expect(focusable).toHaveLength(3);
   });
+
+  it('skips hidden inputs, which cannot receive focus', () => {
+    const container = document.createElement('div');
+    container.innerHTML = '<input type="hidden" name="csrf" /><button>Send</button>';
+    document.body.appendChild(container);
+
+    const focusable = getFocusableElements(container);
+    expect(focusable.map((element) => element.tagName)).toEqual(['BUTTON']);
+
+    // Regression: focusing a hidden input silently leaves focus on <body>,
+    // which let focus escape the dialog entirely.
+    focusable[0].focus();
+    expect(document.activeElement).toBe(focusable[0]);
+
+    container.remove();
+  });
+
+  it('skips elements inside hidden, inert, or aria-hidden subtrees', () => {
+    const container = document.createElement('div');
+    container.innerHTML = `
+      <div hidden><button>Hidden</button></div>
+      <div inert><button>Inert</button></div>
+      <div aria-hidden="true"><button>Aria hidden</button></div>
+      <button>Visible</button>
+    `;
+    const focusable = getFocusableElements(container);
+    expect(focusable.map((element) => element.textContent)).toEqual(['Visible']);
+  });
+
+  it('includes summary, iframe, media, and contenteditable targets', () => {
+    const container = document.createElement('div');
+    container.innerHTML = `
+      <details><summary>More</summary><p>body</p></details>
+      <iframe title="frame"></iframe>
+      <video controls></video>
+      <div contenteditable="true">edit</div>
+      <div contenteditable="false">static</div>
+    `;
+    const focusable = getFocusableElements(container);
+    expect(focusable.map((element) => element.tagName)).toEqual([
+      'SUMMARY',
+      'IFRAME',
+      'VIDEO',
+      'DIV',
+    ]);
+  });
 });

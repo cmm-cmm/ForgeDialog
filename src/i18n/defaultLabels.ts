@@ -7,6 +7,7 @@ const defaultLabels: DialogLabels = {
   promptPlaceholder: '',
   submit: 'Submit',
   fieldRequired: 'This field is required.',
+  notifications: 'Notifications',
 };
 
 let currentLabels: DialogLabels = { ...defaultLabels };

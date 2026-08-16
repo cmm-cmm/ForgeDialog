@@ -126,6 +126,7 @@ export interface DialogLabels {
     close: string;
     // (undocumented)
     fieldRequired?: string;
+    notifications?: string;
     // (undocumented)
     ok: string;
     // (undocumented)
@@ -515,7 +516,6 @@ export interface ToastOptions {
         text: string;
         onClick: () => void | Promise<void>;
     };
-    // (undocumented)
     duration?: number;
     // (undocumented)
     tone?: ToastTone;

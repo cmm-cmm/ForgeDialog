@@ -53,7 +53,11 @@ export class DialogStackManager {
   }
 
   resetForTests(): void {
+    // A single scroll lock is taken when the stack goes from empty to non-empty,
+    // so exactly one release is owed when the stack is discarded.
+    const wasLocked = this.stack.length > 0;
     this.stack = [];
+    if (wasLocked) unlockScroll();
     this.detachEscapeListener();
   }
 

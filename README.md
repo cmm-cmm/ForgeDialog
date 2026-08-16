@@ -1,4 +1,4 @@
-# ForgeDialog 0.5
+# ForgeDialog 0.6
 
 _A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows._
 
@@ -72,17 +72,17 @@ const result = await instance.whenClosed();
 
 ## API
 
-| Function                               | Returns                 | Description                                                  |
-| -------------------------------------- | ----------------------- | ------------------------------------------------------------ |
-| `alert(message, options?)`             | `Promise<void>`         | Single-button informational dialog.                          |
-| `confirm(message, options?)`           | `Promise<boolean>`      | OK/Cancel dialog; resolves `false` on Escape/overlay close.  |
-| `prompt(message, options?)`            | `Promise<string\|null>` | Text-input dialog with optional `validate()`.                |
-| `open(options)`                        | `DialogInstance`        | Low-level API for fully custom dialogs.                      |
-| `setTheme('light'\|'dark'\|'system')`  | `void`                  | Overrides the OS color-scheme preference.                    |
-| `getTheme()`                           | `ThemeMode`             | Reads the current theme override.                            |
-| `setLabels(overrides)` / `getLabels()` | `void` / `DialogLabels` | Overrides default button labels (`ok`, `cancel`, `close`).   |
-| `registerPlugin(plugin)`               | `void`                  | Registers a plugin (`{ name, install?, hooks? }`).           |
-| `on(hookName, fn)` / `off(...)`        | `void`                  | Shorthand for a single lifecycle hook without a full plugin. |
+| Function                               | Returns                 | Description                                                          |
+| -------------------------------------- | ----------------------- | -------------------------------------------------------------------- |
+| `alert(message, options?)`             | `Promise<void>`         | Single-button informational dialog.                                  |
+| `confirm(message, options?)`           | `Promise<boolean>`      | OK/Cancel dialog; resolves `false` on Escape/overlay close.          |
+| `prompt(message, options?)`            | `Promise<string\|null>` | Text-input dialog with optional `validate()`.                        |
+| `open(options)`                        | `DialogInstance`        | Low-level API for fully custom dialogs.                              |
+| `setTheme('light'\|'dark'\|'system')`  | `void`                  | Overrides the OS color-scheme preference.                            |
+| `getTheme()`                           | `ThemeMode`             | Reads the current theme override.                                    |
+| `setLabels(overrides)` / `getLabels()` | `void` / `DialogLabels` | Overrides default labels (`ok`, `cancel`, `close`, `notifications`). |
+| `registerPlugin(plugin)`               | `void`                  | Registers a plugin (`{ name, install?, hooks? }`).                   |
+| `on(hookName, fn)` / `off(...)`        | `void`                  | Shorthand for a single lifecycle hook without a full plugin.         |
 
 `DialogInstance` exposes `open()`, `close(result?)`, `whenClosed()`, `update(partialOptions)`,
 `isOpen()`, and the position methods `getPosition()`, `setPosition()`, and `resetPosition()`.
@@ -142,6 +142,10 @@ palettes, and persisted branching wizards.
 import { drawer, toast, wizard } from 'forgedialog';
 
 toast('Saved', { tone: 'success' });
+// A duration of 0 or Infinity keeps the toast until dismiss() is called.
+const upload = toast('Uploading…', { duration: 0 });
+upload.dismiss();
+
 drawer({ title: 'Settings', side: 'right', content: renderSettings });
 
 const flow = wizard({

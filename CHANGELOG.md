@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.6.0
+
+- Fixed focus trapping skipping over targets that cannot receive focus: hidden inputs and anything
+  inside a `[hidden]`, `[inert]`, or `aria-hidden="true"` subtree. A dialog whose form started with a
+  hidden field, such as a CSRF token, previously left focus on `<body>` so the trap never engaged.
+- Added `summary`, `iframe`, `audio[controls]`, `video[controls]`, and `contenteditable` elements to
+  focus detection.
+- Fixed `update({ className })` throwing `SyntaxError` when the class string was padded, empty, or
+  contained repeated whitespace.
+- Fixed `toast()` dismissing immediately for a duration of `0` or `Infinity`; both now keep the toast
+  until it is dismissed explicitly.
+- Fixed the toast auto-dismiss timer leaking when a toast was dismissed through its action button.
+- Added a `notifications` label so the toast region name can be localized with `setLabels()`.
+- Fixed `resetForTests()` on the dialog stack leaving the body scroll locked.
+- Pinned generated API reports to LF endings and normalized line endings repository-wide so the
+  checked-in snapshots stop churning on Windows checkouts.
+- Updated development dependencies to clear all reported advisories.
+
 ## 0.5.0
 
 - Added scoped surface/backdrop opacity, backdrop blur, border, and shadow appearance controls.

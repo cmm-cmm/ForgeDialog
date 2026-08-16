@@ -85,7 +85,6 @@ export interface ToastOptions {
         text: string;
         onClick: () => void | Promise<void>;
     };
-    // (undocumented)
     duration?: number;
     // (undocumented)
     tone?: ToastTone;

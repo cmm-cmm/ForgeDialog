@@ -22,6 +22,7 @@ describe('i18n labels', () => {
       promptPlaceholder: '',
       submit: 'Submit',
       fieldRequired: 'This field is required.',
+      notifications: 'Notifications',
     });
   });
 

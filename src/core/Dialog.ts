@@ -24,6 +24,14 @@ import {
 import { FocusTrap } from './FocusTrap';
 import { createDraggable, type DraggableHandle } from './interactionRegistry';
 
+/**
+ * Splits a `className` option into safe tokens. `classList` throws on empty
+ * tokens, so padded or whitespace-only values must not reach it.
+ */
+function toClassTokens(className: string | undefined): string[] {
+  return className ? className.split(/\s+/).filter(Boolean) : [];
+}
+
 export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
   readonly id: string;
   readonly element: HTMLElement;
@@ -234,8 +242,10 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
       this.dialogEl.classList.add(`fd-dialog--${partial.presentation ?? 'modal'}`);
     }
     if ('className' in partial) {
-      if (previous.className) this.dialogEl.classList.remove(...previous.className.split(/\s+/));
-      if (partial.className) this.dialogEl.classList.add(...partial.className.split(/\s+/));
+      const previousTokens = toClassTokens(previous.className);
+      const nextTokens = toClassTokens(partial.className);
+      if (previousTokens.length > 0) this.dialogEl.classList.remove(...previousTokens);
+      if (nextTokens.length > 0) this.dialogEl.classList.add(...nextTokens);
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "forgedialog",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows.",
   "type": "module",
   "license": "MIT",

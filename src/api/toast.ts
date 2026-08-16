@@ -1,10 +1,15 @@
 import { generateId } from '../utils/id';
+import { getLabels } from '../i18n/defaultLabels';
 import { open } from './open';
 import type { DialogInstance } from '../types';
 
 export type ToastTone = 'info' | 'success' | 'warning' | 'danger';
 export interface ToastOptions {
   tone?: ToastTone;
+  /**
+   * Auto-dismiss delay in milliseconds. Defaults to 4000. Pass `0` or
+   * `Infinity` to keep the toast until it is dismissed explicitly.
+   */
   duration?: number;
   action?: { text: string; onClick: () => void | Promise<void> };
 }
@@ -16,11 +21,17 @@ export interface ToastHandle {
 let region: HTMLElement | undefined;
 const history: Array<{ id: string; message: string; tone: ToastTone; createdAt: number }> = [];
 
+const DEFAULT_TOAST_DURATION = 4000;
+
 function getRegion(): HTMLElement {
-  if (region?.isConnected) return region;
+  const label = getLabels().notifications ?? 'Notifications';
+  if (region?.isConnected) {
+    region.setAttribute('aria-label', label);
+    return region;
+  }
   region = document.createElement('section');
   region.className = 'fd-toast-region';
-  region.setAttribute('aria-label', 'Notifications');
+  region.setAttribute('aria-label', label);
   document.body.appendChild(region);
   return region;
 }
@@ -35,28 +46,42 @@ export function toast(message: string, options: ToastOptions = {}): ToastHandle 
   const text = document.createElement('span');
   text.textContent = message;
   element.appendChild(text);
+
+  let timer: number | undefined;
+  const dismiss = (): void => {
+    if (timer !== undefined) {
+      window.clearTimeout(timer);
+      timer = undefined;
+    }
+    element.remove();
+  };
+
   if (options.action) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'fd-toast__action';
     button.textContent = options.action.text;
     button.addEventListener('click', async () => {
-      await options.action?.onClick();
-      element.remove();
+      try {
+        await options.action?.onClick();
+      } finally {
+        dismiss();
+      }
     });
     element.appendChild(button);
   }
   getRegion().appendChild(element);
   history.unshift({ id, message, tone, createdAt: Date.now() });
   if (history.length > 100) history.length = 100;
-  const timer = window.setTimeout(() => element.remove(), options.duration ?? 4000);
-  return {
-    id,
-    dismiss: () => {
-      window.clearTimeout(timer);
-      element.remove();
-    },
-  };
+
+  const duration = options.duration ?? DEFAULT_TOAST_DURATION;
+  // A non-positive or non-finite delay would be coerced to 0 by setTimeout and
+  // dismiss the toast immediately; treat it as "keep until dismissed" instead.
+  if (Number.isFinite(duration) && duration > 0) {
+    timer = window.setTimeout(dismiss, duration);
+  }
+
+  return { id, dismiss };
 }
 
 export function getNotificationHistory() {

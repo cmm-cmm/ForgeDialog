@@ -266,6 +266,14 @@ local development and pull requests never publish packages.
 Supported baselines are Chrome/Edge 88+, Firefox 78+, Safari 15.4+, and Node.js 20+ for package
 tooling and SSR imports.
 
+## Contributing
+
+Setup, the checks CI runs, and the gotchas worth knowing are in
+[CONTRIBUTING.md](CONTRIBUTING.md). Participation is governed by our
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
+Found a security issue? Please report it privately — see [SECURITY.md](SECURITY.md).
+
 ## License
 
 MIT

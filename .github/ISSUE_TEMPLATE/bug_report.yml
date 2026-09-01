@@ -1,0 +1,72 @@
+name: Bug report
+description: Something in ForgeDialog behaves differently than documented
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please do not use this form for security
+        vulnerabilities — report those privately through a
+        [draft security advisory](https://github.com/cmm-cmm/ForgeDialog/security/advisories/new).
+
+  - type: input
+    id: version
+    attributes:
+      label: ForgeDialog version
+      placeholder: 0.7.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: entry
+    attributes:
+      label: Entry point
+      description: |
+        Which import did you use? This matters: the single-purpose entries ship a
+        lightweight appearance applier and ignore the richer options unless
+        `forgedialog/appearance` is imported alongside them.
+      options:
+        - forgedialog
+        - forgedialog/core
+        - forgedialog/alert, /confirm or /prompt
+        - forgedialog/presentation
+        - forgedialog/workflows
+        - A framework adapter (react, vue, svelte, web-component)
+        - Script tag / IIFE global
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and bundler
+      description: Include versions where you can.
+      placeholder: Chrome 141, Vite 7
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: |
+        The smallest code that shows the problem, or a link to a running example.
+        `demo/index.html` in this repository is a good starting point.
+      render: ts
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected, and what happened instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Console errors, screenshots, or a recording for visual issues.
+    validations:
+      required: false

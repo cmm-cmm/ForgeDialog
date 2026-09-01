@@ -217,7 +217,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests e2e",
     "format": "prettier --write .",
-    "format:check": "prettier --check src tests e2e scripts docs .github README.md CHANGELOG.md package.json playwright.config.ts tsup.config.ts vitest.config.ts",
+    "format:check": "prettier --check .",
     "validate": "npm run typecheck && npm run lint && npm run test:coverage && npm run size && npm run test:treeshake && npm run check:package && npm run api:check && npm run api:subpaths && npm run test:consumers && npm run test:capabilities && npm run test:csp && npm run package:size",
     "validate:all": "npm run validate && npm run test:e2e",
     "demo": "npm run build && serve .",

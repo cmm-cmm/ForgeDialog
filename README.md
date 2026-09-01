@@ -261,7 +261,8 @@ npm run demo         # build and serve the demo/ page
 
 Releases use Changesets (`npm run changeset`) and the protected GitHub release workflow. The
 workflow generates a CycloneDX SBOM and publishes with npm provenance through trusted publishing;
-local development and pull requests never publish packages.
+local development and pull requests never publish packages. The process, and the one-time npm setup
+it depends on, are in [docs/releasing.md](docs/releasing.md).
 
 Supported baselines are Chrome/Edge 88+, Firefox 78+, Safari 15.4+, and Node.js 20+ for package
 tooling and SSR imports.

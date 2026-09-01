@@ -11,6 +11,8 @@ on:
 
 permissions:
   contents: read
+  # Required for npm trusted publishing: npm exchanges this token for a
+  # short-lived credential, so no NPM_TOKEN secret is needed.
   id-token: write
 
 jobs:
@@ -24,7 +26,17 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
+
+      # Trusted publishing needs a recent npm; the version bundled with Node
+      # varies by patch release, so pin it here rather than inherit it.
+      - name: Use an npm that supports trusted publishing
+        run: |
+          npm install -g npm@latest
+          npm --version
+
       - run: npm ci
+      - name: Verify the release is publishable
+        run: npm run check:release
       - run: npx playwright install --with-deps
       - run: npm run validate:all
       - run: npm sbom --sbom-format cyclonedx > forgedialog-sbom.json
@@ -32,9 +44,12 @@ jobs:
         with:
           name: forgedialog-sbom
           path: forgedialog-sbom.json
+
       - name: Publish to npm with OIDC
         if: vars.NPM_PUBLISH_ENABLED == 'true'
-        run: npm publish --access public
+        run: npm publish
       - name: Skip npm publishing until trusted publishing is enabled
         if: vars.NPM_PUBLISH_ENABLED != 'true'
-        run: echo "Set the NPM_PUBLISH_ENABLED repository variable after configuring npm trusted publishing."
+        run: |
+          echo "NPM_PUBLISH_ENABLED is not 'true', so nothing was published."
+          echo "See docs/releasing.md for the one-time npm setup."

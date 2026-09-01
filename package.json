@@ -34,8 +34,12 @@
   "files": [
     "dist",
     "!dist/**/*.map",
-    "!dist/style-*.mjs"
+    "!dist/style-*.mjs",
+    "CHANGELOG.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -211,9 +215,10 @@
     "test:capabilities": "node scripts/check-capabilities.mjs",
     "test:csp": "node scripts/check-csp.mjs",
     "package:size": "node scripts/check-tarball.mjs",
+    "check:release": "node scripts/check-release.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "npm run validate:all && npm publish --access public",
+    "release": "npm run validate:all && npm run check:release && npm publish",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests e2e",
     "format": "prettier --write .",

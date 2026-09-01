@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ForgeDialog — accessible, dependency-free dialogs for the web</title>
+    <meta
+      name="description"
+      content="A modern, lightweight, dependency-free TypeScript dialog library: alerts, confirmations, prompts, drawers, wizards, and fully customizable appearance."
+    />
+    <meta property="og:title" content="ForgeDialog" />
+    <meta
+      property="og:description"
+      content="Accessible, dependency-free dialogs for the web. Alerts, confirmations, prompts, drawers, wizards, and fully customizable appearance."
+    />
+    <meta property="og:type" content="website" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>&#128172;</text></svg>"
+    />
+    <link rel="stylesheet" href="./vendor/index.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">
+          ForgeDialog
+          <span class="version" id="version">…</span>
+        </a>
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#playground">Playground</a>
+        <a class="nav-link" href="#examples">Examples</a>
+        <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <button class="btn btn--sm" id="theme-toggle" aria-pressed="false">Dark</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <div class="wrap hero">
+        <h1>Dialogs that behave themselves.</h1>
+        <p class="lead">
+          A dependency-free TypeScript dialog library built on the native
+          <code>&lt;dialog&gt;</code> element. Accessible by default, themeable down to individual
+          components, and small enough that an alert-only bundle stays under 6&nbsp;KB gzipped.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn--primary" id="try-alert">Try an alert</button>
+          <button class="btn" id="try-confirm">Confirm</button>
+          <button class="btn" id="try-prompt">Prompt</button>
+          <button class="btn" id="try-wizard">Styled dialog</button>
+        </div>
+
+        <div class="install">
+          <code id="install-cmd">npm install forgedialog</code>
+          <button class="copy" data-copy="#install-cmd">Copy</button>
+        </div>
+      </div>
+
+      <section id="features">
+        <div class="wrap">
+          <h2>What you get</h2>
+          <p class="section-lead">
+            Everything below is in the published package — no plugins to install, no peer
+            dependencies to satisfy.
+          </p>
+
+          <div class="features">
+            <article class="feature">
+              <h3>Accessible by default</h3>
+              <p>
+                Focus is trapped and restored, Escape and backdrop clicks are wired up, and ARIA
+                roles are set for you. Focus detection skips targets that only look focusable.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Styled per component</h3>
+              <p>
+                Colour and opacity for the surface, title, body, and border. Corner radius per
+                corner. Shadows composed from an angle, distance, blur, and strength.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Hover, drag, and gestures</h3>
+              <p>
+                Opt-in hover restyling with lift and scale. Draggable dialogs with axis locks,
+                bounds, keyboard movement, and persisted positions. Swipe-to-dismiss sheets.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>More than alerts</h3>
+              <p>
+                Drawers, bottom sheets, lightboxes, loading states, toasts, a command palette, and
+                persisted branching wizards — all from the same core.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Honest bundles</h3>
+              <p>
+                Tree-shakable entry points with enforced gzip budgets. Import
+                <code>forgedialog/alert</code> and you pay for an alert, not the whole library.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Fits your stack</h3>
+              <p>
+                ESM, CJS, and a browser global, with adapters for React, Vue, Svelte, and Web
+                Components. Typed throughout, SSR-safe, and clean under a strict CSP.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="playground">
+        <div class="wrap">
+          <h2>Playground</h2>
+          <p class="section-lead">
+            Change anything below and the dialog restyles live. The code updates with it — copy it
+            and you have the same dialog in your app.
+          </p>
+
+          <div class="playground">
+            <form class="controls" id="controls" aria-label="Dialog appearance controls">
+              <div class="control">
+                <label for="c-surface">Surface colour</label>
+                <input type="color" id="c-surface" value="#ffffff" />
+              </div>
+              <div class="control">
+                <label for="c-title">Title colour</label>
+                <input type="color" id="c-title" value="#4c5fd7" />
+              </div>
+              <div class="control">
+                <label for="c-title-bg">Header background</label>
+                <input type="color" id="c-title-bg" value="#eef0ff" />
+              </div>
+              <label class="control--row">
+                <input type="checkbox" id="c-title-bg-on" checked />
+                Use header background
+              </label>
+              <div class="control">
+                <label for="c-border">Border colour</label>
+                <input type="color" id="c-border" value="#4c5fd7" />
+              </div>
+              <div class="control">
+                <label for="c-border-width"
+                  >Border width <output id="o-border-width"></output
+                ></label>
+                <input type="range" id="c-border-width" min="0" max="6" step="1" value="2" />
+              </div>
+              <div class="control">
+                <label for="c-radius">Corner radius <output id="o-radius"></output></label>
+                <input type="range" id="c-radius" min="0" max="36" step="2" value="14" />
+              </div>
+              <div class="control">
+                <label for="c-angle">Shadow angle <output id="o-angle"></output></label>
+                <input type="range" id="c-angle" min="0" max="360" step="15" value="180" />
+              </div>
+              <div class="control">
+                <label for="c-distance">Shadow distance <output id="o-distance"></output></label>
+                <input type="range" id="c-distance" min="0" max="48" step="2" value="18" />
+              </div>
+              <div class="control">
+                <label for="c-strength">Shadow strength <output id="o-strength"></output></label>
+                <input type="range" id="c-strength" min="0" max="1" step="0.05" value="0.3" />
+              </div>
+              <label class="control--row">
+                <input type="checkbox" id="c-hover" checked />
+                Hover effect (lift and recolour)
+              </label>
+              <label class="control--row">
+                <input type="checkbox" id="c-draggable" checked />
+                Draggable by the header
+              </label>
+              <button class="btn btn--primary" type="button" id="open-playground">
+                Open the dialog
+              </button>
+            </form>
+
+            <div class="snippet">
+              <button class="copy" data-copy="#playground-code">Copy</button>
+              <pre><code id="playground-code"></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="examples">
+        <div class="wrap">
+          <h2>Examples</h2>
+          <p class="section-lead">
+            The everyday calls. Each returns a promise, so there is no callback nesting.
+          </p>
+
+          <div class="examples">
+            <article class="example">
+              <h3>Replace the browser built-ins</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-basic">Copy</button>
+                <pre><code id="ex-basic">import { alert, confirm, prompt } from 'forgedialog';
+import 'forgedialog/style.css';
+
+await alert('Saved successfully.', { title: 'Success' });
+
+const ok = await confirm('Delete this item?');
+
+const name = await prompt('What is your name?', {
+  validate: (value) =&gt; value.trim() ? true : 'Name is required',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Build your own dialog</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-open">Copy</button>
+                <pre><code id="ex-open">import { open } from 'forgedialog';
+
+const dialog = open({
+  title: 'Custom dialog',
+  content: (container) =&gt; container.append(renderForm()),
+  buttons: [
+    { text: 'Cancel', onClick: (i) =&gt; i.close(null) },
+    { text: 'Save', role: 'primary', onClick: (i) =&gt; i.close(read()) },
+  ],
+});
+
+const result = await dialog.whenClosed();</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Pay only for what you use</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-entries">Copy</button>
+                <pre><code id="ex-entries">// Just an alert, and nothing else.
+import { alert } from 'forgedialog/alert';
+import 'forgedialog/style/core.css';
+
+// Opt into the richer appearance options on a focused entry.
+import 'forgedialog/appearance';</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Beyond dialogs</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-more">Copy</button>
+                <pre><code id="ex-more">import { drawer, toast, wizard } from 'forgedialog';
+
+// A duration of 0 keeps the toast until dismiss() is called.
+const upload = toast('Uploading…', { duration: 0 });
+
+drawer({ title: 'Settings', side: 'right', content: renderSettings });
+
+const data = await wizard({ steps }).result;</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT licensed. Built with no runtime dependencies.</span>
+        <span>
+          <a href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a> ·
+          <a href="https://www.npmjs.com/package/forgedialog">npm</a> ·
+          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md">Changelog</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="./vendor/index.global.js"></script>
+    <script src="./site.js"></script>
+  </body>
+</html>

@@ -257,6 +257,7 @@ npm run test:consumers # build Vite, Webpack, and Node CJS fixtures
 npm run validate      # run every non-browser quality and packaging gate
 npm run validate:all  # run validate plus the cross-browser suite
 npm run demo         # build and serve the demo/ page
+npm run site         # build and serve the marketing site in site/
 ```
 
 Releases use Changesets (`npm run changeset`) and the protected GitHub release workflow. The
@@ -266,6 +267,12 @@ it depends on, are in [docs/releasing.md](docs/releasing.md).
 
 Supported baselines are Chrome/Edge 88+, Firefox 78+, Safari 15.4+, and Node.js 20+ for package
 tooling and SSR imports.
+
+## Website
+
+`site/` holds a dependency-free landing page with an interactive appearance playground, built and
+served with `npm run site`. Deployment and Cloudflare Pages settings are in
+[docs/website.md](docs/website.md).
 
 ## Contributing
 

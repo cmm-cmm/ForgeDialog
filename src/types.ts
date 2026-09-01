@@ -45,13 +45,31 @@ export interface DialogShadowConfig {
 /** A built-in preset, any valid CSS box-shadow value, or a composed shadow. */
 export type DialogShadow = ShadowPreset | string | DialogShadowConfig;
 
+/** Corner radii, set individually. Omitted corners keep the theme radius. */
+export interface DialogCornerRadius {
+  topLeft?: number | string;
+  topRight?: number | string;
+  bottomRight?: number | string;
+  bottomLeft?: number | string;
+}
+
+/**
+ * One radius for every corner (numbers are CSS pixels), any CSS `border-radius`
+ * value, or a per-corner object.
+ */
+export type DialogRadius = number | string | DialogCornerRadius;
+
 /** Appearance overrides applied only while the pointer is over the dialog. */
 export interface DialogHoverAppearance {
   opacity?: number;
   surfaceColor?: string;
   titleColor?: string;
+  /** Background behind the dialog header. */
+  titleBackground?: string;
   contentColor?: string;
   borderColor?: string;
+  /** Corner rounding. */
+  radius?: DialogRadius;
   shadow?: DialogShadow;
   /** Distance the dialog rises on hover. Numbers are CSS pixels. */
   lift?: number | string;
@@ -72,6 +90,8 @@ export interface DialogAppearance {
   surfaceColor?: string;
   /** Color of the dialog title. */
   titleColor?: string;
+  /** Background behind the dialog header, transparent by default. */
+  titleBackground?: string;
   /** Title opacity from 0 (transparent) to 1 (opaque). */
   titleOpacity?: number;
   /** Color of the dialog body, including the default message paragraph. */
@@ -83,6 +103,8 @@ export interface DialogAppearance {
   borderOpacity?: number;
   borderWidth?: number | string;
   borderStyle?: 'none' | 'solid' | 'dashed' | 'dotted' | 'double';
+  /** Corner rounding: one value for every corner, a CSS value, or per corner. */
+  radius?: DialogRadius;
   /** A built-in preset, any valid CSS box-shadow value, or a composed shadow. */
   shadow?: DialogShadow;
   /** Overrides applied only while the pointer is over the dialog. */

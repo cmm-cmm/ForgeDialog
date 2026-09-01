@@ -55,6 +55,43 @@ describe('applyAppearance', () => {
     expect(dialog.style.getPropertyValue('--fd-dialog-border-opacity')).toBe('50%');
   });
 
+  it('accepts a radius as a number, a CSS value, or per corner', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+
+    applyAppearance(overlay, dialog, { radius: 20 });
+    expect(dialog.style.getPropertyValue('--fd-dialog-radius')).toBe('20px');
+
+    applyAppearance(overlay, dialog, { radius: '2rem 0' });
+    expect(dialog.style.getPropertyValue('--fd-dialog-radius')).toBe('2rem 0');
+
+    // Omitted corners stay on the theme radius rather than collapsing to zero.
+    applyAppearance(overlay, dialog, { radius: { topLeft: 24, bottomRight: '1rem' } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-radius')).toBe(
+      '24px var(--fd-radius) 1rem var(--fd-radius)',
+    );
+
+    applyAppearance(overlay, dialog);
+    expect(dialog.style.getPropertyValue('--fd-dialog-radius')).toBe('');
+  });
+
+  it('paints a header background and flags it for the extra padding', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+
+    applyAppearance(overlay, dialog, { titleBackground: '#101014' });
+    expect(dialog.style.getPropertyValue('--fd-dialog-title-background')).toBe('#101014');
+    expect(dialog.hasAttribute('data-fd-title-background')).toBe(true);
+
+    // A hover-only header background still needs the padding reserved.
+    applyAppearance(overlay, dialog, { hover: { titleBackground: '#1b1e26' } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-title-background')).toBe('#1b1e26');
+    expect(dialog.hasAttribute('data-fd-title-background')).toBe(true);
+
+    applyAppearance(overlay, dialog, { titleColor: '#fff' });
+    expect(dialog.hasAttribute('data-fd-title-background')).toBe(false);
+  });
+
   it('composes a shadow from its direction and strength', () => {
     const overlay = document.createElement('div');
     const dialog = document.createElement('div');

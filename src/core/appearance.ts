@@ -1,4 +1,4 @@
-import type { DialogAppearance, DialogHoverAppearance, DialogShadow } from '../types';
+import type { DialogAppearance, DialogHoverAppearance, DialogRadius, DialogShadow } from '../types';
 import {
   type AppearanceApplier,
   type AppearanceValue,
@@ -15,6 +15,21 @@ import {
 type Field<T> = readonly [keyof T & string, string, Formatter];
 
 const ratio: Formatter = (value) => String(clamp(Number(value)));
+
+/**
+ * Resolves a radius into a `border-radius` value. A per-corner object leaves
+ * omitted corners on the theme radius rather than collapsing them to zero.
+ */
+function resolveRadius(radius: DialogRadius): string {
+  if (typeof radius === 'number' || typeof radius === 'string') return length(radius);
+  const corner = (value: number | string | undefined): string =>
+    value === undefined ? 'var(--fd-radius)' : length(value);
+  return [radius.topLeft, radius.topRight, radius.bottomRight, radius.bottomLeft]
+    .map(corner)
+    .join(' ');
+}
+
+const radiusValue: Formatter = (value) => resolveRadius(value as DialogRadius);
 
 function applyFields<T extends object>(
   element: HTMLElement,
@@ -46,6 +61,7 @@ const BASE_FIELDS: ReadonlyArray<Field<DialogAppearance>> = [
   ['opacity', 'opacity', percent],
   ['surfaceColor', 'surface-color', text],
   ['titleColor', 'title-color', text],
+  ['titleBackground', 'title-background', text],
   ['titleOpacity', 'title-opacity', ratio],
   ['contentColor', 'content-color', text],
   ['contentOpacity', 'content-opacity', ratio],
@@ -53,14 +69,17 @@ const BASE_FIELDS: ReadonlyArray<Field<DialogAppearance>> = [
   ['borderOpacity', 'border-opacity', percent],
   ['borderWidth', 'border-width', length],
   ['borderStyle', 'border-style', text],
+  ['radius', 'radius', radiusValue],
 ];
 
 const HOVER_FIELDS: ReadonlyArray<Field<DialogHoverAppearance>> = [
   ['opacity', 'opacity', percent],
   ['surfaceColor', 'surface-color', text],
   ['titleColor', 'title-color', text],
+  ['titleBackground', 'title-background', text],
   ['contentColor', 'content-color', text],
   ['borderColor', 'border-color', text],
+  ['radius', 'radius', radiusValue],
   ['lift', 'lift', lift],
   ['scale', 'scale', scale],
   ['duration', 'duration', time],
@@ -121,6 +140,11 @@ export const applyAppearance: AppearanceApplier = (overlay, dialog, appearance) 
   dialog.removeAttribute('data-fd-hover-shadow');
   overlay.style.removeProperty('--fd-overlay-opacity');
   overlay.style.removeProperty('--fd-backdrop-blur');
+
+  // A header that paints its own background needs the bottom padding a bare
+  // header would otherwise borrow from the body.
+  if (appearance?.titleBackground ?? hover?.titleBackground) dialog.dataset.fdTitleBackground = '';
+  else dialog.removeAttribute('data-fd-title-background');
 
   // Marks the dialog as opted into hover styling so every other dialog keeps
   // its entirely static appearance.

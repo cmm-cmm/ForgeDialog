@@ -23,8 +23,10 @@ export interface DialogAppearance {
     hover?: DialogHoverAppearance;
     opacity?: number;
     overlayOpacity?: number;
+    radius?: DialogRadius;
     shadow?: DialogShadow;
     surfaceColor?: string;
+    titleBackground?: string;
     titleColor?: string;
     titleOpacity?: number;
 }

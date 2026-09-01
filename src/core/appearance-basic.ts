@@ -10,7 +10,8 @@ export const SHADOW_PRESETS = new Set(['none', 'sm', 'md', 'lg', 'xl']);
 export const PREFIX = '--fd-dialog-';
 export const HOVER_PREFIX = '--fd-dialog-hover-';
 
-export type AppearanceValue = string | number | boolean;
+/** Scalars, plus the structured values (radius, shadow) the full applier takes. */
+export type AppearanceValue = string | number | boolean | object;
 export type Formatter = (value: AppearanceValue) => string;
 
 export function clamp(value: number): number {

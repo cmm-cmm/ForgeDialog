@@ -25,7 +25,9 @@
     --fd-dialog-opacity: 100%;
     --fd-dialog-surface-color: var(--fd-color-surface);
     --fd-dialog-title-color: var(--fd-color-text);
+    --fd-dialog-title-background: transparent;
     --fd-dialog-title-opacity: 1;
+    --fd-dialog-radius: var(--fd-radius);
     --fd-dialog-content-color: var(--fd-color-text);
     --fd-dialog-content-opacity: 1;
     --fd-dialog-border-width: 1px;

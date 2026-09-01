@@ -2,9 +2,13 @@
 
 ## 0.7.0
 
-- Added per-component appearance controls: `surfaceColor`, `titleColor`, `titleOpacity`,
-  `contentColor`, `contentOpacity`, and `borderOpacity`, so color and transparency can be set on the
-  title, body, and border instead of only on the dialog surface and backdrop.
+- Added per-component appearance controls: `surfaceColor`, `titleColor`, `titleBackground`,
+  `titleOpacity`, `contentColor`, `contentOpacity`, and `borderOpacity`, so color and transparency
+  can be set on the title, body, and border instead of only on the dialog surface and backdrop.
+- Added `appearance.radius` for corner rounding, which was previously fixed to the global
+  `--fd-radius` token. It takes one value for every corner, any CSS `border-radius` value, or a
+  per-corner object whose omitted corners keep the theme radius. Drawers and bottom sheets keep
+  their shapes unless a radius is given explicitly.
 - Added composable shadows: `appearance.shadow` now also accepts `angle`, which chooses the
   direction the shadow falls, alongside `distance`, `blur`, `spread`, `color`, `opacity`, and
   `inset`. Presets and raw CSS `box-shadow` values keep working unchanged.

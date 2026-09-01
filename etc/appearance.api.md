@@ -22,8 +22,10 @@ export interface DialogAppearance {
     hover?: DialogHoverAppearance;
     opacity?: number;
     overlayOpacity?: number;
+    radius?: DialogRadius;
     shadow?: DialogShadow;
     surfaceColor?: string;
+    titleBackground?: string;
     titleColor?: string;
     titleOpacity?: number;
 }
@@ -38,11 +40,13 @@ export interface DialogHoverAppearance {
     lift?: number | string;
     // (undocumented)
     opacity?: number;
+    radius?: DialogRadius;
     scale?: number;
     // (undocumented)
     shadow?: DialogShadow;
     // (undocumented)
     surfaceColor?: string;
+    titleBackground?: string;
     // (undocumented)
     titleColor?: string;
 }

@@ -56,10 +56,24 @@ export interface DialogAppearance {
     hover?: DialogHoverAppearance;
     opacity?: number;
     overlayOpacity?: number;
+    radius?: DialogRadius;
     shadow?: DialogShadow;
     surfaceColor?: string;
+    titleBackground?: string;
     titleColor?: string;
     titleOpacity?: number;
+}
+
+// @public
+export interface DialogCornerRadius {
+    // (undocumented)
+    bottomLeft?: number | string;
+    // (undocumented)
+    bottomRight?: number | string;
+    // (undocumented)
+    topLeft?: number | string;
+    // (undocumented)
+    topRight?: number | string;
 }
 
 // @public (undocumented)
@@ -80,11 +94,13 @@ export interface DialogHoverAppearance {
     lift?: number | string;
     // (undocumented)
     opacity?: number;
+    radius?: DialogRadius;
     scale?: number;
     // (undocumented)
     shadow?: DialogShadow;
     // (undocumented)
     surfaceColor?: string;
+    titleBackground?: string;
     // (undocumented)
     titleColor?: string;
 }
@@ -214,6 +230,9 @@ export interface DialogPosition {
 
 // @public (undocumented)
 export type DialogPresentation = 'modal' | 'drawer-left' | 'drawer-right' | 'bottom-sheet' | 'lightbox';
+
+// @public
+export type DialogRadius = number | string | DialogCornerRadius;
 
 // @public (undocumented)
 export type DialogRole = 'dialog' | 'alertdialog';

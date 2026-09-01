@@ -136,6 +136,18 @@
       <label
         >Surface color <input id="appearance-surface-color" type="color" value="#ffffff"
       /></label>
+      <label
+        >Corner radius
+        <input id="appearance-radius" type="range" min="0" max="40" step="2" value="10"
+      /></label>
+      <label
+        >Top-left radius
+        <input id="appearance-radius-tl" type="range" min="0" max="60" step="2" value="10"
+      /></label>
+      <label
+        >Title background <input id="appearance-title-bg" type="color" value="#f2f3f5"
+      /></label>
+      <label>Use title background <input id="appearance-title-bg-on" type="checkbox" /></label>
       <label>Title color <input id="appearance-title-color" type="color" value="#1a1d23" /></label>
       <label
         >Title opacity
@@ -256,6 +268,15 @@
         overlayOpacity: Number(value('appearance-overlay')),
         backdropBlur: Number(value('appearance-blur')),
         surfaceColor: value('appearance-surface-color'),
+        radius: {
+          topLeft: Number(value('appearance-radius-tl')),
+          topRight: Number(value('appearance-radius')),
+          bottomRight: Number(value('appearance-radius')),
+          bottomLeft: Number(value('appearance-radius')),
+        },
+        titleBackground: checked('appearance-title-bg-on')
+          ? value('appearance-title-bg')
+          : undefined,
         titleColor: value('appearance-title-color'),
         titleOpacity: Number(value('appearance-title-opacity')),
         contentColor: value('appearance-content-color'),

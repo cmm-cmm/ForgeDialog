@@ -100,6 +100,72 @@ test('hover overrides restyle the dialog and revert when the pointer leaves', as
   await expect(dialog).toHaveCSS('transform', 'none');
 });
 
+test('corner radius applies per corner and survives sheet and drawer shapes', async ({ page }) => {
+  await page.goto('/demo/');
+  await page.waitForFunction(() => 'ForgeDialog' in window);
+
+  const radii = await page.evaluate(async () => {
+    const { bottomSheet, drawer, open } = (
+      window as unknown as { ForgeDialog: typeof import('../src/index') }
+    ).ForgeDialog;
+    const read = (element: Element) => {
+      const style = getComputedStyle(element);
+      return [
+        style.borderTopLeftRadius,
+        style.borderTopRightRadius,
+        style.borderBottomRightRadius,
+        style.borderBottomLeftRadius,
+      ].join(' ');
+    };
+    const surfaceOf = (instance: { element: HTMLElement }) =>
+      instance.element.querySelector('.fd-dialog')!;
+
+    const modal = open({ appearance: { radius: { topLeft: 32, bottomRight: 0 } } });
+    // Regression: substituting the radius variable twice voided the whole
+    // declaration, leaving a per-corner sheet with square corners.
+    const sheet = bottomSheet({ appearance: { radius: { topLeft: 24, topRight: 24 } } });
+    const plainSheet = bottomSheet({});
+    const side = drawer({});
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    const result = {
+      modal: read(surfaceOf(modal)),
+      sheet: read(surfaceOf(sheet)),
+      plainSheet: read(surfaceOf(plainSheet)),
+      drawer: read(surfaceOf(side)),
+    };
+    await Promise.all([modal.close(), sheet.close(), plainSheet.close(), side.close()]);
+    return result;
+  });
+
+  // Omitted corners fall back to the theme radius rather than collapsing.
+  expect(radii.modal).toBe('32px 10px 0px 10px');
+  expect(radii.sheet).toBe('24px 24px 0px 0px');
+  expect(radii.plainSheet).toBe('10px 10px 0px 0px');
+  expect(radii.drawer).toBe('0px 0px 0px 0px');
+});
+
+test('a header background is painted and reserves its own padding', async ({ page }) => {
+  await page.goto('/demo/');
+  await page.locator('#appearance-title-bg').fill('#2f2a5a');
+  await page.locator('#appearance-title-bg-on').check();
+  await page.getByRole('button', { name: 'Open interactive preview' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Interactive appearance preview' });
+  const header = dialog.locator('.fd-dialog__header');
+  await expect(header).toHaveCSS('background-color', 'rgb(47, 42, 90)');
+  await expect(header).toHaveCSS('padding-bottom', '16px');
+
+  // The open modal covers the builder, so drive the control directly rather
+  // than clicking through the overlay.
+  await page.locator('#appearance-title-bg-on').evaluate((element) => {
+    const checkbox = element as HTMLInputElement;
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await expect(header).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await expect(header).toHaveCSS('padding-bottom', '0px');
+});
+
 test('shadow direction follows the configured angle', async ({ page }) => {
   await page.goto('/demo/');
   await page.getByRole('button', { name: 'Open interactive preview' }).click();

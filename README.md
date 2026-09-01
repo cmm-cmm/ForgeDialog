@@ -112,7 +112,9 @@ const dialog = open({
     overlayOpacity: 0.55,
     backdropBlur: 12,
     surfaceColor: '#12141a',
+    radius: { topLeft: 24, topRight: 24, bottomRight: 4, bottomLeft: 4 },
     titleColor: '#ffd166',
+    titleBackground: '#1b1740',
     titleOpacity: 0.95,
     contentColor: '#c8ccd4',
     contentOpacity: 0.8,
@@ -148,7 +150,12 @@ be constrained to `x`, `y`, the viewport, an element, or a `DOMRect`. Bottom she
 dedicated swipe-to-dismiss gesture and ignore general dragging.
 
 Colors and opacity are scoped per component, so the surface, title, body, and border can each be
-tuned on their own. `shadow` accepts a preset name, a raw CSS `box-shadow`, or the parts of one:
+tuned on their own. `titleBackground` paints the header, which is transparent by default and is
+clipped by the dialog's corners. `radius` takes one value for every corner, any CSS `border-radius`
+value, or a per-corner object; corners left out of that object keep the theme radius. Drawers stay
+square and bottom sheets keep rounding only their top corners unless `radius` says otherwise.
+
+`shadow` accepts a preset name, a raw CSS `box-shadow`, or the parts of one:
 `angle` picks the direction the shadow falls (`0` up, `90` right, `180` down, `270` left), while
 `distance`, `blur`, `spread`, `color`, `opacity`, and `inset` control its shape and strength.
 

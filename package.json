@@ -208,6 +208,7 @@
     "api:subpaths": "node scripts/check-subpath-apis.mjs",
     "api:subpaths:update": "node scripts/check-subpath-apis.mjs --local",
     "test:consumers": "node scripts/check-consumers.mjs",
+    "test:capabilities": "node scripts/check-capabilities.mjs",
     "test:csp": "node scripts/check-csp.mjs",
     "package:size": "node scripts/check-tarball.mjs",
     "changeset": "changeset",
@@ -217,7 +218,7 @@
     "lint": "eslint src tests e2e",
     "format": "prettier --write .",
     "format:check": "prettier --check src tests e2e scripts docs .github README.md CHANGELOG.md package.json playwright.config.ts tsup.config.ts vitest.config.ts",
-    "validate": "npm run typecheck && npm run lint && npm run test:coverage && npm run size && npm run test:treeshake && npm run check:package && npm run api:check && npm run api:subpaths && npm run test:consumers && npm run test:csp && npm run package:size",
+    "validate": "npm run typecheck && npm run lint && npm run test:coverage && npm run size && npm run test:treeshake && npm run check:package && npm run api:check && npm run api:subpaths && npm run test:consumers && npm run test:capabilities && npm run test:csp && npm run package:size",
     "validate:all": "npm run validate && npm run test:e2e",
     "demo": "npm run build && serve .",
     "prepublishOnly": "npm run build"

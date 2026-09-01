@@ -157,17 +157,15 @@ so every other dialog stays completely static. It reuses the same color and shad
 `lift`, `scale`, and `duration`. Hover transforms honour `prefers-reduced-motion` and are suspended
 while a dialog is being dragged so they cannot push it outside its bounds.
 
-Per-component colors, composed shadows, and hover are an opt-in capability so focused entries stay
-small. The main `forgedialog` entry enables them automatically; a core-only application opts in the
-same way it does for dragging and animations:
+Both `forgedialog` and `forgedialog/core` ship the full appearance applier, so none of this needs an
+extra import. The single-purpose entries (`forgedialog/alert`, `/confirm`, `/prompt`) stay on a
+lightweight applier that covers surface opacity, backdrop, border, and shadow presets, and ignore
+the richer options; import `forgedialog/appearance` alongside one of them to upgrade it:
 
 ```ts
 import 'forgedialog/appearance';
-import { open } from 'forgedialog/core';
+import { alert } from 'forgedialog/alert';
 ```
-
-Without it, `forgedialog/core` and the single-purpose entries keep a lightweight applier covering
-surface opacity, backdrop, border, and shadow presets, and ignore the richer options.
 
 ## Advanced UI and workflows
 
@@ -215,7 +213,6 @@ application can opt into either capability without importing presentation or wor
 ```ts
 import 'forgedialog/interactions';
 import 'forgedialog/animations';
-import 'forgedialog/appearance';
 import { open } from 'forgedialog/core';
 ```
 

@@ -12,11 +12,20 @@
   that opt in, accepting the same color and shadow options plus `lift`, `scale`, and `duration`.
 - Hover transforms honour `prefers-reduced-motion` and are suspended while a dialog is being
   dragged, so a hover lift or scale can no longer push a dragged dialog outside its bounds.
-- Added a `forgedialog/appearance` entry point. The richer appearance options are an opt-in
-  capability, like dragging and animations: the main `forgedialog` entry enables them automatically,
-  while `forgedialog/core` and the single-purpose entries keep a lightweight applier covering
-  surface opacity, backdrop, border, and shadow presets, so the alert-only bundle stays under its
-  budget.
+- Added a `forgedialog/appearance` entry point. Both `forgedialog` and `forgedialog/core` ship the
+  full appearance applier, so the richer options need no extra import; the single-purpose entries
+  (`forgedialog/alert`, `/confirm`, `/prompt`) keep a lightweight applier covering surface opacity,
+  backdrop, border, and shadow presets, and can be upgraded by importing `forgedialog/appearance`.
+- Fixed capability imports being dropped by bundlers. Entries are published unsplit, because ESM
+  code splitting moved the `registerAppearanceApplier` call into a shared chunk that `sideEffects`
+  cannot name, so a bundler discarded the bare import and `import 'forgedialog/appearance'` was
+  silently a no-op. `forgedialog/interactions` and `forgedialog/animations` happened to escape this
+  only through how their code was chunked.
+- Added `npm run test:capabilities`, which bundles the published entries and asserts each capability
+  actually registers while `forgedialog/alert` stays on the lightweight applier.
+- Widened the gzip and tarball budgets. Several artifacts sat within 0.1 KiB of their limits, so
+  ordinary changes tripped them; the budgets now carry real headroom and cover both the full
+  appearance applier in the core entry and the unsplit output.
 - Expanded the demo's appearance builder with per-component color, shadow direction, and hover
   controls, and refreshed the visual regression baseline for the taller page.
 

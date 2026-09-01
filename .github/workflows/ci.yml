@@ -28,6 +28,7 @@ jobs:
       - run: npm run api:check
       - run: npm run api:subpaths
       - run: npm run test:consumers
+      - run: npm run test:capabilities
       - run: npm run test:csp
       - run: npm run package:size
       - run: npm pack --dry-run

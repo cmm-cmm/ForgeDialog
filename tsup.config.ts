@@ -6,6 +6,10 @@ const shared: Options = {
   dts: true,
   sourcemap: true,
   minify: true,
+  // Keep every entry self-contained. With ESM splitting on, the capability
+  // registrations land in shared chunks that `sideEffects` cannot name, so
+  // bundlers drop the bare import and the capability never registers.
+  splitting: false,
   define: { __FORGEDIALOG_VERSION__: JSON.stringify(packageJson.version) },
   outExtension({ format }) {
     if (format === 'esm') return { js: '.mjs' };

@@ -35,6 +35,132 @@ describe('applyAppearance', () => {
     expect(dialog.hasAttribute('data-fd-shadow')).toBe(false);
   });
 
+  it('scopes color and opacity per component', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+    applyAppearance(overlay, dialog, {
+      surfaceColor: '#101014',
+      titleColor: '#ffd166',
+      titleOpacity: 0.9,
+      contentColor: '#c8ccd4',
+      contentOpacity: 0.75,
+      borderColor: '#7c5cff',
+      borderOpacity: 0.5,
+    });
+    expect(dialog.style.getPropertyValue('--fd-dialog-surface-color')).toBe('#101014');
+    expect(dialog.style.getPropertyValue('--fd-dialog-title-color')).toBe('#ffd166');
+    expect(dialog.style.getPropertyValue('--fd-dialog-title-opacity')).toBe('0.9');
+    expect(dialog.style.getPropertyValue('--fd-dialog-content-color')).toBe('#c8ccd4');
+    expect(dialog.style.getPropertyValue('--fd-dialog-content-opacity')).toBe('0.75');
+    expect(dialog.style.getPropertyValue('--fd-dialog-border-opacity')).toBe('50%');
+  });
+
+  it('accepts a radius as a number, a CSS value, or per corner', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+
+    applyAppearance(overlay, dialog, { radius: 20 });
+    expect(dialog.style.getPropertyValue('--fd-dialog-radius')).toBe('20px');
+
+    applyAppearance(overlay, dialog, { radius: '2rem 0' });
+    expect(dialog.style.getPropertyValue('--fd-dialog-radius')).toBe('2rem 0');
+
+    // Omitted corners stay on the theme radius rather than collapsing to zero.
+    applyAppearance(overlay, dialog, { radius: { topLeft: 24, bottomRight: '1rem' } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-radius')).toBe(
+      '24px var(--fd-radius) 1rem var(--fd-radius)',
+    );
+
+    applyAppearance(overlay, dialog);
+    expect(dialog.style.getPropertyValue('--fd-dialog-radius')).toBe('');
+  });
+
+  it('paints a header background and flags it for the extra padding', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+
+    applyAppearance(overlay, dialog, { titleBackground: '#101014' });
+    expect(dialog.style.getPropertyValue('--fd-dialog-title-background')).toBe('#101014');
+    expect(dialog.hasAttribute('data-fd-title-background')).toBe(true);
+
+    // A hover-only header background still needs the padding reserved.
+    applyAppearance(overlay, dialog, { hover: { titleBackground: '#1b1e26' } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-title-background')).toBe('#1b1e26');
+    expect(dialog.hasAttribute('data-fd-title-background')).toBe(true);
+
+    applyAppearance(overlay, dialog, { titleColor: '#fff' });
+    expect(dialog.hasAttribute('data-fd-title-background')).toBe(false);
+  });
+
+  it('composes a shadow from its direction and strength', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+
+    applyAppearance(overlay, dialog, {
+      shadow: { angle: 180, distance: 10, blur: 30, spread: 2, color: '#000', opacity: 0.4 },
+    });
+    expect(dialog.style.getPropertyValue('--fd-dialog-shadow')).toBe(
+      '0px 10px 30px 2px color-mix(in srgb, #000 40%, transparent)',
+    );
+
+    // 90deg casts the shadow to the right, 270deg to the left, 0deg upwards.
+    applyAppearance(overlay, dialog, { shadow: { angle: 90, distance: 12 } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-shadow')).toContain('12px 0px');
+    applyAppearance(overlay, dialog, { shadow: { angle: 270, distance: 12 } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-shadow')).toContain('-12px 0px');
+    applyAppearance(overlay, dialog, { shadow: { angle: 0, distance: 12 } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-shadow')).toContain('0px -12px');
+  });
+
+  it('supports inset shadows and CSS length distances', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+
+    applyAppearance(overlay, dialog, { shadow: { inset: true, angle: 180, distance: 4 } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-shadow')).toContain('inset 0px 4px');
+
+    applyAppearance(overlay, dialog, { shadow: { angle: 270, distance: '1rem' } });
+    expect(dialog.style.getPropertyValue('--fd-dialog-shadow')).toContain('calc(-1 * 1rem) 0');
+  });
+
+  it('records hover overrides only when hover styling is requested', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+
+    applyAppearance(overlay, dialog, { opacity: 0.9 });
+    expect(dialog.hasAttribute('data-fd-hover')).toBe(false);
+
+    applyAppearance(overlay, dialog, {
+      hover: {
+        opacity: 1,
+        surfaceColor: '#1b1e26',
+        titleColor: '#ffffff',
+        contentColor: '#e6e8ec',
+        borderColor: '#9f7bff',
+        shadow: 'xl',
+        lift: 6,
+        scale: 1.02,
+        duration: 150,
+      },
+    });
+    expect(dialog.hasAttribute('data-fd-hover')).toBe(true);
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-opacity')).toBe('100%');
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-surface-color')).toBe('#1b1e26');
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-title-color')).toBe('#ffffff');
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-content-color')).toBe('#e6e8ec');
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-border-color')).toBe('#9f7bff');
+    expect(dialog.dataset.fdHoverShadow).toBe('xl');
+    // Lift is inverted so a positive value raises the dialog.
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-lift')).toBe('-6px');
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-scale')).toBe('1.02');
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-duration')).toBe('150ms');
+
+    applyAppearance(overlay, dialog);
+    expect(dialog.hasAttribute('data-fd-hover')).toBe(false);
+    expect(dialog.hasAttribute('data-fd-hover-shadow')).toBe(false);
+    expect(dialog.style.getPropertyValue('--fd-dialog-hover-lift')).toBe('');
+  });
+
   it('accepts CSS lengths and custom shadow values', () => {
     const overlay = document.createElement('div');
     const dialog = document.createElement('div');

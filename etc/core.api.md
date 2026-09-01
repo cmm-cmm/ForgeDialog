@@ -46,13 +46,34 @@ export interface DialogAppearance {
     backdropBlur?: number | string;
     // (undocumented)
     borderColor?: string;
+    borderOpacity?: number;
     // (undocumented)
     borderStyle?: 'none' | 'solid' | 'dashed' | 'dotted' | 'double';
     // (undocumented)
     borderWidth?: number | string;
+    contentColor?: string;
+    contentOpacity?: number;
+    hover?: DialogHoverAppearance;
     opacity?: number;
     overlayOpacity?: number;
-    shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | string;
+    radius?: DialogRadius;
+    shadow?: DialogShadow;
+    surfaceColor?: string;
+    titleBackground?: string;
+    titleColor?: string;
+    titleOpacity?: number;
+}
+
+// @public
+export interface DialogCornerRadius {
+    // (undocumented)
+    bottomLeft?: number | string;
+    // (undocumented)
+    bottomRight?: number | string;
+    // (undocumented)
+    topLeft?: number | string;
+    // (undocumented)
+    topRight?: number | string;
 }
 
 // @public (undocumented)
@@ -61,6 +82,27 @@ export interface DialogDragEvent {
     originalEvent: PointerEvent | KeyboardEvent;
     // (undocumented)
     position: DialogPosition;
+}
+
+// @public
+export interface DialogHoverAppearance {
+    // (undocumented)
+    borderColor?: string;
+    // (undocumented)
+    contentColor?: string;
+    duration?: number | string;
+    lift?: number | string;
+    // (undocumented)
+    opacity?: number;
+    radius?: DialogRadius;
+    scale?: number;
+    // (undocumented)
+    shadow?: DialogShadow;
+    // (undocumented)
+    surfaceColor?: string;
+    titleBackground?: string;
+    // (undocumented)
+    titleColor?: string;
 }
 
 // @public (undocumented)
@@ -189,8 +231,26 @@ export interface DialogPosition {
 // @public (undocumented)
 export type DialogPresentation = 'modal' | 'drawer-left' | 'drawer-right' | 'bottom-sheet' | 'lightbox';
 
+// @public
+export type DialogRadius = number | string | DialogCornerRadius;
+
 // @public (undocumented)
 export type DialogRole = 'dialog' | 'alertdialog';
+
+// @public
+export type DialogShadow = ShadowPreset | string | DialogShadowConfig;
+
+// @public
+export interface DialogShadowConfig {
+    angle?: number;
+    blur?: number | string;
+    // (undocumented)
+    color?: string;
+    distance?: number | string;
+    inset?: boolean;
+    opacity?: number;
+    spread?: number | string;
+}
 
 // @public (undocumented)
 export type DialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
@@ -392,6 +452,9 @@ export interface PromptOptions extends DialogOptions {
     // (undocumented)
     validate?: (value: string) => boolean | string | Promise<boolean | string>;
 }
+
+// @public (undocumented)
+export type ShadowPreset = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 
 // @public
 export interface TrustedHtmlLike {

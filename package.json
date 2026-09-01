@@ -1,6 +1,6 @@
 {
   "name": "forgedialog",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows.",
   "type": "module",
   "license": "MIT",
@@ -26,13 +26,20 @@
     "./dist/interactions.cjs",
     "./src/animations-entry.ts",
     "./dist/animations.mjs",
-    "./dist/animations.cjs"
+    "./dist/animations.cjs",
+    "./src/appearance-entry.ts",
+    "./dist/appearance.mjs",
+    "./dist/appearance.cjs"
   ],
   "files": [
     "dist",
     "!dist/**/*.map",
-    "!dist/style-*.mjs"
+    "!dist/style-*.mjs",
+    "CHANGELOG.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -118,6 +125,16 @@
         "default": "./dist/animations.cjs"
       }
     },
+    "./appearance": {
+      "import": {
+        "types": "./dist/appearance.d.ts",
+        "default": "./dist/appearance.mjs"
+      },
+      "require": {
+        "types": "./dist/appearance.d.cts",
+        "default": "./dist/appearance.cjs"
+      }
+    },
     "./workflows": {
       "import": {
         "types": "./dist/workflows.d.ts",
@@ -195,16 +212,18 @@
     "api:subpaths": "node scripts/check-subpath-apis.mjs",
     "api:subpaths:update": "node scripts/check-subpath-apis.mjs --local",
     "test:consumers": "node scripts/check-consumers.mjs",
+    "test:capabilities": "node scripts/check-capabilities.mjs",
     "test:csp": "node scripts/check-csp.mjs",
     "package:size": "node scripts/check-tarball.mjs",
+    "check:release": "node scripts/check-release.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "npm run validate:all && npm publish --access public",
+    "release": "npm run validate:all && npm run check:release && npm publish",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests e2e",
     "format": "prettier --write .",
-    "format:check": "prettier --check src tests e2e scripts docs .github README.md CHANGELOG.md package.json playwright.config.ts tsup.config.ts vitest.config.ts",
-    "validate": "npm run typecheck && npm run lint && npm run test:coverage && npm run size && npm run test:treeshake && npm run check:package && npm run api:check && npm run api:subpaths && npm run test:consumers && npm run test:csp && npm run package:size",
+    "format:check": "prettier --check .",
+    "validate": "npm run typecheck && npm run lint && npm run test:coverage && npm run size && npm run test:treeshake && npm run check:package && npm run api:check && npm run api:subpaths && npm run test:consumers && npm run test:capabilities && npm run test:csp && npm run package:size",
     "validate:all": "npm run validate && npm run test:e2e",
     "demo": "npm run build && serve .",
     "prepublishOnly": "npm run build"

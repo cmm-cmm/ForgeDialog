@@ -36,14 +36,102 @@
     width: 100%;
     max-width: 420px;
     max-height: calc(100vh - var(--fd-spacing-lg) * 2);
-    background: color-mix(in srgb, var(--fd-color-surface) var(--fd-dialog-opacity), transparent);
+    background: color-mix(
+      in srgb,
+      var(--fd-dialog-surface-color) var(--fd-dialog-opacity),
+      transparent
+    );
     color: var(--fd-color-text);
     border: var(--fd-dialog-border-width) var(--fd-dialog-border-style)
-      var(--fd-dialog-border-color);
-    border-radius: var(--fd-radius);
+      color-mix(in srgb, var(--fd-dialog-border-color) var(--fd-dialog-border-opacity), transparent);
+    border-radius: var(--fd-dialog-radius);
     box-shadow: var(--fd-dialog-shadow);
     translate: var(--fd-drag-x) var(--fd-drag-y);
     overflow: hidden;
+  }
+
+  /*
+   * Only dialogs that opted into hover styling animate or restyle on hover.
+   * Hover rules must set real properties rather than redefine the `--fd-dialog-*`
+   * custom properties: those are written as inline styles by applyAppearance,
+   * and an inline declaration always beats a stylesheet rule on the same element.
+   */
+  .fd-dialog[data-fd-hover] {
+    transition:
+      background-color var(--fd-dialog-hover-duration) var(--fd-easing),
+      border-color var(--fd-dialog-hover-duration) var(--fd-easing),
+      border-radius var(--fd-dialog-hover-duration) var(--fd-easing),
+      box-shadow var(--fd-dialog-hover-duration) var(--fd-easing),
+      transform var(--fd-dialog-hover-duration) var(--fd-easing);
+  }
+
+  .fd-dialog[data-fd-hover]:hover {
+    background: color-mix(
+      in srgb,
+      var(--fd-dialog-hover-surface-color, var(--fd-dialog-surface-color))
+        var(--fd-dialog-hover-opacity, var(--fd-dialog-opacity)),
+      transparent
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--fd-dialog-hover-border-color, var(--fd-dialog-border-color))
+        var(--fd-dialog-border-opacity),
+      transparent
+    );
+    border-radius: var(--fd-dialog-hover-radius, var(--fd-dialog-radius));
+    box-shadow: var(--fd-dialog-hover-shadow, var(--fd-dialog-shadow));
+    transform: translateY(var(--fd-dialog-hover-lift)) scale(var(--fd-dialog-hover-scale));
+  }
+
+  .fd-dialog[data-fd-hover]:hover .fd-dialog__header {
+    background: var(--fd-dialog-hover-title-background, var(--fd-dialog-title-background));
+  }
+
+  /*
+   * A hover lift or scale would resize the box the drag logic clamps against,
+   * letting a dragged dialog escape its bounds, so it is suspended while
+   * dragging.
+   */
+  .fd-dialog[data-fd-hover].fd-dialog--dragging,
+  .fd-dialog[data-fd-hover].fd-dialog--dragging:hover {
+    transform: none;
+    transition: none;
+  }
+
+  .fd-dialog[data-fd-hover]:hover .fd-dialog__title {
+    color: var(--fd-dialog-hover-title-color, var(--fd-dialog-title-color));
+  }
+
+  .fd-dialog[data-fd-hover]:hover .fd-dialog__body {
+    color: var(--fd-dialog-hover-content-color, var(--fd-dialog-content-color));
+  }
+
+  .fd-dialog[data-fd-hover-shadow='none']:hover {
+    --fd-dialog-hover-shadow: none;
+  }
+
+  .fd-dialog[data-fd-hover-shadow='sm']:hover {
+    --fd-dialog-hover-shadow: 0 4px 12px rgb(15 17 21 / 14%);
+  }
+
+  .fd-dialog[data-fd-hover-shadow='md']:hover {
+    --fd-dialog-hover-shadow: 0 12px 32px rgb(15 17 21 / 20%);
+  }
+
+  .fd-dialog[data-fd-hover-shadow='lg']:hover {
+    --fd-dialog-hover-shadow: 0 20px 60px rgb(15 17 21 / 25%);
+  }
+
+  .fd-dialog[data-fd-hover-shadow='xl']:hover {
+    --fd-dialog-hover-shadow: 0 28px 90px rgb(15 17 21 / 32%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fd-dialog[data-fd-hover],
+    .fd-dialog[data-fd-hover]:hover {
+      transform: none;
+      transition-duration: 1ms;
+    }
   }
 
   .fd-dialog[data-fd-shadow='none'] {
@@ -98,7 +186,9 @@
     max-width: none;
     height: 100vh;
     max-height: none;
-    border-radius: 0;
+    /* Set the variable, not the property, so an explicit `radius` still wins:
+       applyAppearance writes it inline, which outranks this rule. */
+    --fd-dialog-radius: 0px;
   }
   .fd-overlay:has(.fd-dialog--bottom-sheet) {
     align-items: flex-end;
@@ -107,7 +197,12 @@
   .fd-dialog--bottom-sheet {
     width: 100%;
     max-width: 720px;
-    border-radius: var(--fd-radius) var(--fd-radius) 0 0;
+    /* Substituting the radius variable twice would expand a per-corner value
+       into ten lengths and void the declaration, so square off the bottom with
+       longhands instead. */
+    border-radius: var(--fd-dialog-radius);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
   .fd-dialog--bottom-sheet {
     touch-action: pan-x;
@@ -141,6 +236,14 @@
     justify-content: space-between;
     gap: var(--fd-spacing-md);
     padding: var(--fd-spacing-md) var(--fd-spacing-lg) 0;
+    background: var(--fd-dialog-title-background);
+    transition: background-color var(--fd-dialog-hover-duration) var(--fd-easing);
+  }
+
+  /* A header with its own background needs the padding a bare header borrows
+     from the body below it, or the title sits flush against the colored edge. */
+  .fd-dialog[data-fd-title-background] .fd-dialog__header {
+    padding-bottom: var(--fd-spacing-md);
   }
 
   .fd-dialog__title {
@@ -148,6 +251,9 @@
     font-size: 1.05rem;
     font-weight: 600;
     line-height: 1.4;
+    color: var(--fd-dialog-title-color);
+    opacity: var(--fd-dialog-title-opacity);
+    transition: color var(--fd-dialog-hover-duration) var(--fd-easing);
   }
 
   .fd-dialog__title--visually-hidden {
@@ -188,7 +294,9 @@
     overflow-y: auto;
     font-size: 0.95rem;
     line-height: 1.5;
-    color: var(--fd-color-text);
+    color: var(--fd-dialog-content-color);
+    opacity: var(--fd-dialog-content-opacity);
+    transition: color var(--fd-dialog-hover-duration) var(--fd-easing);
   }
 
   .fd-dialog__message {

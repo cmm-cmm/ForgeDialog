@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/cmm-cmm/ForgeDialog/security/advisories/new
+    about: Report privately through a draft security advisory, not a public issue.
+  - name: Contributing guide
+    url: https://github.com/cmm-cmm/ForgeDialog/blob/main/CONTRIBUTING.md
+    about: Setup, the checks CI runs, and the gotchas worth knowing before a pull request.

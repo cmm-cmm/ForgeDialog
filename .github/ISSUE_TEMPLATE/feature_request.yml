@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest a capability ForgeDialog does not have yet
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the situation rather than the API you have in mind, so alternatives stay open.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would the API look like?
+      render: ts
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What have you tried?
+      description: |
+        Existing options that came close, or workarounds you are using today —
+        `appearance`, a plugin hook, `content`, or your own CSS on the `fd-` classes.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Does this fit the project's constraints?
+      description: |
+        ForgeDialog is dependency-free, framework-agnostic, accessible by default,
+        and holds its bundles to gzip budgets. Proposals that conflict with those
+        are still worth raising — just say so.
+      options:
+        - label: This can work without adding a runtime dependency
+        - label: This does not require a specific framework
+        - label: I am aware this may need to ship as an opt-in entry point to stay within bundle budgets

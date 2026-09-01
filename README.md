@@ -1,4 +1,4 @@
-# ForgeDialog 0.6
+# ForgeDialog 0.7
 
 _A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows._
 
@@ -111,9 +111,26 @@ const dialog = open({
     opacity: 0.9,
     overlayOpacity: 0.55,
     backdropBlur: 12,
+    surfaceColor: '#12141a',
+    radius: { topLeft: 24, topRight: 24, bottomRight: 4, bottomLeft: 4 },
+    titleColor: '#ffd166',
+    titleBackground: '#1b1740',
+    titleOpacity: 0.95,
+    contentColor: '#c8ccd4',
+    contentOpacity: 0.8,
     borderColor: '#7c5cff',
+    borderOpacity: 0.6,
     borderWidth: 2,
-    shadow: 'xl', // none | sm | md | lg | xl | any CSS box-shadow
+    // A preset, any CSS box-shadow, or a shadow composed from its parts.
+    shadow: { angle: 135, distance: 24, blur: 60, color: '#000', opacity: 0.45 },
+    hover: {
+      borderColor: '#9f7bff',
+      titleColor: '#ffffff',
+      shadow: 'xl',
+      lift: 6,
+      scale: 1.02,
+      duration: 150,
+    },
   },
   draggable: {
     axis: 'both',
@@ -131,6 +148,31 @@ dialog.update({ appearance: { opacity: 1, shadow: 'md' } });
 `draggable: true` remains supported. A selector or element can be supplied as `handle`; movement can
 be constrained to `x`, `y`, the viewport, an element, or a `DOMRect`. Bottom sheets keep their
 dedicated swipe-to-dismiss gesture and ignore general dragging.
+
+Colors and opacity are scoped per component, so the surface, title, body, and border can each be
+tuned on their own. `titleBackground` paints the header, which is transparent by default and is
+clipped by the dialog's corners. `radius` takes one value for every corner, any CSS `border-radius`
+value, or a per-corner object; corners left out of that object keep the theme radius. Drawers stay
+square and bottom sheets keep rounding only their top corners unless `radius` says otherwise.
+
+`shadow` accepts a preset name, a raw CSS `box-shadow`, or the parts of one:
+`angle` picks the direction the shadow falls (`0` up, `90` right, `180` down, `270` left), while
+`distance`, `blur`, `spread`, `color`, `opacity`, and `inset` control its shape and strength.
+
+`hover` restyles the dialog only while the pointer is over it, and only for dialogs that ask for it,
+so every other dialog stays completely static. It reuses the same color and shadow options and adds
+`lift`, `scale`, and `duration`. Hover transforms honour `prefers-reduced-motion` and are suspended
+while a dialog is being dragged so they cannot push it outside its bounds.
+
+Both `forgedialog` and `forgedialog/core` ship the full appearance applier, so none of this needs an
+extra import. The single-purpose entries (`forgedialog/alert`, `/confirm`, `/prompt`) stay on a
+lightweight applier that covers surface opacity, backdrop, border, and shadow presets, and ignore
+the richer options; import `forgedialog/appearance` alongside one of them to upgrade it:
+
+```ts
+import 'forgedialog/appearance';
+import { alert } from 'forgedialog/alert';
+```
 
 ## Advanced UI and workflows
 
@@ -159,7 +201,7 @@ const data = await flow.result;
 ```
 
 Tree-shakable entry points are available at `forgedialog/core`, `forgedialog/interactions`,
-`forgedialog/animations`,
+`forgedialog/animations`, `forgedialog/appearance`,
 `forgedialog/presentation`, and `forgedialog/workflows`. `forgedialog/interactions` exposes the
 standalone draggable controller without pulling in dialog APIs. Framework integrations are exported from `forgedialog/react`,
 `forgedialog/vue`, `forgedialog/svelte`, and `forgedialog/web-component`.
@@ -219,10 +261,19 @@ npm run demo         # build and serve the demo/ page
 
 Releases use Changesets (`npm run changeset`) and the protected GitHub release workflow. The
 workflow generates a CycloneDX SBOM and publishes with npm provenance through trusted publishing;
-local development and pull requests never publish packages.
+local development and pull requests never publish packages. The process, and the one-time npm setup
+it depends on, are in [docs/releasing.md](docs/releasing.md).
 
 Supported baselines are Chrome/Edge 88+, Firefox 78+, Safari 15.4+, and Node.js 20+ for package
 tooling and SSR imports.
+
+## Contributing
+
+Setup, the checks CI runs, and the gotchas worth knowing are in
+[CONTRIBUTING.md](CONTRIBUTING.md). Participation is governed by our
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
+Found a security issue? Please report it privately — see [SECURITY.md](SECURITY.md).
 
 ## License
 

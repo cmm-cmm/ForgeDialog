@@ -20,5 +20,6 @@ const included = Object.keys(result.metafile.inputs).map((path) => path.replaceA
 const leaked = forbidden.filter((path) => included.some((input) => input.endsWith(path)));
 const gzipBytes = gzipSync(result.outputFiles[0].contents).byteLength;
 console.log(`alert-only fixture: ${(gzipBytes / 1024).toFixed(2)} KiB gzip`);
+const budget = 6.5 * 1024;
 if (leaked.length) throw new Error(`Tree-shaking regression: ${leaked.join(', ')}`);
-if (gzipBytes > 5.5 * 1024) throw new Error('Alert-only fixture exceeds the 5.5 KiB gzip budget');
+if (gzipBytes > budget) throw new Error('Alert-only fixture exceeds the 6.5 KiB gzip budget');

@@ -5,6 +5,9 @@
 ```ts
 
 // @public (undocumented)
+export const applyAppearance: AppearanceApplier;
+
+// @public (undocumented)
 export interface DialogAppearance {
     backdropBlur?: number | string;
     // (undocumented)
@@ -27,23 +30,44 @@ export interface DialogAppearance {
     titleOpacity?: number;
 }
 
-// @public (undocumented)
-function prompt_2(message: string, options?: Partial<PromptOptions>): Promise<string | null>;
-export { prompt_2 as prompt }
+// @public
+export interface DialogHoverAppearance {
+    // (undocumented)
+    borderColor?: string;
+    // (undocumented)
+    contentColor?: string;
+    duration?: number | string;
+    lift?: number | string;
+    // (undocumented)
+    opacity?: number;
+    radius?: DialogRadius;
+    scale?: number;
+    // (undocumented)
+    shadow?: DialogShadow;
+    // (undocumented)
+    surfaceColor?: string;
+    titleBackground?: string;
+    // (undocumented)
+    titleColor?: string;
+}
+
+// @public
+export type DialogShadow = ShadowPreset | string | DialogShadowConfig;
+
+// @public
+export interface DialogShadowConfig {
+    angle?: number;
+    blur?: number | string;
+    // (undocumented)
+    color?: string;
+    distance?: number | string;
+    inset?: boolean;
+    opacity?: number;
+    spread?: number | string;
+}
 
 // @public (undocumented)
-export interface PromptOptions extends DialogOptions {
-    // (undocumented)
-    defaultValue?: string;
-    // (undocumented)
-    inputLabel?: string;
-    // (undocumented)
-    inputType?: 'text' | 'password' | 'email' | 'number';
-    // (undocumented)
-    placeholder?: string;
-    // (undocumented)
-    validate?: (value: string) => boolean | string | Promise<boolean | string>;
-}
+export type ShadowPreset = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 
 // (No @packageDocumentation comment for this package)
 

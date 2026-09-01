@@ -13,13 +13,22 @@ export interface DialogAppearance {
     backdropBlur?: number | string;
     // (undocumented)
     borderColor?: string;
+    borderOpacity?: number;
     // (undocumented)
     borderStyle?: 'none' | 'solid' | 'dashed' | 'dotted' | 'double';
     // (undocumented)
     borderWidth?: number | string;
+    contentColor?: string;
+    contentOpacity?: number;
+    hover?: DialogHoverAppearance;
     opacity?: number;
     overlayOpacity?: number;
-    shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | string;
+    radius?: DialogRadius;
+    shadow?: DialogShadow;
+    surfaceColor?: string;
+    titleBackground?: string;
+    titleColor?: string;
+    titleOpacity?: number;
 }
 
 // @public (undocumented)

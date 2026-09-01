@@ -106,7 +106,16 @@ delete the token you used.
 
 **The publish step was skipped.** `NPM_PUBLISH_ENABLED` is not `true`. That is the default.
 
-**`ENEEDAUTH` or an OIDC error.** The trusted publisher entry on npmjs.com must match the
+**`npm error code E404` on `PUT .../forgedialog`, with the tarball already built and listed in the
+log.** This is not an auth or OIDC problem — npm returns 404 rather than 401/403 here specifically
+because trusted publishing has nothing to attach to yet: the package has never been published, so
+there is no packages page to hold a trusted publisher entry. This is the exact case called out
+above in "Check this before relying on it for the first release." Do the manual first publish in
+the "First publish without trusted publishing" section, then add the trusted publisher and set
+`NPM_PUBLISH_ENABLED=true`.
+
+**`ENEEDAUTH` or an OIDC error** (distinct from the E404 above; this is for a package that already
+has at least one published version). The trusted publisher entry on npmjs.com must match the
 repository, workflow filename, and environment name exactly. The job also needs
 `permissions: id-token: write`, which is set at the top of the workflow.
 

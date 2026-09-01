@@ -8,10 +8,28 @@ ForgeDialog publishes to npm from GitHub Actions using npm **trusted publishing*
 These steps need access this repository's automation does not have. Until they are done, the release
 workflow runs every check and then deliberately skips publishing.
 
-### 1. Create the `npm` environment
+### 1. Create and configure the `npm` environment
 
 In **Settings → Environments**, create an environment named `npm`. The release job declares
-`environment: npm`, so any required reviewers or branch restrictions you add there gate publishing.
+`environment: npm`, so this is the gate that decides which workflow runs may obtain the OIDC
+credential. The name must match the Environment field of the trusted publisher in step 2 exactly.
+
+Suggested configuration:
+
+| Setting                        | Value                                    |
+| ------------------------------ | ---------------------------------------- |
+| Required reviewers             | Yourself                                 |
+| Wait timer                     | 0                                        |
+| Allow administrators to bypass | Off                                      |
+| Deployment branches and tags   | Selected: tag `v*` **and** branch `main` |
+
+A published version cannot be replaced, so a required reviewer is the one control worth having: it
+turns every publish into a deliberate click. Leaving administrator bypass on would make that gate
+decorative for the person most likely to trigger a release.
+
+Both deployment rules are needed. Releases run from a `v*` tag, but the workflow also offers
+`workflow_dispatch` for a dry run from `main`; restricting the environment to tags alone would stop
+that run at the gate and fail the job rather than letting it validate and skip publishing.
 
 ### 2. Configure the trusted publisher on npmjs.com
 

@@ -32,6 +32,7 @@ export default defineConfig([
       prompt: 'src/prompt-entry.ts',
       interactions: 'src/interactions-entry.ts',
       animations: 'src/animations-entry.ts',
+      appearance: 'src/appearance-entry.ts',
       presentation: 'src/presentation-entry.ts',
       workflows: 'src/workflows-entry.ts',
       react: 'src/adapters/react.ts',

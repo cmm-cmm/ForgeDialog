@@ -69,13 +69,20 @@ export interface DialogAppearance {
     backdropBlur?: number | string;
     // (undocumented)
     borderColor?: string;
+    borderOpacity?: number;
     // (undocumented)
     borderStyle?: 'none' | 'solid' | 'dashed' | 'dotted' | 'double';
     // (undocumented)
     borderWidth?: number | string;
+    contentColor?: string;
+    contentOpacity?: number;
+    hover?: DialogHoverAppearance;
     opacity?: number;
     overlayOpacity?: number;
-    shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | string;
+    shadow?: DialogShadow;
+    surfaceColor?: string;
+    titleColor?: string;
+    titleOpacity?: number;
 }
 
 // @public (undocumented)
@@ -84,6 +91,25 @@ export interface DialogDragEvent {
     originalEvent: PointerEvent | KeyboardEvent;
     // (undocumented)
     position: DialogPosition;
+}
+
+// @public
+export interface DialogHoverAppearance {
+    // (undocumented)
+    borderColor?: string;
+    // (undocumented)
+    contentColor?: string;
+    duration?: number | string;
+    lift?: number | string;
+    // (undocumented)
+    opacity?: number;
+    scale?: number;
+    // (undocumented)
+    shadow?: DialogShadow;
+    // (undocumented)
+    surfaceColor?: string;
+    // (undocumented)
+    titleColor?: string;
 }
 
 // @public (undocumented)
@@ -216,6 +242,23 @@ export type DialogPresentation = 'modal' | 'drawer-left' | 'drawer-right' | 'bot
 
 // @public (undocumented)
 export type DialogRole = 'dialog' | 'alertdialog';
+
+// Warning: (ae-forgotten-export) The symbol "ShadowPreset" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type DialogShadow = ShadowPreset | string | DialogShadowConfig;
+
+// @public
+export interface DialogShadowConfig {
+    angle?: number;
+    blur?: number | string;
+    // (undocumented)
+    color?: string;
+    distance?: number | string;
+    inset?: boolean;
+    opacity?: number;
+    spread?: number | string;
+}
 
 // @public (undocumented)
 export type DialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';

@@ -72,6 +72,57 @@ test('appearance builder applies scoped styling and keeps dragging inside the vi
   await expect(dialog).toHaveCSS('--fd-drag-y', '0px');
 });
 
+test('hover overrides restyle the dialog and revert when the pointer leaves', async ({ page }) => {
+  await page.goto('/demo/');
+  await page.locator('#appearance-hover-title').fill('#ff9f1c');
+  await page.locator('#appearance-hover-border').fill('#ff9f1c');
+  await page.getByRole('button', { name: 'Open interactive preview' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Interactive appearance preview' });
+  await expect(dialog).toBeVisible();
+
+  const title = dialog.locator('.fd-dialog__title');
+  // Park the pointer away from the dialog so the idle state is measured first.
+  await page.mouse.move(2, 2);
+  await expect(title).not.toHaveCSS('color', 'rgb(255, 159, 28)');
+  await expect(dialog).toHaveCSS('transform', 'none');
+
+  await dialog.hover();
+  await expect(title).toHaveCSS('color', 'rgb(255, 159, 28)');
+  // The border is blended through color-mix, which computes to color(srgb ...).
+  await expect
+    .poll(() => dialog.evaluate((element) => getComputedStyle(element).borderTopColor))
+    .toMatch(/^color\(srgb 1 0\.62/);
+  // Lift and scale are applied together as a single transform matrix.
+  await expect(dialog).not.toHaveCSS('transform', 'none');
+
+  await page.mouse.move(2, 2);
+  await expect(title).not.toHaveCSS('color', 'rgb(255, 159, 28)');
+  await expect(dialog).toHaveCSS('transform', 'none');
+});
+
+test('shadow direction follows the configured angle', async ({ page }) => {
+  await page.goto('/demo/');
+  await page.getByRole('button', { name: 'Open interactive preview' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Interactive appearance preview' });
+  await expect(dialog).toBeVisible();
+  await page.mouse.move(2, 2);
+
+  // box-shadow is transitioned, so the settled value has to be polled for
+  // rather than read straight after the slider changes.
+  const expectShadowAt = async (angle: string, offsets: string) => {
+    await page.locator('#appearance-shadow-angle').fill(angle);
+    await expect
+      .poll(() => dialog.evaluate((element) => getComputedStyle(element).boxShadow))
+      .toContain(offsets);
+  };
+
+  await page.locator('#appearance-shadow-distance').fill('40');
+  await expectShadowAt('90', '40px 0px');
+  await expectShadowAt('270', '-40px 0px');
+  await expectShadowAt('0', '0px -40px');
+  await expectShadowAt('180', '0px 40px');
+});
+
 test('touch pointer dragging stays constrained after a mobile viewport resize', async ({
   page,
 }, testInfo) => {

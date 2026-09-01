@@ -1,6 +1,6 @@
 {
   "name": "forgedialog",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows.",
   "type": "module",
   "license": "MIT",
@@ -26,7 +26,10 @@
     "./dist/interactions.cjs",
     "./src/animations-entry.ts",
     "./dist/animations.mjs",
-    "./dist/animations.cjs"
+    "./dist/animations.cjs",
+    "./src/appearance-entry.ts",
+    "./dist/appearance.mjs",
+    "./dist/appearance.cjs"
   ],
   "files": [
     "dist",
@@ -116,6 +119,16 @@
       "require": {
         "types": "./dist/animations.d.cts",
         "default": "./dist/animations.cjs"
+      }
+    },
+    "./appearance": {
+      "import": {
+        "types": "./dist/appearance.d.ts",
+        "default": "./dist/appearance.mjs"
+      },
+      "require": {
+        "types": "./dist/appearance.d.cts",
+        "default": "./dist/appearance.cjs"
       }
     },
     "./workflows": {

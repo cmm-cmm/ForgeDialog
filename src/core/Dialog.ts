@@ -13,7 +13,7 @@ import type {
 import { generateId } from '../utils/id';
 import { resolveRole } from './aria';
 import { animateDialogIn, animateDialogOut } from './animationRegistry';
-import { applyAppearance } from './appearance';
+import { applyDialogAppearance } from './appearanceRegistry';
 import type { DialogStackManager } from './DialogStack';
 import {
   buildDialogDom,
@@ -79,7 +79,7 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
     this.bodyEl = built.body;
     this.buttonElements = built.buttonElements;
     this.focusTrap = new FocusTrap(this.dialogEl);
-    applyAppearance(this.element, this.dialogEl, options.appearance);
+    applyDialogAppearance(this.element, this.dialogEl, options.appearance);
     this.setupDraggable(options.draggable, built.header);
 
     this.closedPromise = new Promise((resolve) => {
@@ -232,7 +232,8 @@ export class Dialog<TResult = unknown> implements DialogInstance<TResult> {
       const header = this.dialogEl.querySelector<HTMLElement>('.fd-dialog__header');
       this.setupDraggable(partial.draggable, header ?? undefined);
     }
-    if ('appearance' in partial) applyAppearance(this.element, this.dialogEl, partial.appearance);
+    if ('appearance' in partial)
+      applyDialogAppearance(this.element, this.dialogEl, partial.appearance);
     if ('size' in partial) {
       this.dialogEl.classList.remove(`fd-dialog--${previous.size ?? 'md'}`);
       this.dialogEl.classList.add(`fd-dialog--${partial.size ?? 'md'}`);

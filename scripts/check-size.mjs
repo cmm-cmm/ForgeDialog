@@ -3,7 +3,10 @@ import { readFileSync } from 'node:fs';
 
 const budgets = {
   'dist/core.cjs': 6.5 * 1024,
-  'dist/index.cjs': 14 * 1024,
+  // Raised in 0.7.0: the main entry auto-enables the full appearance applier
+  // (per-component colors, composed shadows, hover). Focused entries such as
+  // forgedialog/alert keep the lightweight applier and their former budgets.
+  'dist/index.cjs': 14.6 * 1024,
   'dist/interactions.cjs': 2 * 1024,
   'dist/style-core.css': 2.5 * 1024,
   'dist/style-forms.css': 0.9 * 1024,

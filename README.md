@@ -1,4 +1,4 @@
-# ForgeDialog 0.6
+# ForgeDialog 0.7
 
 _A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows._
 
@@ -111,9 +111,24 @@ const dialog = open({
     opacity: 0.9,
     overlayOpacity: 0.55,
     backdropBlur: 12,
+    surfaceColor: '#12141a',
+    titleColor: '#ffd166',
+    titleOpacity: 0.95,
+    contentColor: '#c8ccd4',
+    contentOpacity: 0.8,
     borderColor: '#7c5cff',
+    borderOpacity: 0.6,
     borderWidth: 2,
-    shadow: 'xl', // none | sm | md | lg | xl | any CSS box-shadow
+    // A preset, any CSS box-shadow, or a shadow composed from its parts.
+    shadow: { angle: 135, distance: 24, blur: 60, color: '#000', opacity: 0.45 },
+    hover: {
+      borderColor: '#9f7bff',
+      titleColor: '#ffffff',
+      shadow: 'xl',
+      lift: 6,
+      scale: 1.02,
+      duration: 150,
+    },
   },
   draggable: {
     axis: 'both',
@@ -131,6 +146,28 @@ dialog.update({ appearance: { opacity: 1, shadow: 'md' } });
 `draggable: true` remains supported. A selector or element can be supplied as `handle`; movement can
 be constrained to `x`, `y`, the viewport, an element, or a `DOMRect`. Bottom sheets keep their
 dedicated swipe-to-dismiss gesture and ignore general dragging.
+
+Colors and opacity are scoped per component, so the surface, title, body, and border can each be
+tuned on their own. `shadow` accepts a preset name, a raw CSS `box-shadow`, or the parts of one:
+`angle` picks the direction the shadow falls (`0` up, `90` right, `180` down, `270` left), while
+`distance`, `blur`, `spread`, `color`, `opacity`, and `inset` control its shape and strength.
+
+`hover` restyles the dialog only while the pointer is over it, and only for dialogs that ask for it,
+so every other dialog stays completely static. It reuses the same color and shadow options and adds
+`lift`, `scale`, and `duration`. Hover transforms honour `prefers-reduced-motion` and are suspended
+while a dialog is being dragged so they cannot push it outside its bounds.
+
+Per-component colors, composed shadows, and hover are an opt-in capability so focused entries stay
+small. The main `forgedialog` entry enables them automatically; a core-only application opts in the
+same way it does for dragging and animations:
+
+```ts
+import 'forgedialog/appearance';
+import { open } from 'forgedialog/core';
+```
+
+Without it, `forgedialog/core` and the single-purpose entries keep a lightweight applier covering
+surface opacity, backdrop, border, and shadow presets, and ignore the richer options.
 
 ## Advanced UI and workflows
 
@@ -159,7 +196,7 @@ const data = await flow.result;
 ```
 
 Tree-shakable entry points are available at `forgedialog/core`, `forgedialog/interactions`,
-`forgedialog/animations`,
+`forgedialog/animations`, `forgedialog/appearance`,
 `forgedialog/presentation`, and `forgedialog/workflows`. `forgedialog/interactions` exposes the
 standalone draggable controller without pulling in dialog APIs. Framework integrations are exported from `forgedialog/react`,
 `forgedialog/vue`, `forgedialog/svelte`, and `forgedialog/web-component`.
@@ -178,6 +215,7 @@ application can opt into either capability without importing presentation or wor
 ```ts
 import 'forgedialog/interactions';
 import 'forgedialog/animations';
+import 'forgedialog/appearance';
 import { open } from 'forgedialog/core';
 ```
 

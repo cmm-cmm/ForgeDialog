@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.7.0
+
+- Added per-component appearance controls: `surfaceColor`, `titleColor`, `titleOpacity`,
+  `contentColor`, `contentOpacity`, and `borderOpacity`, so color and transparency can be set on the
+  title, body, and border instead of only on the dialog surface and backdrop.
+- Added composable shadows: `appearance.shadow` now also accepts `angle`, which chooses the
+  direction the shadow falls, alongside `distance`, `blur`, `spread`, `color`, `opacity`, and
+  `inset`. Presets and raw CSS `box-shadow` values keep working unchanged.
+- Added `appearance.hover`, applied only while the pointer is over the dialog and only for dialogs
+  that opt in, accepting the same color and shadow options plus `lift`, `scale`, and `duration`.
+- Hover transforms honour `prefers-reduced-motion` and are suspended while a dialog is being
+  dragged, so a hover lift or scale can no longer push a dragged dialog outside its bounds.
+- Added a `forgedialog/appearance` entry point. The richer appearance options are an opt-in
+  capability, like dragging and animations: the main `forgedialog` entry enables them automatically,
+  while `forgedialog/core` and the single-purpose entries keep a lightweight applier covering
+  surface opacity, backdrop, border, and shadow presets, so the alert-only bundle stays under its
+  budget.
+- Expanded the demo's appearance builder with per-component color, shadow direction, and hover
+  controls, and refreshed the visual regression baseline for the taller page.
+
 ## 0.6.0
 
 - Fixed focus trapping skipping over targets that cannot receive focus: hidden inputs and anything

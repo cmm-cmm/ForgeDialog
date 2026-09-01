@@ -130,15 +130,58 @@
         >Border color <input id="appearance-border-color" type="color" value="#7c5cff"
       /></label>
       <label
-        >Shadow
-        <select id="appearance-shadow">
-          <option value="none">None</option>
-          <option value="sm">Small</option>
-          <option value="md">Medium</option>
-          <option value="lg" selected>Large</option>
-          <option value="xl">Extra large</option>
-        </select>
-      </label>
+        >Border opacity
+        <input id="appearance-border-opacity" type="range" min="0" max="1" step="0.05" value="1"
+      /></label>
+      <label
+        >Surface color <input id="appearance-surface-color" type="color" value="#ffffff"
+      /></label>
+      <label>Title color <input id="appearance-title-color" type="color" value="#1a1d23" /></label>
+      <label
+        >Title opacity
+        <input id="appearance-title-opacity" type="range" min="0" max="1" step="0.05" value="1"
+      /></label>
+      <label
+        >Content color <input id="appearance-content-color" type="color" value="#5b6270"
+      /></label>
+      <label
+        >Content opacity
+        <input id="appearance-content-opacity" type="range" min="0" max="1" step="0.05" value="1"
+      /></label>
+      <label
+        >Shadow angle (deg)
+        <input id="appearance-shadow-angle" type="range" min="0" max="360" step="15" value="180"
+      /></label>
+      <label
+        >Shadow distance
+        <input id="appearance-shadow-distance" type="range" min="0" max="60" step="2" value="20"
+      /></label>
+      <label
+        >Shadow blur
+        <input id="appearance-shadow-blur" type="range" min="0" max="120" step="5" value="60"
+      /></label>
+      <label
+        >Shadow strength
+        <input id="appearance-shadow-opacity" type="range" min="0" max="1" step="0.05" value="0.25"
+      /></label>
+      <label
+        >Shadow color <input id="appearance-shadow-color" type="color" value="#0f1115"
+      /></label>
+      <label>Hover effect <input id="appearance-hover" type="checkbox" checked /></label>
+      <label
+        >Hover border color <input id="appearance-hover-border" type="color" value="#ff9f1c"
+      /></label>
+      <label
+        >Hover title color <input id="appearance-hover-title" type="color" value="#ff9f1c"
+      /></label>
+      <label
+        >Hover lift
+        <input id="appearance-hover-lift" type="range" min="0" max="24" step="2" value="8"
+      /></label>
+      <label
+        >Hover scale
+        <input id="appearance-hover-scale" type="range" min="1" max="1.1" step="0.01" value="1.02"
+      /></label>
       <button class="demo-btn wide" id="btn-appearance">Open interactive preview</button>
     </fieldset>
     <div class="theme-row">
@@ -207,13 +250,35 @@
       });
 
       const value = (id) => document.getElementById(id).value;
+      const checked = (id) => document.getElementById(id).checked;
       const currentAppearance = () => ({
         opacity: Number(value('appearance-opacity')),
         overlayOpacity: Number(value('appearance-overlay')),
         backdropBlur: Number(value('appearance-blur')),
+        surfaceColor: value('appearance-surface-color'),
+        titleColor: value('appearance-title-color'),
+        titleOpacity: Number(value('appearance-title-opacity')),
+        contentColor: value('appearance-content-color'),
+        contentOpacity: Number(value('appearance-content-opacity')),
         borderWidth: Number(value('appearance-border-width')),
         borderColor: value('appearance-border-color'),
-        shadow: value('appearance-shadow'),
+        borderOpacity: Number(value('appearance-border-opacity')),
+        shadow: {
+          angle: Number(value('appearance-shadow-angle')),
+          distance: Number(value('appearance-shadow-distance')),
+          blur: Number(value('appearance-shadow-blur')),
+          color: value('appearance-shadow-color'),
+          opacity: Number(value('appearance-shadow-opacity')),
+        },
+        hover: checked('appearance-hover')
+          ? {
+              borderColor: value('appearance-hover-border'),
+              titleColor: value('appearance-hover-title'),
+              lift: Number(value('appearance-hover-lift')),
+              scale: Number(value('appearance-hover-scale')),
+              shadow: 'xl',
+            }
+          : undefined,
       });
       let appearancePreview;
       document

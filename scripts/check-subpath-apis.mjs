@@ -7,6 +7,7 @@ const entries = [
   'core',
   'interactions',
   'animations',
+  'appearance',
   'presentation',
   'workflows',
 ];

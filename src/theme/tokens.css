@@ -23,10 +23,19 @@
     --fd-duration-normal: 200ms;
     --fd-easing: cubic-bezier(0.16, 1, 0.3, 1);
     --fd-dialog-opacity: 100%;
+    --fd-dialog-surface-color: var(--fd-color-surface);
+    --fd-dialog-title-color: var(--fd-color-text);
+    --fd-dialog-title-opacity: 1;
+    --fd-dialog-content-color: var(--fd-color-text);
+    --fd-dialog-content-opacity: 1;
     --fd-dialog-border-width: 1px;
     --fd-dialog-border-style: solid;
     --fd-dialog-border-color: var(--fd-color-border);
+    --fd-dialog-border-opacity: 100%;
     --fd-dialog-shadow: var(--fd-shadow);
+    --fd-dialog-hover-duration: var(--fd-duration-normal);
+    --fd-dialog-hover-lift: 0px;
+    --fd-dialog-hover-scale: 1;
     --fd-overlay-opacity: 100%;
     --fd-backdrop-blur: 0px;
   }

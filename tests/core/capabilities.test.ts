@@ -4,6 +4,12 @@ import {
   animateDialogIn,
   animateDialogOut,
 } from '../../src/core/animationRegistry';
+import { applyAppearance } from '../../src/core/appearance';
+import { applyBasicAppearance } from '../../src/core/appearance-basic';
+import {
+  applyDialogAppearance,
+  registerAppearanceApplier,
+} from '../../src/core/appearanceRegistry';
 import { makeBasicDraggable } from '../../src/core/draggable-basic';
 import { createDraggable, registerDraggableFactory } from '../../src/core/interactionRegistry';
 
@@ -18,6 +24,36 @@ describe('optional capabilities', () => {
     await animateDialogOut(overlay, dialog, 'fade');
     expect(enter).toHaveBeenCalledWith(overlay, dialog, 'scale');
     expect(exit).toHaveBeenCalledWith(overlay, dialog, 'fade');
+  });
+
+  it('applies basic appearance until the full applier is registered', () => {
+    const overlay = document.createElement('div');
+    const dialog = document.createElement('div');
+
+    // The lightweight applier covers surface, backdrop, and border only, so
+    // focused entries stay small; richer options are simply ignored.
+    applyBasicAppearance(overlay, dialog, {
+      opacity: 0.5,
+      borderColor: '#123456',
+      shadow: 'lg',
+      titleColor: '#ff0000',
+      hover: { titleColor: '#00ff00' },
+    });
+    expect(dialog.style.getPropertyValue('--fd-dialog-opacity')).toBe('50%');
+    expect(dialog.style.getPropertyValue('--fd-dialog-border-color')).toBe('#123456');
+    expect(dialog.dataset.fdShadow).toBe('lg');
+    expect(dialog.style.getPropertyValue('--fd-dialog-title-color')).toBe('');
+    expect(dialog.hasAttribute('data-fd-hover')).toBe(false);
+
+    registerAppearanceApplier(applyAppearance);
+    applyDialogAppearance(overlay, dialog, {
+      titleColor: '#ff0000',
+      hover: { titleColor: '#00ff00' },
+    });
+    expect(dialog.style.getPropertyValue('--fd-dialog-title-color')).toBe('#ff0000');
+    expect(dialog.dataset.fdHover).toBe('');
+
+    registerAppearanceApplier(applyBasicAppearance);
   });
 
   it('allows the draggable factory to be replaced', () => {

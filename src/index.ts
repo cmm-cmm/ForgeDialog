@@ -2,6 +2,7 @@ import type { HookFn, HookName, Plugin } from './types';
 import { pluginManager } from './plugins/PluginManager';
 import './interactions-entry';
 import './animations-entry';
+import './appearance-entry';
 
 declare const __FORGEDIALOG_VERSION__: string;
 
@@ -36,6 +37,9 @@ export type {
   CloseReason,
   DialogOutcome,
   DialogAppearance,
+  DialogHoverAppearance,
+  DialogShadow,
+  DialogShadowConfig,
   DialogDragEvent,
   DialogPosition,
   DialogPresentation,

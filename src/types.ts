@@ -16,6 +16,51 @@ export interface DialogPosition {
   y: number;
 }
 
+export type ShadowPreset = 'none' | 'sm' | 'md' | 'lg' | 'xl';
+
+/**
+ * A shadow built from its parts, so both strength and direction can be tuned
+ * without hand-writing a `box-shadow` string.
+ */
+export interface DialogShadowConfig {
+  /**
+   * Direction the shadow falls, in degrees, as if light came from the opposite
+   * side. `0` casts it upwards, `90` to the right, `180` downwards (the
+   * default), `270` to the left.
+   */
+  angle?: number;
+  /** How far the shadow travels along `angle`. Numbers are CSS pixels. */
+  distance?: number | string;
+  /** Blur radius. Numbers are CSS pixels. */
+  blur?: number | string;
+  /** Spread radius. Numbers are CSS pixels. */
+  spread?: number | string;
+  color?: string;
+  /** Shadow strength from 0 (invisible) to 1 (fully opaque). */
+  opacity?: number;
+  /** Draw the shadow inside the dialog instead of outside it. */
+  inset?: boolean;
+}
+
+/** A built-in preset, any valid CSS box-shadow value, or a composed shadow. */
+export type DialogShadow = ShadowPreset | string | DialogShadowConfig;
+
+/** Appearance overrides applied only while the pointer is over the dialog. */
+export interface DialogHoverAppearance {
+  opacity?: number;
+  surfaceColor?: string;
+  titleColor?: string;
+  contentColor?: string;
+  borderColor?: string;
+  shadow?: DialogShadow;
+  /** Distance the dialog rises on hover. Numbers are CSS pixels. */
+  lift?: number | string;
+  /** Scale factor on hover, for example `1.02`. */
+  scale?: number;
+  /** Transition duration for hover changes. Numbers are milliseconds. */
+  duration?: number | string;
+}
+
 export interface DialogAppearance {
   /** Dialog surface opacity from 0 (transparent) to 1 (opaque). */
   opacity?: number;
@@ -23,11 +68,25 @@ export interface DialogAppearance {
   overlayOpacity?: number;
   /** Backdrop blur in CSS pixels, or any CSS length. */
   backdropBlur?: number | string;
+  /** Background color of the dialog surface. */
+  surfaceColor?: string;
+  /** Color of the dialog title. */
+  titleColor?: string;
+  /** Title opacity from 0 (transparent) to 1 (opaque). */
+  titleOpacity?: number;
+  /** Color of the dialog body, including the default message paragraph. */
+  contentColor?: string;
+  /** Body opacity from 0 (transparent) to 1 (opaque). */
+  contentOpacity?: number;
   borderColor?: string;
+  /** Border opacity from 0 (transparent) to 1 (opaque). */
+  borderOpacity?: number;
   borderWidth?: number | string;
   borderStyle?: 'none' | 'solid' | 'dashed' | 'dotted' | 'double';
-  /** A built-in preset or any valid CSS box-shadow value. */
-  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | string;
+  /** A built-in preset, any valid CSS box-shadow value, or a composed shadow. */
+  shadow?: DialogShadow;
+  /** Overrides applied only while the pointer is over the dialog. */
+  hover?: DialogHoverAppearance;
 }
 
 export interface DialogDragEvent {

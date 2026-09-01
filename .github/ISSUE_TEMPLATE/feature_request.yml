@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest a capability ForgeDialog does not have yet
+description: Suggest a capability Forge Dialog does not have yet
 labels: ['enhancement']
 body:
   - type: textarea
@@ -33,7 +33,7 @@ body:
     attributes:
       label: Does this fit the project's constraints?
       description: |
-        ForgeDialog is dependency-free, framework-agnostic, accessible by default,
+        Forge Dialog is dependency-free, framework-agnostic, accessible by default,
         and holds its bundles to gzip budgets. Proposals that conflict with those
         are still worth raising — just say so.
       options:

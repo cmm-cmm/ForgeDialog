@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-ForgeDialog is a framework-agnostic TypeScript dialog library. Public exports begin in `src/index.ts`. High-level helpers live in `src/api/`, dialog behavior and accessibility primitives in `src/core/`, plugin support in `src/plugins/`, localization defaults in `src/i18n/`, and CSS plus theme helpers in `src/theme/`. Shared public types are in `src/types.ts`, while small internal helpers belong in `src/utils/`.
+Forge Dialog is a framework-agnostic TypeScript dialog library. Public exports begin in `src/index.ts`. High-level helpers live in `src/api/`, dialog behavior and accessibility primitives in `src/core/`, plugin support in `src/plugins/`, localization defaults in `src/i18n/`, and CSS plus theme helpers in `src/theme/`. Shared public types are in `src/types.ts`, while small internal helpers belong in `src/utils/`.
 
 Tests mirror these areas under `tests/` and use the `*.test.ts` suffix. Global test setup is in `tests/setup.ts`. `demo/index.html` is the manual browser demo. Generated output goes to `dist/`; do not edit or commit generated files unless a release workflow explicitly requires it.
 
@@ -28,4 +28,4 @@ Vitest runs in jsdom and discovers `tests/**/*.test.ts`. Place focused tests bes
 
 ## Commit & Pull Request Guidelines
 
-Existing commits use concise, imperative summaries such as `Add ForgeDialog core: ...`. Keep each commit scoped and explain the user-visible outcome. Pull requests should include a clear description, relevant issue links, verification commands, and tests. Add screenshots or a short recording for visual, animation, or demo changes, and call out API or accessibility impacts explicitly.
+Existing commits use concise, imperative summaries such as `Add Forge Dialog core: ...`. Keep each commit scoped and explain the user-visible outcome. Pull requests should include a clear description, relevant issue links, verification commands, and tests. Add screenshots or a short recording for visual, animation, or demo changes, and call out API or accessibility impacts explicitly.

@@ -1,6 +1,6 @@
-# Contributing to ForgeDialog
+# Contributing to Forge Dialog
 
-Thanks for helping out. ForgeDialog is a dependency-free TypeScript dialog library, so most
+Thanks for helping out. Forge Dialog is a dependency-free TypeScript dialog library, so most
 contributions touch `src/`, its tests, and the checks that keep the published package honest.
 
 ## Getting set up

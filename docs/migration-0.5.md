@@ -1,4 +1,4 @@
-# Migrating to ForgeDialog 0.5
+# Migrating to Forge Dialog 0.5
 
 Version 0.5 keeps the main `forgedialog` entry backward compatible. Existing imports continue to
 include advanced dragging and animation presets, so most applications need no code changes.

@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-ForgeDialog is pre-1.0. Fixes land on the most recent minor line; older `0.x` lines are not
+Forge Dialog is pre-1.0. Fixes land on the most recent minor line; older `0.x` lines are not
 patched.
 
 | Version | Supported |
@@ -25,7 +25,7 @@ credited in the advisory unless you prefer otherwise.
 
 ## Scope
 
-ForgeDialog renders UI in the browser and ships no server component, so most reports will concern
+Forge Dialog renders UI in the browser and ships no server component, so most reports will concern
 how untrusted content reaches the DOM.
 
 **In scope**

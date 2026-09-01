@@ -227,6 +227,7 @@
     "validate:all": "npm run validate && npm run test:e2e",
     "demo": "npm run build && serve .",
     "site:build": "npm run build && node scripts/build-site.mjs",
+    "site:icons": "node scripts/build-icons.mjs",
     "site": "npm run site:build && serve site",
     "prepublishOnly": "npm run build"
   },

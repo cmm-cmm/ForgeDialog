@@ -1,6 +1,6 @@
 # Releasing
 
-ForgeDialog publishes to npm from GitHub Actions using npm **trusted publishing** (OIDC), so no
+Forge Dialog publishes to npm from GitHub Actions using npm **trusted publishing** (OIDC), so no
 `NPM_TOKEN` secret is stored in the repository. The workflow is `.github/workflows/release.yml`.
 
 ## One-time setup
@@ -69,7 +69,7 @@ accident before you are ready.
 4. Tag the merge commit and push the tag:
 
    ```sh
-   git tag -a v0.7.0 -m "ForgeDialog v0.7.0"
+   git tag -a v0.7.0 -m "Forge Dialog v0.7.0"
    git push origin v0.7.0
    ```
 

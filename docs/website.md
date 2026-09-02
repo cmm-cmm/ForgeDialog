@@ -21,6 +21,7 @@ CDN, so what you see is always the build you have.
 | File              | Role                                                                  |
 | ----------------- | --------------------------------------------------------------------- |
 | `site/index.html` | The landing page: demos, appearance playground, facts table, and FAQ. |
+| `site/demo.html`  | Live demos: every surface running, each beside its code.              |
 | `site/docs.html`  | The API reference, written against the reviewed report in `etc/`.     |
 | `site/404.html`   | Served for any unmatched path. Carries `noindex`.                     |
 | `site/styles.css` | Site styling. Its dark mode reads the same `data-fd-theme` attribute  |
@@ -28,13 +29,15 @@ CDN, so what you see is always the build you have.
 | `site/common.js`  | Shared chrome: version badge, theme toggle, copy buttons.             |
 | `site/site.js`    | Landing-page demos and the appearance playground.                     |
 | `site/docs.js`    | Highlights the sidebar entry for the section being read.              |
-| `site/icon.svg`   | The mark, and the favicon browsers actually load.                     |
+| `site/demo.js`    | Runs the demos. One delegated listener, no inline handlers.           |
+| `site/icon.svg`   | The mark: the favicon, and the logo in every page header.             |
 | `wrangler.jsonc`  | Cloudflare deployment config. Points at `site/`, not `dist/`.         |
 | `site/_headers`   | Cloudflare response headers, including a strict CSP.                  |
 
 ### URLs
 
-The docs page is served at **`/docs`**, not `/docs.html`. Both Cloudflare's static-asset routing
+The demo and docs pages are served at **`/demo`** and **`/docs`**, not `/demo.html` and
+`/docs.html`. Both Cloudflare's static-asset routing
 (`html_handling: "auto-trailing-slash"`, the default) and the `serve` used by `npm run site` drop
 the `.html` and redirect the extension form, so the extensionless URL is the one that answers with
 a `200`. Every link, canonical tag, sitemap entry, and `llms.txt` link uses it — a canonical or a
@@ -53,10 +56,31 @@ refers to it. The npm package (`forgedialog`), the browser global (`ForgeDialog`
 element (`forge-dialog`), and the repository name stay as they are: they are identifiers, not
 prose.
 
+## The demo page
+
+`site/demo.html` runs every surface the library ships — the four dialog entry points, `open()`,
+stacking, animations, drawers, bottom sheets, toasts, the lightbox, loading states, the command
+palette, the notification centre, `form()`, `wizard()`, and `formWizard()` — against the same
+vendored build the rest of the site uses.
+
+Each card pairs a control that really runs with the snippet of the call being made, so the page
+cannot drift from what it documents: if a snippet were wrong, the button beside it would misbehave.
+A plugin registered on the page logs `afterOpen` and `afterClose`, and every demo prints its return
+value, so the result log doubles as evidence that the hooks fire.
+
+`demo.js` uses one delegated listener on `document` keyed by `data-demo`, because the site's CSP is
+`script-src 'self'` and inline `onclick` attributes would be blocked. A demo that throws prints the
+failure into the log rather than only the console.
+
+This is separate from `demo/index.html` at the repository root, which is the manual verification
+page the visual regression test drives. That one loads `../dist/` directly and is not deployed.
+
 ## Icons
 
-`site/icon.svg` is the source of truth and is what browsers load as the favicon. Two bitmaps are
-committed beside it because SVG is not enough everywhere:
+`site/icon.svg` is the source of truth. It is what browsers load as the favicon and what every page
+header shows beside the wordmark — with `alt=""`, since the adjacent text already names the product
+and a screen reader should not announce it twice. Two bitmaps are committed beside it because SVG
+is not enough everywhere:
 
 | File                        | Size     | Used by                        |
 | --------------------------- | -------- | ------------------------------ |

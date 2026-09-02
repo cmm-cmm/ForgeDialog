@@ -40,6 +40,14 @@ const pages = [
     summary: 'What it is, live demos, and an interactive appearance playground.',
   },
   {
+    path: '/demo',
+    file: 'site/demo.html',
+    priority: '0.9',
+    title: 'Live demos',
+    summary:
+      'Every surface running in the browser — dialogs, drawers, sheets, lightboxes, loading states, toasts, the command palette, forms, and wizards — each beside the code that produced it.',
+  },
+  {
     path: '/docs',
     file: 'site/docs.html',
     priority: '0.9',

@@ -82,10 +82,11 @@ header shows beside the wordmark — with `alt=""`, since the adjacent text alre
 and a screen reader should not announce it twice. Two bitmaps are committed beside it because SVG
 is not enough everywhere:
 
-| File                        | Size     | Used by                        |
-| --------------------------- | -------- | ------------------------------ |
-| `site/apple-touch-icon.png` | 180×180  | iOS home screens               |
-| `site/og-image.png`         | 1200×630 | Link previews and social cards |
+| File                        | Size     | Used by                                        |
+| --------------------------- | -------- | ---------------------------------------------- |
+| `site/favicon.ico`          | 32×32    | Clients that request `/favicon.ico` regardless |
+| `site/apple-touch-icon.png` | 180×180  | iOS home screens                               |
+| `site/og-image.png`         | 1200×630 | Link previews and social cards                 |
 
 Both are rendered from `icon.svg` through Chromium, which is already a dev dependency:
 
@@ -95,7 +96,27 @@ npm run site:icons
 
 Run it only when the icon changes; neither the site build nor a deploy runs it. The apple-touch
 variant squares off the mark's ground (via `#ground { rx: 0 }`) because iOS applies its own rounded
-mask and would otherwise round it twice.
+mask and would otherwise round it twice. The `.ico` is a 32×32 PNG wrapped in an ICO container,
+which every browser since Vista accepts and which needs no bitmap encoder — the whole file is about
+1.2 KB.
+
+## Checking the site
+
+`npm run site:build` ends with `node scripts/check-site.mjs`, so a broken site fails the Cloudflare
+deploy rather than reaching the domain. Run it alone with `npm run site:check`.
+
+It fails the build on:
+
+- a link or asset that resolves to nothing, following the same rules the server does (a directory
+  means its `index.html`, an extensionless path means the `.html` file of that name);
+- a `#fragment` naming an id that does not exist on the page it lands on;
+- a link written in the `.html` form, which the server answers with a redirect;
+- JSON-LD that does not parse, and an `FAQPage` whose questions have drifted from the visible ones;
+- a page with no canonical, title, description, or `og:image`, a `404.html` that declares a
+  canonical or forgets `noindex`, and any disagreement between pages about the canonical origin.
+
+Every one of those is a failure this site shipped or nearly shipped. They are checked rather than
+eyeballed because a page can look right in a browser and still be wrong in all of them.
 
 ## SEO and answer engines
 

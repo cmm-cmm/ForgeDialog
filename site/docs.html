@@ -255,12 +255,15 @@ import 'forgedialog/style.css';</code></pre>
                   </td>
                 </tr>
                 <tr>
-                  <td><code>forgedialog/react</code></td>
-                  <td><code>useForgeDialog()</code> for React.</td>
+                  <td><code>forgedialog-react</code></td>
+                  <td>
+                    A separate package. <code>useForgeDialog()</code> for React, with React as its
+                    peer dependency rather than the core's.
+                  </td>
                 </tr>
                 <tr>
-                  <td><code>forgedialog/vue</code></td>
-                  <td><code>useForgeDialog()</code> for Vue.</td>
+                  <td><code>forgedialog-vue</code></td>
+                  <td>A separate package. <code>useForgeDialog()</code> for Vue.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/svelte</code></td>
@@ -1361,10 +1364,16 @@ registerPlugin({
             Each adapter is a thin wrapper over <code>open()</code> that ties a dialog's lifetime to
             the component's, so nothing is left mounted after unmount.
           </p>
+          <p>
+            React and Vue ship as their own packages —
+            <code>npm install forgedialog forgedialog-react</code> — so a project that uses neither
+            is never asked about them. Svelte and Web Components need no framework runtime, so they
+            stay in the core.
+          </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-frameworks">Copy</button>
             <pre><code id="code-frameworks">// React and Vue share the same hook shape.
-import { useForgeDialog } from 'forgedialog/react';
+import { useForgeDialog } from 'forgedialog-react';
 const { open } = useForgeDialog();
 await open({ title: 'Hi' }).whenClosed();
 

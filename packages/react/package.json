@@ -1,0 +1,68 @@
+{
+  "name": "forgedialog-react",
+  "version": "0.1.0",
+  "description": "React hook for Forge Dialog.",
+  "keywords": [
+    "forgedialog",
+    "dialog",
+    "modal",
+    "react"
+  ],
+  "license": "MIT",
+  "author": "KonexForge",
+  "homepage": "https://forgedialog.konexforge.com",
+  "bugs": "https://github.com/cmm-cmm/ForgeDialog/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmm-cmm/ForgeDialog.git",
+    "directory": "packages/react"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build",
+    "check:package": "publint && attw --pack . --ignore-rules=no-resolution"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "forgedialog": ">=0.7.0 <1.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}

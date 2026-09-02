@@ -260,12 +260,15 @@ import 'forgedialog/style.css';</code></pre>
                   </td>
                 </tr>
                 <tr>
-                  <td><code>forgedialog/react</code></td>
-                  <td><code>useForgeDialog()</code> cho React.</td>
+                  <td><code>forgedialog-react</code></td>
+                  <td>
+                    Một gói riêng. <code>useForgeDialog()</code> cho React, với React là peer
+                    dependency của gói này chứ không phải của lõi.
+                  </td>
                 </tr>
                 <tr>
-                  <td><code>forgedialog/vue</code></td>
-                  <td><code>useForgeDialog()</code> cho Vue.</td>
+                  <td><code>forgedialog-vue</code></td>
+                  <td>Một gói riêng. <code>useForgeDialog()</code> cho Vue.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/svelte</code></td>
@@ -1364,10 +1367,16 @@ registerPlugin({
             Mỗi adapter là một lớp bọc mỏng quanh <code>open()</code>, gắn vòng đời hộp thoại vào
             vòng đời component, nên không còn gì sót lại sau khi component bị gỡ.
           </p>
+          <p>
+            React và Vue được phát hành thành gói riêng —
+            <code>npm install forgedialog forgedialog-react</code> — nên dự án không dùng framework
+            nào trong hai cái đó sẽ không bao giờ bị hỏi tới chúng. Svelte và Web Components không
+            cần runtime của framework nên vẫn nằm trong lõi.
+          </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-frameworks">Copy</button>
             <pre><code id="code-frameworks">// React and Vue share the same hook shape.
-import { useForgeDialog } from 'forgedialog/react';
+import { useForgeDialog } from 'forgedialog-react';
 const { open } = useForgeDialog();
 await open({ title: 'Hi' }).whenClosed();
 

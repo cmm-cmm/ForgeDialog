@@ -31,10 +31,17 @@ const canonical = indexHtml.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
 if (!canonical) throw new Error('site/index.html has no <link rel="canonical">, cannot build');
 const origin = new URL(canonical).origin;
 
+/**
+ * Every page, in both languages. `group` pairs the translations of one page:
+ * it is what the sitemap's alternates and the pages' own hreflang tags are
+ * built from, so a page can never be listed in one and missing from the other.
+ */
 const pages = [
   {
     path: '/',
     file: 'site/index.html',
+    locale: 'en',
+    group: 'home',
     priority: '1.0',
     title: 'Forge Dialog',
     summary: 'What it is, live demos, and an interactive appearance playground.',
@@ -42,6 +49,8 @@ const pages = [
   {
     path: '/demo',
     file: 'site/demo.html',
+    locale: 'en',
+    group: 'demo',
     priority: '0.9',
     title: 'Live demos',
     summary:
@@ -50,12 +59,56 @@ const pages = [
   {
     path: '/docs',
     file: 'site/docs.html',
+    locale: 'en',
+    group: 'docs',
     priority: '0.9',
     title: 'API reference',
     summary:
       'Every option, method, and entry point: dialogs, appearance, dragging, forms, wizards, toasts, theming, plugins, and framework adapters.',
   },
+  {
+    path: '/vi/',
+    file: 'site/vi/index.html',
+    locale: 'vi',
+    group: 'home',
+    priority: '0.9',
+    title: 'Forge Dialog (tiếng Việt)',
+    summary: 'Giới thiệu, demo trực tiếp, và bảng điều khiển tuỳ biến giao diện.',
+  },
+  {
+    path: '/vi/demo',
+    file: 'site/vi/demo.html',
+    locale: 'vi',
+    group: 'demo',
+    priority: '0.8',
+    title: 'Demo trực tiếp (tiếng Việt)',
+    summary:
+      'Mọi thành phần chạy thật trong trình duyệt — hộp thoại, drawer, bottom sheet, lightbox, trạng thái tải, toast, bảng lệnh, biểu mẫu, và wizard — kèm đúng đoạn mã tạo ra nó.',
+  },
+  {
+    path: '/vi/docs',
+    file: 'site/vi/docs.html',
+    locale: 'vi',
+    group: 'docs',
+    priority: '0.8',
+    title: 'Tài liệu API (tiếng Việt)',
+    summary:
+      'Mọi tuỳ chọn, phương thức, và điểm vào: hộp thoại, giao diện, kéo thả, biểu mẫu, wizard, toast, chủ đề, plugin, và adapter cho framework.',
+  },
 ];
+
+/** The alternates for one page, as hreflang code to absolute URL. */
+function alternates(group) {
+  const entries = pages.filter((page) => page.group === group);
+  const english = entries.find((page) => page.locale === 'en');
+  return [
+    ...entries.map((page) => [page.locale, `${origin}${page.path}`]),
+    // x-default is what a crawler serves when it has no better match for the
+    // visitor's language, so it points at the English page rather than a
+    // language-negotiating redirect this static site does not have.
+    ['x-default', `${origin}${english.path}`],
+  ];
+}
 
 /**
  * `lastmod` has to be the day the page's content actually changed. Stamping
@@ -82,11 +135,18 @@ function lastModified(file) {
 await writeFile(
   new URL('sitemap.xml', site),
   `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${pages
   .map((page) => {
     const lastmod = lastModified(page.file);
-    return `  <url>\n    <loc>${origin}${page.path}</loc>\n${
+    // Every entry carries the alternates for its whole group. A sitemap that
+    // annotates only one direction is the usual way hreflang goes wrong.
+    const links = alternates(page.group)
+      .map(
+        ([code, href]) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${href}"/>\n`,
+      )
+      .join('');
+    return `  <url>\n    <loc>${origin}${page.path}</loc>\n${links}${
       lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : ''
     }    <priority>${page.priority}</priority>\n  </url>`;
   })
@@ -145,7 +205,19 @@ The product is named **Forge Dialog** (two words). The npm package is \`forgedia
 
 ## Documentation
 
-${pages.map((page) => `- [${page.title}](${origin}${page.path}): ${page.summary}`).join('\n')}
+${pages
+  .filter((page) => page.locale === 'en')
+  .map((page) => `- [${page.title}](${origin}${page.path}): ${page.summary}`)
+  .join('\n')}
+
+## Vietnamese
+
+The same three pages are published in Vietnamese. They are translations of the English pages above, not different content.
+
+${pages
+  .filter((page) => page.locale === 'vi')
+  .map((page) => `- [${page.title}](${origin}${page.path}): ${page.summary}`)
+  .join('\n')}
 
 ## Source
 

@@ -37,7 +37,7 @@ CDN, so what you see is always the build you have.
 ### URLs
 
 The demo and docs pages are served at **`/demo`** and **`/docs`**, not `/demo.html` and
-`/docs.html`. Both Cloudflare's static-asset routing
+`/docs.html`, and their Vietnamese counterparts at `/vi/demo` and `/vi/docs`. Both Cloudflare's static-asset routing
 (`html_handling: "auto-trailing-slash"`, the default) and the `serve` used by `npm run site` drop
 the `.html` and redirect the extension form, so the extensionless URL is the one that answers with
 a `200`. Every link, canonical tag, sitemap entry, and `llms.txt` link uses it — a canonical or a
@@ -100,6 +100,48 @@ mask and would otherwise round it twice. The `.ico` is a 32×32 PNG wrapped in a
 which every browser since Vista accepts and which needs no bitmap encoder — the whole file is about
 1.2 KB.
 
+## Vietnamese
+
+All three pages are published in Vietnamese under `/vi/`, as translations of the English pages
+rather than different content. `site/vi/index.html`, `site/vi/demo.html`, and `site/vi/docs.html`
+mirror their English counterparts section for section, keeping the same element ids so
+`site.js`, `demo.js`, and `docs.js` drive both languages without a second copy.
+
+### How the strings work
+
+Those three scripts are shared, so nothing user-visible is hard-coded in them. Each page carries a
+JSON data block, and the script reads it with English as the fallback:
+
+```html
+<script type="application/json" id="fd-strings">
+  { "alertTitle": "Lưu ý", "labels": { "cancel": "Huỷ", "submit": "Gửi" } }
+</script>
+```
+
+A data block is not an executable script, so `script-src 'self'` allows it — an inline `<script>`
+of real code would be blocked. The id is prefixed because `i18n` alone is already a section id on
+the docs page, and `getElementById` would find that section instead.
+
+`labels` is passed to the library's own `setLabels()` by `common.js`, so the buttons inside the
+dialogs are in the same language as the page around them. The theme toggle and copy buttons read
+their four strings from `data-` attributes for the same reason.
+
+The code shown beside each demo is translated too: the snippet has to be the call that is actually
+made, or the page stops documenting itself.
+
+### hreflang
+
+Each page declares `en`, `vi`, and `x-default`, and the sitemap repeats the same set as
+`xhtml:link` alternates on every entry. `x-default` points at the English page, since this is a
+static site with no language negotiation.
+
+Both sides have to name each other. `npm run site:check` fails the build on a one-way annotation,
+on a missing `x-default`, and on a page whose hreflang set leaves out its own canonical — those
+are the three ways this goes wrong, and none of them is visible in a browser.
+
+Assets on a `/vi/` page are linked root-relative (`/styles.css`, not `./styles.css`), because the
+page sits a directory down and a relative path would resolve inside `/vi/`.
+
 ## Checking the site
 
 `npm run site:build` ends with `node scripts/check-site.mjs`, so a broken site fails the Cloudflare
@@ -110,6 +152,7 @@ It fails the build on:
 - a link or asset that resolves to nothing, following the same rules the server does (a directory
   means its `index.html`, an extensionless path means the `.html` file of that name);
 - a `#fragment` naming an id that does not exist on the page it lands on;
+- a one-way, incomplete, or self-omitting hreflang set;
 - a link written in the `.html` form, which the server answers with a redirect;
 - JSON-LD that does not parse, and an `FAQPage` whose questions have drifted from the visible ones;
 - a page with no canonical, title, description, or `og:image`, a `404.html` that declares a

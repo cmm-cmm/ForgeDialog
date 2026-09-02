@@ -1,84 +1,80 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>API reference — Forge Dialog</title>
+    <title>Tài liệu API — Forge Dialog</title>
     <meta
       name="description"
-      content="Complete API reference for Forge Dialog: alert, confirm, prompt, open, appearance and shadow options, dragging, drawers, forms, wizards, toasts, theming, plugins, and framework adapters."
+      content="Tài liệu API đầy đủ của Forge Dialog: alert, confirm, prompt, open, các tuỳ chọn giao diện và đổ bóng, kéo thả, drawer, biểu mẫu, wizard, toast, chủ đề, plugin, và adapter cho framework."
     />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="KonexForge" />
-    <meta property="og:title" content="Forge Dialog API reference" />
+    <meta property="og:title" content="Tài liệu API Forge Dialog" />
     <meta
       property="og:description"
-      content="Every option, method, and entry point in Forge Dialog, on one page."
+      content="Mọi tuỳ chọn, phương thức, và điểm vào của Forge Dialog, gói gọn trong một trang."
     />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://forgedialog.konexforge.com/docs" />
+    <meta property="og:url" content="https://forgedialog.konexforge.com/vi/docs" />
     <meta property="og:site_name" content="Forge Dialog" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="vi_VN" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:image" content="https://forgedialog.konexforge.com/og-image.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Forge Dialog — accessible, dependency-free dialogs for the web"
+      content="Forge Dialog — hộp thoại cho web, dễ tiếp cận và không phụ thuộc"
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Forge Dialog API reference" />
     <meta
       name="twitter:description"
-      content="Every option, method, and entry point in Forge Dialog, on one page."
+      content="Mọi tuỳ chọn, phương thức, và điểm vào của Forge Dialog, gói gọn trong một trang."
     />
     <meta name="twitter:image" content="https://forgedialog.konexforge.com/og-image.png" />
     <meta name="theme-color" content="#5468e8" />
-    <link rel="canonical" href="https://forgedialog.konexforge.com/docs" />
+    <link rel="canonical" href="https://forgedialog.konexforge.com/vi/docs" />
     <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
     <link rel="alternate" hreflang="en" href="https://forgedialog.konexforge.com/docs" />
     <link rel="alternate" hreflang="vi" href="https://forgedialog.konexforge.com/vi/docs" />
     <link rel="alternate" hreflang="x-default" href="https://forgedialog.konexforge.com/docs" />
-    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
-    <link rel="icon" href="./favicon.ico" sizes="32x32" />
-    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
-    <link rel="stylesheet" href="./vendor/index.css" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/vendor/index.css" />
+    <link rel="stylesheet" href="/styles.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@graph": [
           {
             "@type": "TechArticle",
-            "@id": "https://forgedialog.konexforge.com/docs#article",
-            "headline": "Forge Dialog API reference",
-            "description": "Complete API reference for Forge Dialog: alert, confirm, prompt, open, appearance and shadow options, dragging, drawers, forms, wizards, toasts, theming, plugins, and framework adapters.",
-            "url": "https://forgedialog.konexforge.com/docs",
-            "inLanguage": "en",
-            "isPartOf": {
-              "@id": "https://forgedialog.konexforge.com/#website"
-            },
-            "about": {
-              "@id": "https://forgedialog.konexforge.com/#software"
-            },
-            "proficiencyLevel": "Beginner"
+            "@id": "https://forgedialog.konexforge.com/vi/docs#article",
+            "headline": "Tài liệu API Forge Dialog",
+            "description": "Tài liệu API đầy đủ của Forge Dialog: alert, confirm, prompt, open, các tuỳ chọn giao diện và đổ bóng, kéo thả, drawer, biểu mẫu, wizard, toast, chủ đề, plugin, và adapter cho framework.",
+            "url": "https://forgedialog.konexforge.com/vi/docs",
+            "inLanguage": "vi",
+            "isPartOf": { "@id": "https://forgedialog.konexforge.com/#website" },
+            "about": { "@id": "https://forgedialog.konexforge.com/#software" }
           },
           {
             "@type": "BreadcrumbList",
+            "@id": "https://forgedialog.konexforge.com/vi/docs#breadcrumb",
             "itemListElement": [
               {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Forge Dialog",
-                "item": "https://forgedialog.konexforge.com/"
+                "item": "https://forgedialog.konexforge.com/vi/"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "API reference",
-                "item": "https://forgedialog.konexforge.com/docs"
+                "name": "Tài liệu API",
+                "item": "https://forgedialog.konexforge.com/vi/docs"
               }
             ]
           }
@@ -89,88 +85,96 @@
   <body>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href="./">
-          <img class="brand-mark" src="./icon.svg" alt="" width="26" height="26" />
+        <a class="brand" href="/vi/">
+          <img class="brand-mark" src="/icon.svg" alt="" width="26" height="26" />
           Forge Dialog
           <span class="version" id="version">…</span>
         </a>
-        <a class="nav-link" href="./#features">Features</a>
-        <a class="nav-link" href="./#playground">Playground</a>
-        <a class="nav-link" href="./demo">Demos</a>
-        <a class="nav-link" href="./docs" aria-current="page">Docs</a>
+        <a class="nav-link" href="/vi/#features">Tính năng</a>
+        <a class="nav-link" href="/vi/#playground">Tuỳ biến</a>
+        <a class="nav-link" href="/vi/demo">Demo</a>
+        <a class="nav-link" href="/vi/docs" aria-current="page">Tài liệu</a>
         <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
         <span class="lang-switch">
-          <a href="/docs" class="active" lang="en" hreflang="en" aria-current="true">EN</a>
-          <a href="/vi/docs" lang="vi" hreflang="vi">VI</a>
+          <a href="/docs" lang="en" hreflang="en">EN</a>
+          <a href="/vi/docs" class="active" lang="vi" hreflang="vi" aria-current="true">VI</a>
         </span>
-        <button class="btn btn--sm" id="theme-toggle" aria-pressed="false">Dark</button>
+        <button
+          class="btn btn--sm"
+          id="theme-toggle"
+          data-label-dark="Tối"
+          data-label-light="Sáng"
+          aria-pressed="false"
+        >
+          Tối
+        </button>
       </div>
     </header>
 
     <div class="wrap docs-layout">
       <aside class="docs-nav">
-        <nav aria-label="Documentation sections">
-          <p class="docs-nav__group">Getting started</p>
-          <a href="#install">Installation</a>
-          <a href="#entry-points">Entry points</a>
-          <a href="#stylesheets">Stylesheets</a>
+        <nav aria-label="Các mục tài liệu">
+          <p class="docs-nav__group">Bắt đầu</p>
+          <a href="#install">Cài đặt</a>
+          <a href="#entry-points">Điểm vào</a>
+          <a href="#stylesheets">Tệp CSS</a>
 
-          <p class="docs-nav__group">Dialogs</p>
+          <p class="docs-nav__group">Hộp thoại</p>
           <a href="#dialogs">alert, confirm, prompt</a>
           <a href="#open">open()</a>
           <a href="#options">DialogOptions</a>
           <a href="#instance">DialogInstance</a>
 
-          <p class="docs-nav__group">Appearance</p>
+          <p class="docs-nav__group">Giao diện</p>
           <a href="#appearance">appearance</a>
-          <a href="#shadows">Shadows</a>
-          <a href="#radius">Corner radius</a>
+          <a href="#shadows">Đổ bóng</a>
+          <a href="#radius">Bo góc</a>
           <a href="#hover">Hover</a>
-          <a href="#dragging">Dragging</a>
+          <a href="#dragging">Kéo thả</a>
 
-          <p class="docs-nav__group">Beyond dialogs</p>
-          <a href="#presentation">Drawers and sheets</a>
-          <a href="#forms">Forms</a>
-          <a href="#wizards">Wizards</a>
-          <a href="#toasts">Toasts</a>
-          <a href="#command">Command palette</a>
+          <p class="docs-nav__group">Ngoài hộp thoại</p>
+          <a href="#presentation">Drawer và sheet</a>
+          <a href="#forms">Biểu mẫu</a>
+          <a href="#wizards">Wizard</a>
+          <a href="#toasts">Toast</a>
+          <a href="#command">Bảng lệnh</a>
 
-          <p class="docs-nav__group">Customisation</p>
-          <a href="#theming">Theming</a>
-          <a href="#tokens">CSS variables</a>
-          <a href="#i18n">Labels and i18n</a>
-          <a href="#plugins">Plugins and hooks</a>
+          <p class="docs-nav__group">Tuỳ biến</p>
+          <a href="#theming">Chủ đề</a>
+          <a href="#tokens">Biến CSS</a>
+          <a href="#i18n">Nhãn và đa ngôn ngữ</a>
+          <a href="#plugins">Plugin và hook</a>
 
-          <p class="docs-nav__group">Integration</p>
-          <a href="#frameworks">Frameworks</a>
+          <p class="docs-nav__group">Tích hợp</p>
+          <a href="#frameworks">Framework</a>
           <a href="#typescript">TypeScript, SSR, CSP</a>
         </nav>
       </aside>
 
       <main class="docs-body">
-        <h1>API reference</h1>
+        <h1>Tài liệu API</h1>
         <p class="docs-lead">
-          Forge Dialog is a dependency-free TypeScript dialog library built on the native
-          <code>&lt;dialog&gt;</code> element. Everything on this page is in the published package —
-          there are no plugins to install and no peer dependencies to satisfy.
+          Forge Dialog là thư viện hộp thoại TypeScript không phụ thuộc, xây trên phần tử
+          <code>&lt;dialog&gt;</code> của trình duyệt. Mọi thứ trên trang này đều nằm trong gói đã
+          phát hành — không có plugin phải cài và không có peer dependency phải thoả mãn.
         </p>
 
         <section id="install">
-          <h2>Installation</h2>
-          <p>Install from npm. The package name is one word; the library is called Forge Dialog.</p>
+          <h2>Cài đặt</h2>
+          <p>Cài từ npm. Tên gói viết liền một từ; tên thư viện là Forge Dialog.</p>
           <div class="snippet">
             <button class="copy" data-copy="#code-install">Copy</button>
             <pre><code id="code-install">npm install forgedialog</code></pre>
           </div>
-          <p>Import the API and a stylesheet:</p>
+          <p>Import API và một tệp CSS:</p>
           <div class="snippet">
             <button class="copy" data-copy="#code-import">Copy</button>
             <pre><code id="code-import">import { alert, confirm, prompt, open } from 'forgedialog';
 import 'forgedialog/style.css';</code></pre>
           </div>
           <p>
-            Or load the browser build directly. It defines the global
-            <code>ForgeDialog</code> — a JavaScript identifier, so it stays one word.
+            Hoặc nạp thẳng bản dựng cho trình duyệt. Nó tạo biến toàn cục <code>ForgeDialog</code> —
+            đây là định danh JavaScript nên viết liền một từ.
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-cdn">Copy</button>
@@ -181,51 +185,48 @@ import 'forgedialog/style.css';</code></pre>
 &lt;/script&gt;</code></pre>
           </div>
           <p class="note">
-            Requires Chrome/Edge 88+, Firefox 78+, Safari 15.4+, or Node.js 20+ for package tooling
-            and server-side imports.
+            Yêu cầu Chrome/Edge 88+, Firefox 78+, Safari 15.4+, hoặc Node.js 20+ cho công cụ đóng
+            gói và import phía máy chủ.
           </p>
         </section>
 
         <section id="entry-points">
-          <h2>Entry points</h2>
+          <h2>Điểm vào</h2>
           <p>
-            Every entry point is tree-shakable and has its own gzip budget enforced in CI. Import
-            the narrowest one that covers what you need.
+            Mọi điểm vào đều tree-shake được và có hạn mức gzip riêng, kiểm tra tự động trong CI.
+            Hãy import cái hẹp nhất đủ dùng.
           </p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
                   <th>Import</th>
-                  <th>Contains</th>
+                  <th>Bao gồm</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><code>forgedialog</code></td>
-                  <td>
-                    Everything, with dragging, animations, and the full appearance applier already
-                    enabled.
-                  </td>
+                  <td>Tất cả, đã bật sẵn kéo thả, hiệu ứng, và bộ áp giao diện đầy đủ.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/core</code></td>
                   <td>
                     <code>open()</code>, <code>alert</code>, <code>confirm</code>,
-                    <code>prompt</code>, theming, labels, plugins, and the full appearance applier.
+                    <code>prompt</code>, chủ đề, nhãn, plugin, và bộ áp giao diện đầy đủ.
                   </td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/alert</code></td>
-                  <td><code>alert()</code> alone.</td>
+                  <td>Chỉ <code>alert()</code>.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/confirm</code></td>
-                  <td><code>confirm()</code> alone.</td>
+                  <td>Chỉ <code>confirm()</code>.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/prompt</code></td>
-                  <td><code>prompt()</code> alone.</td>
+                  <td>Chỉ <code>prompt()</code>.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/presentation</code></td>
@@ -241,44 +242,47 @@ import 'forgedialog/style.css';</code></pre>
                 </tr>
                 <tr>
                   <td><code>forgedialog/interactions</code></td>
-                  <td>The draggable controller. Side-effectful: importing it enables dragging.</td>
+                  <td>
+                    Bộ điều khiển kéo thả. Có tác dụng phụ: chỉ cần import là kéo thả được bật.
+                  </td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/animations</code></td>
-                  <td>Animation presets. Side-effectful: importing it enables animations.</td>
+                  <td>
+                    Các hiệu ứng dựng sẵn. Có tác dụng phụ: chỉ cần import là hiệu ứng được bật.
+                  </td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/appearance</code></td>
                   <td>
-                    The full appearance applier. Side-effectful: importing it upgrades the focused
-                    entries.
+                    Bộ áp giao diện đầy đủ. Có tác dụng phụ: import nó là nâng cấp các điểm vào
+                    chuyên biệt.
                   </td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/react</code></td>
-                  <td><code>useForgeDialog()</code> for React.</td>
+                  <td><code>useForgeDialog()</code> cho React.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/vue</code></td>
-                  <td><code>useForgeDialog()</code> for Vue.</td>
+                  <td><code>useForgeDialog()</code> cho Vue.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/svelte</code></td>
-                  <td>The <code>dialogTrigger</code> action.</td>
+                  <td>Action <code>dialogTrigger</code>.</td>
                 </tr>
                 <tr>
                   <td><code>forgedialog/web-component</code></td>
-                  <td><code>defineForgeDialog()</code> and <code>ForgeDialogElement</code>.</td>
+                  <td><code>defineForgeDialog()</code> và <code>ForgeDialogElement</code>.</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <h3>Capability imports</h3>
+          <h3>Import theo năng lực</h3>
           <p>
-            The single-purpose entries (<code>/alert</code>, <code>/confirm</code>,
-            <code>/prompt</code>) ship a lightweight appearance applier covering surface opacity,
-            backdrop, border, and shadow presets. Add capabilities by importing them for their side
-            effect:
+            Các điểm vào chuyên biệt (<code>/alert</code>, <code>/confirm</code>,
+            <code>/prompt</code>) đi kèm bộ áp giao diện nhẹ, chỉ gồm độ mờ nền, lớp phủ, viền, và
+            các bóng dựng sẵn. Thêm năng lực bằng cách import chúng để lấy tác dụng phụ:
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-caps">Copy</button>
@@ -288,16 +292,16 @@ import 'forgedialog/animations';   // animation presets
 import { alert } from 'forgedialog/alert';</code></pre>
           </div>
           <p class="note">
-            <code>forgedialog</code> and <code>forgedialog/core</code> already include the full
-            appearance applier, so those imports are only needed alongside a focused entry.
+            <code>forgedialog</code> và <code>forgedialog/core</code> đã có sẵn bộ áp giao diện đầy
+            đủ, nên chỉ cần import thêm khi bạn dùng điểm vào chuyên biệt.
           </p>
         </section>
 
         <section id="stylesheets">
-          <h2>Stylesheets</h2>
+          <h2>Tệp CSS</h2>
           <p>
-            <code>forgedialog/style.css</code> is the all-in-one sheet. To ship less CSS, compose
-            only the layers a page uses — <code>core.css</code> is always required.
+            <code>forgedialog/style.css</code> là tệp gộp tất cả. Muốn gửi ít CSS hơn thì chỉ ghép
+            các lớp mà trang thật sự dùng — <code>core.css</code> thì luôn bắt buộc.
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-css">Copy</button>
@@ -310,20 +314,20 @@ import 'forgedialog/style/command.css';
 import 'forgedialog/style/draggable.css';</code></pre>
           </div>
           <p>
-            All rules live in the <code>forgedialog</code> cascade layer, so your own unlayered CSS
-            wins without needing <code>!important</code>.
+            Mọi quy tắc đều nằm trong cascade layer <code>forgedialog</code>, nên CSS không đặt
+            trong layer của bạn sẽ thắng mà không cần <code>!important</code>.
           </p>
         </section>
 
         <section id="dialogs">
           <h2>alert, confirm, prompt</h2>
-          <p>Promise-returning replacements for the browser built-ins.</p>
+          <p>Bản thay thế trả về promise cho các hàm dựng sẵn của trình duyệt.</p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
-                  <th>Signature</th>
-                  <th>Resolves to</th>
+                  <th>Chữ ký hàm</th>
+                  <th>Trả về</th>
                 </tr>
               </thead>
               <tbody>
@@ -334,15 +338,13 @@ import 'forgedialog/style/draggable.css';</code></pre>
                 <tr>
                   <td><code>confirm(message, options?)</code></td>
                   <td>
-                    <code>Promise&lt;boolean&gt;</code> — <code>false</code> on Escape or backdrop
-                    close
+                    <code>Promise&lt;boolean&gt;</code> — <code>false</code> khi đóng bằng Escape
+                    hoặc click nền
                   </td>
                 </tr>
                 <tr>
                   <td><code>prompt(message, options?)</code></td>
-                  <td>
-                    <code>Promise&lt;string | null&gt;</code> — <code>null</code> when cancelled
-                  </td>
+                  <td><code>Promise&lt;string | null&gt;</code> — <code>null</code> khi bị huỷ</td>
                 </tr>
               </tbody>
             </table>
@@ -362,17 +364,17 @@ const name = await prompt('What is your name?', {
 });</code></pre>
           </div>
           <p>
-            <code>alert</code> and <code>confirm</code> get
-            <code>role="alertdialog"</code> automatically. <code>prompt</code> accepts the extra
-            options above on top of every <a href="#options">DialogOptions</a> field.
+            <code>alert</code> và <code>confirm</code> tự động nhận <code>role="alertdialog"</code>.
+            <code>prompt</code> nhận thêm các tuỳ chọn ở trên, bên cạnh mọi trường của
+            <a href="#options">DialogOptions</a>.
           </p>
         </section>
 
         <section id="open">
           <h2>open()</h2>
           <p>
-            The low-level API. It returns a <a href="#instance">DialogInstance</a> immediately
-            rather than a promise, so the dialog can be updated, moved, or closed from anywhere.
+            API tầng thấp. Nó trả về <a href="#instance">DialogInstance</a> ngay lập tức chứ không
+            phải promise, nên hộp thoại có thể được cập nhật, di chuyển, hoặc đóng từ bất cứ đâu.
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-open">Copy</button>
@@ -390,10 +392,10 @@ const dialog = open({
 const result = await dialog.whenClosed();          // the result, or undefined
 const { result: r, reason } = await dialog.whenSettled(); // result plus why it closed</code></pre>
           </div>
-          <h3>Content and untrusted HTML</h3>
+          <h3>Nội dung và HTML không tin cậy</h3>
           <p>
-            <code>content</code> accepts a string (rendered as <strong>text</strong>), an element,
-            or a builder function. Markup needs an explicit decision:
+            <code>content</code> nhận một chuỗi (hiển thị dưới dạng <strong>văn bản</strong>), một
+            phần tử, hoặc một hàm dựng. Còn HTML thì phải quyết định rõ ràng:
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-html">Copy</button>
@@ -403,24 +405,24 @@ open({ html: userContent, sanitizeHtml: (h) =&gt; DOMPurify.sanitize(h) });
 // Markup you already trust.
 open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
           </div>
-          <h3>Close reasons</h3>
+          <h3>Lý do đóng</h3>
           <p>
-            Every close carries a reason: <code>'button'</code>, <code>'escape'</code>,
-            <code>'backdrop'</code>, <code>'api'</code>, <code>'abort'</code>, or
-            <code>'destroy'</code>. Read it with <code>whenSettled()</code>.
+            Mỗi lần đóng đều kèm một lý do: <code>'button'</code>, <code>'escape'</code>,
+            <code>'backdrop'</code>, <code>'api'</code>, <code>'abort'</code>, hoặc
+            <code>'destroy'</code>. Đọc nó bằng <code>whenSettled()</code>.
           </p>
         </section>
 
         <section id="options">
           <h2>DialogOptions</h2>
-          <p>Accepted by <code>open()</code> and by every helper built on it.</p>
+          <p>Được nhận bởi <code>open()</code> và mọi hàm tiện ích dựng trên nó.</p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
-                  <th>Option</th>
-                  <th>Type</th>
-                  <th>Description</th>
+                  <th>Tuỳ chọn</th>
+                  <th>Kiểu</th>
+                  <th>Mô tả</th>
                 </tr>
               </thead>
               <tbody>
@@ -428,39 +430,39 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
                   <td><code>title</code></td>
                   <td><code>string</code></td>
                   <td>
-                    Header text. Omitted titles fall back to a visually hidden label so the dialog
-                    stays named for assistive technology.
+                    Chữ ở thanh tiêu đề. Nếu bỏ trống, hộp thoại vẫn có nhãn ẩn về mặt thị giác để
+                    công nghệ hỗ trợ gọi được tên nó.
                   </td>
                 </tr>
                 <tr>
                   <td><code>message</code></td>
                   <td><code>string | HTMLElement</code></td>
-                  <td>Body text or element.</td>
+                  <td>Văn bản hoặc phần tử cho phần thân.</td>
                 </tr>
                 <tr>
                   <td><code>content</code></td>
                   <td><code>string | HTMLElement | (container) =&gt; void</code></td>
-                  <td>Body content. Strings render as text.</td>
+                  <td>Nội dung phần thân. Chuỗi được hiển thị dưới dạng văn bản.</td>
                 </tr>
                 <tr>
                   <td><code>html</code></td>
                   <td><code>string</code></td>
-                  <td>Markup, rendered only when <code>sanitizeHtml</code> is also supplied.</td>
+                  <td>HTML, chỉ được hiển thị khi có kèm <code>sanitizeHtml</code>.</td>
                 </tr>
                 <tr>
                   <td><code>unsafeHtml</code></td>
                   <td><code>string</code></td>
-                  <td>Markup inserted as-is. Only for content you control.</td>
+                  <td>HTML chèn nguyên trạng. Chỉ dùng cho nội dung bạn kiểm soát được.</td>
                 </tr>
                 <tr>
                   <td><code>sanitizeHtml</code></td>
                   <td><code>(html: string) =&gt; string</code></td>
-                  <td>Sanitizer applied to <code>html</code>.</td>
+                  <td>Hàm làm sạch áp cho <code>html</code>.</td>
                 </tr>
                 <tr>
                   <td><code>buttons</code></td>
                   <td><code>ButtonConfig[]</code></td>
-                  <td>Footer buttons. See below.</td>
+                  <td>Các nút ở chân hộp thoại. Xem bên dưới.</td>
                 </tr>
                 <tr>
                   <td><code>type</code></td>
@@ -468,19 +470,19 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
                     <code>'alert' | 'confirm' | 'prompt' | 'form' | 'wizard' | 'custom'</code>
                   </td>
                   <td>
-                    Semantic kind. <code>alert</code> and <code>confirm</code> default to
+                    Loại ngữ nghĩa. <code>alert</code> và <code>confirm</code> mặc định dùng
                     <code>role="alertdialog"</code>.
                   </td>
                 </tr>
                 <tr>
                   <td><code>role</code></td>
                   <td><code>'dialog' | 'alertdialog'</code></td>
-                  <td>Overrides the role derived from <code>type</code>.</td>
+                  <td>Ghi đè role suy ra từ <code>type</code>.</td>
                 </tr>
                 <tr>
                   <td><code>size</code></td>
                   <td><code>'sm' | 'md' | 'lg' | 'xl' | 'fullscreen'</code></td>
-                  <td>Width preset.</td>
+                  <td>Bề rộng dựng sẵn.</td>
                 </tr>
                 <tr>
                   <td><code>presentation</code></td>
@@ -489,96 +491,98 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
                       >'modal' | 'drawer-left' | 'drawer-right' | 'bottom-sheet' | 'lightbox'</code
                     >
                   </td>
-                  <td>How the dialog enters and where it sits.</td>
+                  <td>Cách hộp thoại xuất hiện và vị trí nó nằm.</td>
                 </tr>
                 <tr>
                   <td><code>animation</code></td>
                   <td>
                     <code>'fade' | 'scale' | 'slide' | 'spring' | 'bounce' | 'blur' | 'none'</code>
                   </td>
-                  <td>
-                    Requires the animations capability. Honours <code>prefers-reduced-motion</code>.
-                  </td>
+                  <td>Cần năng lực animations. Tôn trọng <code>prefers-reduced-motion</code>.</td>
                 </tr>
                 <tr>
                   <td><code>appearance</code></td>
                   <td><code>DialogAppearance</code></td>
-                  <td>Per-dialog styling. See <a href="#appearance">Appearance</a>.</td>
+                  <td>
+                    Tạo kiểu riêng cho từng hộp thoại. Xem <a href="#appearance">Giao diện</a>.
+                  </td>
                 </tr>
                 <tr>
                   <td><code>draggable</code></td>
                   <td><code>boolean | DraggableOptions</code></td>
-                  <td>See <a href="#dragging">Dragging</a>.</td>
+                  <td>Xem <a href="#dragging">Kéo thả</a>.</td>
                 </tr>
                 <tr>
                   <td><code>closable</code></td>
                   <td><code>boolean</code></td>
-                  <td>Shows the header close button. Default <code>true</code>.</td>
+                  <td>Hiện nút đóng ở thanh tiêu đề. Mặc định <code>true</code>.</td>
                 </tr>
                 <tr>
                   <td><code>closeOnEscape</code></td>
                   <td><code>boolean</code></td>
-                  <td>Default <code>true</code>.</td>
+                  <td>Mặc định <code>true</code>.</td>
                 </tr>
                 <tr>
                   <td><code>closeOnOverlayClick</code></td>
                   <td><code>boolean</code></td>
-                  <td>Default <code>true</code>.</td>
+                  <td>Mặc định <code>true</code>.</td>
                 </tr>
                 <tr>
                   <td><code>initialFocus</code></td>
                   <td><code>string | HTMLElement | (root) =&gt; HTMLElement | null</code></td>
-                  <td>What receives focus on open. Defaults to the first tabbable element.</td>
+                  <td>Phần tử nhận tiêu điểm khi mở. Mặc định là phần tử tab được đầu tiên.</td>
                 </tr>
                 <tr>
                   <td><code>restoreFocus</code></td>
                   <td><code>boolean</code></td>
-                  <td>Returns focus to the trigger on close. Default <code>true</code>.</td>
+                  <td>
+                    Trả tiêu điểm về phần tử đã mở hộp thoại khi đóng. Mặc định <code>true</code>.
+                  </td>
                 </tr>
                 <tr>
                   <td><code>portalTarget</code></td>
                   <td><code>HTMLElement</code></td>
-                  <td>Where the dialog mounts. Defaults to <code>document.body</code>.</td>
+                  <td>Nơi hộp thoại được gắn vào. Mặc định là <code>document.body</code>.</td>
                 </tr>
                 <tr>
                   <td><code>className</code></td>
                   <td><code>string</code></td>
-                  <td>Extra classes on the dialog element.</td>
+                  <td>Các class thêm vào phần tử hộp thoại.</td>
                 </tr>
                 <tr>
                   <td><code>labels</code></td>
                   <td><code>Partial&lt;DialogLabels&gt;</code></td>
-                  <td>Per-dialog label overrides.</td>
+                  <td>Ghi đè nhãn cho riêng hộp thoại này.</td>
                 </tr>
                 <tr>
                   <td><code>signal</code></td>
                   <td><code>AbortSignal</code></td>
-                  <td>Aborting closes the dialog with reason <code>'abort'</code>.</td>
+                  <td>Huỷ bỏ sẽ đóng hộp thoại với lý do <code>'abort'</code>.</td>
                 </tr>
                 <tr>
                   <td><code>data</code></td>
                   <td><code>unknown</code></td>
-                  <td>Arbitrary payload, readable from hooks.</td>
+                  <td>Dữ liệu tuỳ ý, đọc được từ các hook.</td>
                 </tr>
                 <tr>
                   <td><code>onOpen</code></td>
                   <td><code>(instance) =&gt; void | Promise&lt;void&gt;</code></td>
-                  <td>After the dialog opens.</td>
+                  <td>Sau khi hộp thoại mở.</td>
                 </tr>
                 <tr>
                   <td><code>onBeforeClose</code></td>
                   <td><code>(instance, result) =&gt; boolean | void | Promise&lt;…&gt;</code></td>
-                  <td>Return <code>false</code> to keep it open.</td>
+                  <td>Trả về <code>false</code> để giữ nó mở.</td>
                 </tr>
                 <tr>
                   <td><code>onClose</code></td>
                   <td><code>(instance, result) =&gt; void | Promise&lt;void&gt;</code></td>
-                  <td>After the dialog closes.</td>
+                  <td>Sau khi hộp thoại đóng.</td>
                 </tr>
                 <tr>
                   <td><code>onError</code></td>
                   <td><code>(error, instance) =&gt; void</code></td>
-                  <td>Observes lifecycle failures, which are cleaned up automatically.</td>
+                  <td>Theo dõi lỗi trong vòng đời, những lỗi này được dọn dẹp tự động.</td>
                 </tr>
               </tbody>
             </table>
@@ -588,51 +592,51 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
             <table>
               <thead>
                 <tr>
-                  <th>Field</th>
-                  <th>Type</th>
-                  <th>Description</th>
+                  <th>Trường</th>
+                  <th>Kiểu</th>
+                  <th>Mô tả</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><code>text</code></td>
                   <td><code>string</code></td>
-                  <td>Label. Required.</td>
+                  <td>Nhãn. Bắt buộc.</td>
                 </tr>
                 <tr>
                   <td><code>role</code></td>
                   <td><code>'primary' | 'secondary' | 'danger'</code></td>
-                  <td>Visual weight.</td>
+                  <td>Mức nhấn thị giác.</td>
                 </tr>
                 <tr>
                   <td><code>onClick</code></td>
                   <td><code>(instance) =&gt; void | Promise&lt;void&gt;</code></td>
-                  <td>Click handler.</td>
+                  <td>Hàm xử lý khi bấm.</td>
                 </tr>
                 <tr>
                   <td><code>closesDialog</code></td>
                   <td><code>boolean</code></td>
-                  <td>Closes the dialog after <code>onClick</code>.</td>
+                  <td>Đóng hộp thoại sau khi chạy <code>onClick</code>.</td>
                 </tr>
                 <tr>
                   <td><code>result</code></td>
                   <td><code>TResult</code></td>
-                  <td>Value the dialog resolves with when this button closes it.</td>
+                  <td>Giá trị hộp thoại trả về khi nút này đóng nó.</td>
                 </tr>
                 <tr>
                   <td><code>autoFocus</code></td>
                   <td><code>boolean</code></td>
-                  <td>Receives focus on open.</td>
+                  <td>Nhận tiêu điểm khi mở.</td>
                 </tr>
                 <tr>
                   <td><code>disabled</code></td>
                   <td><code>boolean</code></td>
-                  <td>Renders the button disabled.</td>
+                  <td>Hiển thị nút ở trạng thái vô hiệu.</td>
                 </tr>
                 <tr>
                   <td><code>id</code></td>
                   <td><code>string</code></td>
-                  <td>Element id, useful for tests.</td>
+                  <td>Id của phần tử, tiện cho việc kiểm thử.</td>
                 </tr>
               </tbody>
             </table>
@@ -645,51 +649,51 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
             <table>
               <thead>
                 <tr>
-                  <th>Member</th>
-                  <th>Returns</th>
-                  <th>Description</th>
+                  <th>Thành phần</th>
+                  <th>Trả về</th>
+                  <th>Mô tả</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><code>open()</code></td>
                   <td><code>Promise&lt;void&gt;</code></td>
-                  <td>Opens a dialog that is not open yet.</td>
+                  <td>Mở một hộp thoại chưa được mở.</td>
                 </tr>
                 <tr>
                   <td><code>close(result?, reason?)</code></td>
                   <td><code>Promise&lt;void&gt;</code></td>
-                  <td>Closes with a result.</td>
+                  <td>Đóng kèm một kết quả.</td>
                 </tr>
                 <tr>
                   <td><code>cancel(reason?)</code></td>
                   <td><code>Promise&lt;void&gt;</code></td>
-                  <td>Closes without a result.</td>
+                  <td>Đóng mà không có kết quả.</td>
                 </tr>
                 <tr>
                   <td><code>destroy()</code></td>
                   <td><code>Promise&lt;void&gt;</code></td>
-                  <td>Closes and removes the element and its listeners.</td>
+                  <td>Đóng rồi gỡ bỏ phần tử cùng các listener của nó.</td>
                 </tr>
                 <tr>
                   <td><code>update(partialOptions)</code></td>
                   <td><code>void</code></td>
-                  <td>Restyles or re-renders a dialog in place, while it is open.</td>
+                  <td>Đổi kiểu hoặc vẽ lại hộp thoại tại chỗ, ngay khi nó đang mở.</td>
                 </tr>
                 <tr>
                   <td><code>whenClosed()</code></td>
                   <td><code>Promise&lt;TResult | undefined&gt;</code></td>
-                  <td>Resolves with the result.</td>
+                  <td>Trả về kết quả.</td>
                 </tr>
                 <tr>
                   <td><code>whenSettled()</code></td>
                   <td><code>Promise&lt;{ result, reason }&gt;</code></td>
-                  <td>Resolves with the result and the close reason.</td>
+                  <td>Trả về kết quả kèm lý do đóng.</td>
                 </tr>
                 <tr>
                   <td><code>isOpen()</code></td>
                   <td><code>boolean</code></td>
-                  <td>Whether it is currently open.</td>
+                  <td>Hộp thoại có đang mở hay không.</td>
                 </tr>
                 <tr>
                   <td><code>getState()</code></td>
@@ -701,27 +705,27 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
                 <tr>
                   <td><code>getPosition()</code></td>
                   <td><code>{ x, y }</code></td>
-                  <td>Current drag offset.</td>
+                  <td>Độ dịch chuyển kéo hiện tại.</td>
                 </tr>
                 <tr>
                   <td><code>setPosition({ x, y })</code></td>
                   <td><code>{ x, y }</code></td>
-                  <td>Moves the dialog, clamped to its bounds.</td>
+                  <td>Di chuyển hộp thoại, giới hạn trong vùng cho phép.</td>
                 </tr>
                 <tr>
                   <td><code>resetPosition()</code></td>
                   <td><code>void</code></td>
-                  <td>Returns it to centre.</td>
+                  <td>Đưa nó về giữa.</td>
                 </tr>
                 <tr>
                   <td><code>element</code></td>
                   <td><code>HTMLElement</code></td>
-                  <td>The dialog element.</td>
+                  <td>Phần tử hộp thoại.</td>
                 </tr>
                 <tr>
                   <td><code>id</code></td>
                   <td><code>string</code></td>
-                  <td>Unique id.</td>
+                  <td>Id duy nhất.</td>
                 </tr>
               </tbody>
             </table>
@@ -729,101 +733,103 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
         </section>
 
         <section id="appearance">
-          <h2>Appearance</h2>
+          <h2>Giao diện</h2>
           <p>
-            Appearance overrides are scoped to one dialog and can be changed at runtime with
-            <code>update()</code>. Opacity values are clamped to <code>0..1</code>; plain numbers
-            for widths, radii, and blur are read as pixels.
+            Các tuỳ chỉnh giao diện chỉ áp cho một hộp thoại và đổi được lúc chạy bằng
+            <code>update()</code>. Giá trị độ mờ bị kẹp trong khoảng <code>0..1</code>; số trần cho
+            độ dày, bo góc, và độ nhoè được hiểu là pixel.
           </p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
-                  <th>Field</th>
-                  <th>Type</th>
-                  <th>Applies to</th>
+                  <th>Trường</th>
+                  <th>Kiểu</th>
+                  <th>Áp dụng cho</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><code>opacity</code></td>
                   <td><code>number</code></td>
-                  <td>The whole dialog surface.</td>
+                  <td>Toàn bộ nền hộp thoại.</td>
                 </tr>
                 <tr>
                   <td><code>surfaceColor</code></td>
                   <td><code>string</code></td>
-                  <td>Dialog background.</td>
+                  <td>Nền hộp thoại.</td>
                 </tr>
                 <tr>
                   <td><code>overlayOpacity</code></td>
                   <td><code>number</code></td>
-                  <td>The backdrop behind it.</td>
+                  <td>Lớp phủ phía sau nó.</td>
                 </tr>
                 <tr>
                   <td><code>backdropBlur</code></td>
                   <td><code>number | string</code></td>
-                  <td>Backdrop blur radius.</td>
+                  <td>Bán kính làm mờ lớp phủ.</td>
                 </tr>
                 <tr>
                   <td><code>titleColor</code></td>
                   <td><code>string</code></td>
-                  <td>Header text.</td>
+                  <td>Chữ ở thanh tiêu đề.</td>
                 </tr>
                 <tr>
                   <td><code>titleBackground</code></td>
                   <td><code>string</code></td>
-                  <td>Header fill. Transparent by default and clipped by the dialog's corners.</td>
+                  <td>
+                    Nền thanh tiêu đề. Mặc định trong suốt và bị cắt theo góc bo của hộp thoại.
+                  </td>
                 </tr>
                 <tr>
                   <td><code>titleOpacity</code></td>
                   <td><code>number</code></td>
-                  <td>Header.</td>
+                  <td>Thanh tiêu đề.</td>
                 </tr>
                 <tr>
                   <td><code>contentColor</code></td>
                   <td><code>string</code></td>
-                  <td>Body text.</td>
+                  <td>Chữ ở phần thân.</td>
                 </tr>
                 <tr>
                   <td><code>contentOpacity</code></td>
                   <td><code>number</code></td>
-                  <td>Body.</td>
+                  <td>Phần thân.</td>
                 </tr>
                 <tr>
                   <td><code>borderColor</code></td>
                   <td><code>string</code></td>
-                  <td>Border.</td>
+                  <td>Viền.</td>
                 </tr>
                 <tr>
                   <td><code>borderOpacity</code></td>
                   <td><code>number</code></td>
-                  <td>Border.</td>
+                  <td>Viền.</td>
                 </tr>
                 <tr>
                   <td><code>borderWidth</code></td>
                   <td><code>number | string</code></td>
-                  <td>Border.</td>
+                  <td>Viền.</td>
                 </tr>
                 <tr>
                   <td><code>borderStyle</code></td>
                   <td><code>'none' | 'solid' | 'dashed' | 'dotted' | 'double'</code></td>
-                  <td>Border.</td>
+                  <td>Viền.</td>
                 </tr>
                 <tr>
                   <td><code>radius</code></td>
                   <td><code>number | string | DialogCornerRadius</code></td>
-                  <td>Corners. See <a href="#radius">Corner radius</a>.</td>
+                  <td>Các góc. Xem <a href="#radius">Bo góc</a>.</td>
                 </tr>
                 <tr>
                   <td><code>shadow</code></td>
                   <td><code>ShadowPreset | string | DialogShadowConfig</code></td>
-                  <td>See <a href="#shadows">Shadows</a>.</td>
+                  <td>Xem <a href="#shadows">Đổ bóng</a>.</td>
                 </tr>
                 <tr>
                   <td><code>hover</code></td>
                   <td><code>DialogHoverAppearance</code></td>
-                  <td>See <a href="#hover">Hover</a>.</td>
+                  <td>Xem <a href="#hover">Hover</a>.</td>
                 </tr>
               </tbody>
             </table>
@@ -848,37 +854,37 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
 });</code></pre>
           </div>
           <p class="note">
-            The full applier ships with <code>forgedialog</code> and <code>forgedialog/core</code>.
-            On a focused entry, add <code>import 'forgedialog/appearance'</code> — without it the
-            richer fields are ignored rather than throwing.
+            Bộ áp đầy đủ đi kèm <code>forgedialog</code> và <code>forgedialog/core</code>. Với điểm
+            vào chuyên biệt, hãy thêm <code>import 'forgedialog/appearance'</code> — không có nó thì
+            các trường nâng cao bị bỏ qua chứ không báo lỗi.
           </p>
         </section>
 
         <section id="shadows">
-          <h2>Shadows</h2>
-          <p><code>shadow</code> takes three shapes.</p>
+          <h2>Đổ bóng</h2>
+          <p><code>shadow</code> nhận ba dạng.</p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
-                  <th>Form</th>
-                  <th>Example</th>
+                  <th>Dạng</th>
+                  <th>Ví dụ</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>A preset</td>
+                  <td>Bóng dựng sẵn</td>
                   <td>
-                    <code>shadow: 'xl'</code> — one of <code>none</code>, <code>sm</code>,
+                    <code>shadow: 'xl'</code> — một trong <code>none</code>, <code>sm</code>,
                     <code>md</code>, <code>lg</code>, <code>xl</code>
                   </td>
                 </tr>
                 <tr>
-                  <td>Any CSS box-shadow</td>
+                  <td>Bất kỳ giá trị box-shadow nào của CSS</td>
                   <td><code>shadow: '0 10px 40px rgb(0 0 0 / 30%)'</code></td>
                 </tr>
                 <tr>
-                  <td>Composed from parts</td>
+                  <td>Ghép từ các thành phần</td>
                   <td><code>shadow: { angle: 90, distance: 18, blur: 48, opacity: 0.3 }</code></td>
                 </tr>
               </tbody>
@@ -888,9 +894,9 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
             <table>
               <thead>
                 <tr>
-                  <th>Part</th>
-                  <th>Type</th>
-                  <th>Meaning</th>
+                  <th>Thành phần</th>
+                  <th>Kiểu</th>
+                  <th>Ý nghĩa</th>
                 </tr>
               </thead>
               <tbody>
@@ -898,40 +904,39 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
                   <td><code>angle</code></td>
                   <td><code>number</code></td>
                   <td>
-                    Direction the shadow falls, in degrees: <code>0</code> up,
-                    <code>90</code> right, <code>180</code> down (the default),
-                    <code>270</code> left.
+                    Hướng bóng đổ, tính bằng độ: <code>0</code> lên trên, <code>90</code> sang phải,
+                    <code>180</code> xuống dưới (mặc định), <code>270</code> sang trái.
                   </td>
                 </tr>
                 <tr>
                   <td><code>distance</code></td>
                   <td><code>number | string</code></td>
-                  <td>How far it is thrown.</td>
+                  <td>Bóng bị hắt đi xa bao nhiêu.</td>
                 </tr>
                 <tr>
                   <td><code>blur</code></td>
                   <td><code>number | string</code></td>
-                  <td>Softness.</td>
+                  <td>Độ mềm.</td>
                 </tr>
                 <tr>
                   <td><code>spread</code></td>
                   <td><code>number | string</code></td>
-                  <td>Growth before blurring.</td>
+                  <td>Độ nở ra trước khi làm mờ.</td>
                 </tr>
                 <tr>
                   <td><code>color</code></td>
                   <td><code>string</code></td>
-                  <td>Shadow colour.</td>
+                  <td>Màu bóng.</td>
                 </tr>
                 <tr>
                   <td><code>opacity</code></td>
                   <td><code>number</code></td>
-                  <td>Strength, <code>0..1</code>.</td>
+                  <td>Độ đậm, <code>0..1</code>.</td>
                 </tr>
                 <tr>
                   <td><code>inset</code></td>
                   <td><code>boolean</code></td>
-                  <td>Casts the shadow inwards.</td>
+                  <td>Đổ bóng vào phía trong.</td>
                 </tr>
               </tbody>
             </table>
@@ -939,11 +944,11 @@ open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
         </section>
 
         <section id="radius">
-          <h2>Corner radius</h2>
+          <h2>Bo góc</h2>
           <p>
-            <code>radius</code> takes one value for every corner, any CSS
-            <code>border-radius</code> string, or a per-corner object. Corners left out of that
-            object keep the theme radius rather than collapsing to zero.
+            <code>radius</code> nhận một giá trị dùng chung cho mọi góc, bất kỳ chuỗi
+            <code>border-radius</code> nào của CSS, hoặc một object khai theo từng góc. Góc không có
+            trong object đó vẫn giữ bo góc của chủ đề chứ không tụt về 0.
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-radius">Copy</button>
@@ -952,119 +957,119 @@ appearance: { radius: '20px 20px 4px 4px' }
 appearance: { radius: { topLeft: 24, topRight: 24, bottomRight: 4, bottomLeft: 4 } }</code></pre>
           </div>
           <p>
-            Drawers stay square and bottom sheets round only their top corners unless
-            <code>radius</code> says otherwise.
+            Drawer giữ góc vuông và bottom sheet chỉ bo hai góc trên, trừ khi
+            <code>radius</code> nói khác.
           </p>
         </section>
 
         <section id="hover">
           <h2>Hover</h2>
           <p>
-            <code>hover</code> restyles a dialog only while the pointer is over it, and only for
-            dialogs that ask for it — every other dialog stays completely static. It reuses the
-            colour, radius, and shadow fields and adds three of its own.
+            <code>hover</code> chỉ đổi kiểu hộp thoại khi con trỏ đang ở trên nó, và chỉ với hộp
+            thoại có yêu cầu — mọi hộp thoại khác đứng yên hoàn toàn. Nó dùng lại các trường màu, bo
+            góc, và đổ bóng, cộng thêm ba trường riêng.
           </p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
-                  <th>Field</th>
-                  <th>Type</th>
-                  <th>Description</th>
+                  <th>Trường</th>
+                  <th>Kiểu</th>
+                  <th>Mô tả</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><code>lift</code></td>
                   <td><code>number | string</code></td>
-                  <td>How far the dialog rises.</td>
+                  <td>Hộp thoại nhấc lên bao nhiêu.</td>
                 </tr>
                 <tr>
                   <td><code>scale</code></td>
                   <td><code>number</code></td>
-                  <td>Scale factor, e.g. <code>1.02</code>.</td>
+                  <td>Hệ số phóng, ví dụ <code>1.02</code>.</td>
                 </tr>
                 <tr>
                   <td><code>duration</code></td>
                   <td><code>number | string</code></td>
-                  <td>Transition length.</td>
+                  <td>Thời lượng chuyển động.</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p>
-            Hover transforms honour <code>prefers-reduced-motion</code> and are suspended while a
-            dialog is being dragged, so they cannot push it outside its bounds.
+            Biến đổi khi hover tôn trọng <code>prefers-reduced-motion</code> và bị tạm ngưng trong
+            lúc kéo hộp thoại, nên không thể đẩy nó ra ngoài vùng giới hạn.
           </p>
         </section>
 
         <section id="dragging">
-          <h2>Dragging</h2>
+          <h2>Kéo thả</h2>
           <p>
-            <code>draggable: true</code> is enough to move a dialog by its header. The object form
-            adds constraints, keyboard support, and persistence. Dragging needs the interactions
-            capability, which <code>forgedialog</code> enables for you.
+            <code>draggable: true</code> là đủ để kéo hộp thoại bằng thanh tiêu đề. Dạng object thêm
+            ràng buộc, hỗ trợ bàn phím, và ghi nhớ vị trí. Kéo thả cần năng lực interactions, thứ mà
+            <code>forgedialog</code> đã bật sẵn cho bạn.
           </p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
-                  <th>Option</th>
-                  <th>Type</th>
-                  <th>Description</th>
+                  <th>Tuỳ chọn</th>
+                  <th>Kiểu</th>
+                  <th>Mô tả</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><code>handle</code></td>
                   <td><code>'header' | string | HTMLElement</code></td>
-                  <td>What starts a drag. Defaults to the header.</td>
+                  <td>Thứ khởi động thao tác kéo. Mặc định là thanh tiêu đề.</td>
                 </tr>
                 <tr>
                   <td><code>axis</code></td>
                   <td><code>'both' | 'x' | 'y'</code></td>
-                  <td>Locks movement to one axis.</td>
+                  <td>Khoá chuyển động theo một trục.</td>
                 </tr>
                 <tr>
                   <td><code>bounds</code></td>
                   <td><code>'viewport' | HTMLElement | DOMRect</code></td>
-                  <td>Area the dialog is clamped to.</td>
+                  <td>Vùng mà hộp thoại bị giới hạn trong đó.</td>
                 </tr>
                 <tr>
                   <td><code>initialPosition</code></td>
                   <td><code>{ x, y }</code></td>
-                  <td>Starting offset.</td>
+                  <td>Vị trí lệch ban đầu.</td>
                 </tr>
                 <tr>
                   <td><code>keyboard</code></td>
                   <td><code>boolean</code></td>
-                  <td>Arrow-key movement when the handle has focus.</td>
+                  <td>Di chuyển bằng phím mũi tên khi tay cầm đang có tiêu điểm.</td>
                 </tr>
                 <tr>
                   <td><code>keyboardStep</code></td>
                   <td><code>number</code></td>
-                  <td>Pixels per key press.</td>
+                  <td>Số pixel mỗi lần nhấn phím.</td>
                 </tr>
                 <tr>
                   <td><code>persistKey</code></td>
                   <td><code>string</code></td>
-                  <td>Remembers the position across sessions under this key.</td>
+                  <td>Ghi nhớ vị trí qua các phiên dưới khoá này.</td>
                 </tr>
                 <tr>
                   <td><code>onDragStart</code> / <code>onDrag</code> / <code>onDragEnd</code></td>
                   <td><code>(event) =&gt; void</code></td>
-                  <td>Each receives <code>{ position, originalEvent }</code>.</td>
+                  <td>Mỗi hàm nhận <code>{ position, originalEvent }</code>.</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p class="note">
-            Bottom sheets keep their own swipe-to-dismiss gesture and ignore general dragging.
+            Bottom sheet giữ cử chỉ vuốt để đóng của riêng nó và bỏ qua kéo thả thông thường.
           </p>
         </section>
 
         <section id="presentation">
-          <h2>Drawers, sheets, lightboxes, loading</h2>
+          <h2>Drawer, sheet, lightbox, trạng thái tải</h2>
           <div class="snippet">
             <button class="copy" data-copy="#code-presentation">Copy</button>
             <pre><code id="code-presentation">import { drawer, bottomSheet, lightbox, loading } from 'forgedialog';
@@ -1080,17 +1085,17 @@ task.update('Almost there…');
 await task.close();</code></pre>
           </div>
           <p>
-            These are <code>open()</code> with a <code>presentation</code> preset, so every
-            <a href="#options">DialogOptions</a> field still applies.
+            Đây chỉ là <code>open()</code> kèm một giá trị <code>presentation</code> dựng sẵn, nên
+            mọi trường của <a href="#options">DialogOptions</a> vẫn dùng được.
           </p>
         </section>
 
         <section id="forms">
-          <h2>Forms</h2>
+          <h2>Biểu mẫu</h2>
           <p>
-            <code>form()</code> builds a validated dialog from a field list and resolves with the
-            values, or <code>null</code> if cancelled. Field names are inferred into the result
-            type, so <code>values.email</code> is typed without a cast.
+            <code>form()</code> dựng một hộp thoại có kiểm tra từ danh sách trường và trả về các giá
+            trị, hoặc <code>null</code> nếu bị huỷ. Tên trường được suy ra vào kiểu kết quả, nên
+            <code>values.email</code> đã có kiểu mà không cần ép.
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-form">Copy</button>
@@ -1109,27 +1114,27 @@ const values = await form(
 );</code></pre>
           </div>
           <p>
-            Field types: <code>text</code>, <code>password</code>, <code>email</code>,
+            Các kiểu trường: <code>text</code>, <code>password</code>, <code>email</code>,
             <code>number</code>, <code>date</code>, <code>textarea</code>, <code>select</code>,
-            <code>checkbox</code>, <code>radio</code>, <code>file</code>. Each field takes
+            <code>checkbox</code>, <code>radio</code>, <code>file</code>. Mỗi trường nhận
             <code>label</code>, <code>defaultValue</code>, <code>placeholder</code>,
-            <code>helpText</code>, <code>required</code>, and a <code>validate</code> function;
-            numbers add <code>min</code>, <code>max</code>, <code>step</code>, and files add
-            <code>accept</code>, <code>multiple</code>, <code>maxFiles</code>, and
+            <code>helpText</code>, <code>required</code>, và một hàm <code>validate</code>; kiểu số
+            có thêm <code>min</code>, <code>max</code>, <code>step</code>, còn kiểu tệp có thêm
+            <code>accept</code>, <code>multiple</code>, <code>maxFiles</code>, và
             <code>maxSizeBytes</code>.
           </p>
           <p>
-            <code>formWizard(steps, options?)</code> spreads the same fields over several steps,
-            with <code>nextText</code>, <code>backText</code>, <code>finishText</code>, and an
-            <code>onStepChange</code> callback.
+            <code>formWizard(steps, options?)</code> trải đúng các trường đó ra nhiều bước, kèm
+            <code>nextText</code>, <code>backText</code>, <code>finishText</code>, và callback
+            <code>onStepChange</code>.
           </p>
         </section>
 
         <section id="wizards">
-          <h2>Wizards</h2>
+          <h2>Wizard</h2>
           <p>
-            <code>wizard()</code> is the general form: each step renders whatever it likes, can
-            validate, and can choose the next step from the data collected so far.
+            <code>wizard()</code> là dạng tổng quát: mỗi bước tự vẽ nội dung tuỳ ý, có thể kiểm tra
+            dữ liệu, và có thể chọn bước kế tiếp dựa trên dữ liệu đã thu thập.
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-wizard">Copy</button>
@@ -1151,14 +1156,13 @@ const flow = wizard({
 const data = await flow.result; // the data, or null if cancelled</code></pre>
           </div>
           <p>
-            The controller also exposes <code>next()</code>, <code>back()</code>,
-            <code>goTo(stepId)</code>, <code>getData()</code>, and the underlying
-            <code>instance</code>.
+            Bộ điều khiển còn cung cấp <code>next()</code>, <code>back()</code>,
+            <code>goTo(stepId)</code>, <code>getData()</code>, và <code>instance</code> bên dưới.
           </p>
         </section>
 
         <section id="toasts">
-          <h2>Toasts and notifications</h2>
+          <h2>Toast và thông báo</h2>
           <div class="snippet">
             <button class="copy" data-copy="#code-toast">Copy</button>
             <pre><code id="code-toast">import { toast, notificationCenter, getNotificationHistory } from 'forgedialog';
@@ -1175,13 +1179,13 @@ notificationCenter();          // a dialog listing past toasts
 getNotificationHistory();      // the same list as data</code></pre>
           </div>
           <p>
-            Tones are <code>info</code>, <code>success</code>, <code>warning</code>, and
-            <code>danger</code>. <code>clearNotificationHistory()</code> empties the log.
+            Các sắc thái gồm <code>info</code>, <code>success</code>, <code>warning</code>, và
+            <code>danger</code>. <code>clearNotificationHistory()</code> xoá sạch nhật ký.
           </p>
         </section>
 
         <section id="command">
-          <h2>Command palette</h2>
+          <h2>Bảng lệnh</h2>
           <div class="snippet">
             <button class="copy" data-copy="#code-command">Copy</button>
             <pre><code id="code-command">import { commandPalette } from 'forgedialog';
@@ -1192,13 +1196,12 @@ commandPalette([
 ]);</code></pre>
           </div>
           <p>
-            Typing filters on the label and on <code>keywords</code>; the palette resolves with the
-            id of the command that ran.
+            Gõ để lọc theo nhãn và theo <code>keywords</code>; bảng lệnh trả về id của lệnh đã chạy.
           </p>
         </section>
 
         <section id="theming">
-          <h2>Theming</h2>
+          <h2>Chủ đề</h2>
           <div class="snippet">
             <button class="copy" data-copy="#code-theme">Copy</button>
             <pre><code id="code-theme">import { setTheme, getTheme, setThemePreset } from 'forgedialog';
@@ -1209,24 +1212,24 @@ getTheme();
 setThemePreset('glass'); // 'default' | 'minimal' | 'glass' | 'material'</code></pre>
           </div>
           <p>
-            <code>setTheme()</code> writes <code>data-fd-theme</code> on <code>&lt;html&gt;</code>.
-            Your own stylesheet can read the same attribute so the page and the dialogs switch
-            together — that is exactly what this site does.
+            <code>setTheme()</code> ghi <code>data-fd-theme</code> lên <code>&lt;html&gt;</code>.
+            CSS của bạn có thể đọc chính thuộc tính đó để trang và hộp thoại đổi chủ đề cùng lúc —
+            đây đúng là cách site này làm.
           </p>
         </section>
 
         <section id="tokens">
-          <h2>CSS custom properties</h2>
+          <h2>Biến CSS</h2>
           <p>
-            Everything visual is a variable on <code>:root</code>, so a theme can be written without
-            touching JavaScript.
+            Mọi thứ thuộc về hình thức đều là một biến trên <code>:root</code>, nên viết được cả một
+            chủ đề mà không đụng tới JavaScript.
           </p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
-                  <th>Variable</th>
-                  <th>Default</th>
+                  <th>Biến</th>
+                  <th>Mặc định</th>
                 </tr>
               </thead>
               <tbody>
@@ -1278,7 +1281,7 @@ setThemePreset('glass'); // 'default' | 'minimal' | 'glass' | 'material'</code><
                 </tr>
                 <tr>
                   <td><code>--fd-font-family</code></td>
-                  <td>system UI stack</td>
+                  <td>bộ phông hệ thống</td>
                 </tr>
                 <tr>
                   <td><code>--fd-duration-fast</code> / <code>--fd-duration-normal</code></td>
@@ -1296,14 +1299,14 @@ setThemePreset('glass'); // 'default' | 'minimal' | 'glass' | 'material'</code><
             </table>
           </div>
           <p>
-            The per-dialog variables the appearance API writes (<code>--fd-dialog-radius</code>,
-            <code>--fd-dialog-shadow</code>, <code>--fd-dialog-title-background</code>, and the
-            rest) can also be set by hand if you would rather style in CSS than in JavaScript.
+            Các biến riêng từng hộp thoại mà appearance API ghi ra (<code>--fd-dialog-radius</code>,
+            <code>--fd-dialog-shadow</code>, <code>--fd-dialog-title-background</code>, và những cái
+            còn lại) cũng đặt tay được, nếu bạn thích tạo kiểu bằng CSS hơn bằng JavaScript.
           </p>
         </section>
 
         <section id="i18n">
-          <h2>Labels and i18n</h2>
+          <h2>Nhãn và đa ngôn ngữ</h2>
           <div class="snippet">
             <button class="copy" data-copy="#code-i18n">Copy</button>
             <pre><code id="code-i18n">import { setLabels, getLabels } from 'forgedialog';
@@ -1319,16 +1322,16 @@ setLabels({
 });</code></pre>
           </div>
           <p>
-            Labels set this way apply everywhere; a single dialog can override them with its own
-            <code>labels</code> option.
+            Nhãn đặt theo cách này áp dụng ở mọi nơi; từng hộp thoại vẫn ghi đè được bằng tuỳ chọn
+            <code>labels</code> của riêng nó.
           </p>
         </section>
 
         <section id="plugins">
-          <h2>Plugins and hooks</h2>
+          <h2>Plugin và hook</h2>
           <p>
-            Five lifecycle hooks fire for every dialog: <code>beforeOpen</code>,
-            <code>afterOpen</code>, <code>beforeClose</code>, <code>afterClose</code>, and
+            Năm hook vòng đời chạy cho mọi hộp thoại: <code>beforeOpen</code>,
+            <code>afterOpen</code>, <code>beforeClose</code>, <code>afterClose</code>, và
             <code>beforeDestroy</code>.
           </p>
           <div class="snippet">
@@ -1350,16 +1353,16 @@ registerPlugin({
 });</code></pre>
           </div>
           <p>
-            A hook receives <code>{ instance, options, result, reason, preventClose }</code>.
-            Calling <code>preventClose()</code> in <code>beforeClose</code> keeps the dialog open.
+            Mỗi hook nhận <code>{ instance, options, result, reason, preventClose }</code>. Gọi
+            <code>preventClose()</code> trong <code>beforeClose</code> sẽ giữ hộp thoại mở.
           </p>
         </section>
 
         <section id="frameworks">
-          <h2>Framework adapters</h2>
+          <h2>Adapter cho framework</h2>
           <p>
-            Each adapter is a thin wrapper over <code>open()</code> that ties a dialog's lifetime to
-            the component's, so nothing is left mounted after unmount.
+            Mỗi adapter là một lớp bọc mỏng quanh <code>open()</code>, gắn vòng đời hộp thoại vào
+            vòng đời component, nên không còn gì sót lại sau khi component bị gỡ.
           </p>
           <div class="snippet">
             <button class="copy" data-copy="#code-frameworks">Copy</button>
@@ -1379,46 +1382,63 @@ defineForgeDialog(); // &lt;forge-dialog open title="Hi" message="…" size="md"
         </section>
 
         <section id="typescript">
-          <h2>TypeScript, SSR, and CSP</h2>
+          <h2>TypeScript, SSR, và CSP</h2>
           <ul>
             <li>
-              Types ship for both ESM and CJS. <code>open&lt;T&gt;()</code> threads its result type
-              through <code>buttons</code>, <code>whenClosed()</code>, and the hooks.
+              Có kiểu cho cả ESM lẫn CJS. <code>open&lt;T&gt;()</code> luồn kiểu kết quả của nó qua
+              <code>buttons</code>, <code>whenClosed()</code>, và các hook.
             </li>
             <li>
-              Importing the package on a server does not touch the DOM, so it is safe in SSR builds;
-              the dialog is only created when you call the API in a browser.
+              Import gói này trên máy chủ không đụng tới DOM, nên an toàn với bản dựng SSR; hộp
+              thoại chỉ được tạo khi bạn gọi API trong trình duyệt.
             </li>
             <li>
-              The bundle contains no <code>eval</code> and no <code>new Function</code>, which is
-              enforced in CI, so it runs under a strict Content Security Policy. This site is served
-              under one.
+              Bản build không chứa <code>eval</code> và <code>new Function</code>, điều này được
+              kiểm tra trong CI, nên nó chạy được dưới Content Security Policy nghiêm ngặt. Chính
+              site này cũng đang chạy dưới một CSP như vậy.
             </li>
-            <li>Every entry point has an enforced gzip budget, checked on each pull request.</li>
+            <li>Mọi điểm vào đều có hạn mức gzip bắt buộc, kiểm tra ở từng pull request.</li>
           </ul>
         </section>
 
         <p class="docs-footer-note">
-          Something missing or wrong here?
-          <a href="https://github.com/cmm-cmm/ForgeDialog/issues">Open an issue</a> — the reference
-          is written against the reviewed public API report in the repository.
+          Thiếu gì hoặc sai gì ở đây?
+          <a href="https://github.com/cmm-cmm/ForgeDialog/issues">Mở một issue</a> — tài liệu này
+          được viết dựa trên báo cáo API công khai đã qua rà soát trong kho mã.
         </p>
       </main>
     </div>
 
     <footer class="site-footer">
       <div class="wrap">
-        <span>MIT licensed. Built with no runtime dependencies.</span>
+        <span>Giấy phép MIT. Không phụ thuộc lúc chạy.</span>
         <span>
           <a href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a> ·
           <a href="https://www.npmjs.com/package/forgedialog">npm</a> ·
-          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md">Changelog</a>
+          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md"
+            >Nhật ký thay đổi</a
+          >
         </span>
       </div>
     </footer>
 
-    <script src="./vendor/index.global.js"></script>
-    <script src="./common.js"></script>
-    <script src="./docs.js"></script>
+    <!-- Vietnamese labels for the library's own buttons. A JSON data block,
+         not an executable script, so `script-src 'self'` allows it. -->
+    <script type="application/json" id="fd-strings">
+      {
+        "labels": {
+          "ok": "OK",
+          "cancel": "Huỷ",
+          "close": "Đóng",
+          "promptPlaceholder": "",
+          "submit": "Gửi",
+          "fieldRequired": "Trường này là bắt buộc.",
+          "notifications": "Thông báo"
+        }
+      }
+    </script>
+    <script src="/vendor/index.global.js"></script>
+    <script src="/common.js"></script>
+    <script src="/docs.js"></script>
   </body>
 </html>

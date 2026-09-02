@@ -25,6 +25,12 @@
     registerPlugin,
   } = ForgeDialog;
 
+  // Localisable strings come from a JSON data block in the page — a data
+  // block, not an executable script, so `script-src 'self'` allows it. The
+  // Vietnamese page supplies its own set; English is the fallback.
+  const strings = JSON.parse(document.getElementById('fd-strings')?.textContent ?? '{}');
+  const t = (key, fallback) => strings[key] ?? fallback;
+
   const logEl = document.getElementById('demo-log');
 
   function print(label, value) {
@@ -44,15 +50,17 @@
 
   const demos = {
     async alert() {
-      await alert('This is an alert dialog.', { title: 'Heads up' });
+      await alert(t('alertBody', 'This is an alert dialog.'), {
+        title: t('alertTitle', 'Heads up'),
+      });
       print('alert()', 'closed');
     },
 
     async confirm() {
       print(
         'confirm()',
-        await confirm('Are you sure you want to continue?', {
-          title: 'Please confirm',
+        await confirm(t('confirmBody', 'Are you sure you want to continue?'), {
+          title: t('confirmTitle', 'Please confirm'),
         }),
       );
     },
@@ -60,8 +68,8 @@
     async prompt() {
       print(
         'prompt()',
-        await prompt('What is your name?', {
-          title: 'Introduce yourself',
+        await prompt(t('promptBody', 'What is your name?'), {
+          title: t('promptTitle', 'Introduce yourself'),
           defaultValue: 'Ada Lovelace',
         }),
       );
@@ -70,12 +78,12 @@
     async 'prompt-validate'() {
       print(
         'prompt() validated',
-        await prompt('Enter an even number:', {
-          title: 'Validated prompt',
+        await prompt(t('validateBody', 'Enter an even number:'), {
+          title: t('validateTitle', 'Validated prompt'),
           validate: (value) => {
             const n = Number(value);
-            if (Number.isNaN(n)) return 'Please enter a number';
-            if (n % 2 !== 0) return 'Number must be even';
+            if (Number.isNaN(n)) return t('validateNaN', 'Please enter a number');
+            if (n % 2 !== 0) return t('validateOdd', 'Number must be even');
             return true;
           },
         }),
@@ -84,39 +92,46 @@
 
     async open() {
       const instance = open({
-        title: 'Custom dialog',
+        title: t('openTitle', 'Custom dialog'),
         content: (container) => {
           const p = document.createElement('p');
-          p.textContent = 'This dialog was built with the generic open() API.';
+          p.textContent = t('openBody', 'This dialog was built with the generic open() API.');
           container.append(p);
         },
         buttons: [
-          { text: 'Close', role: 'primary', autoFocus: true, onClick: (i) => i.close('done') },
+          {
+            text: t('close', 'Close'),
+            role: 'primary',
+            autoFocus: true,
+            onClick: (i) => i.close('done'),
+          },
         ],
       });
       print('open()', await instance.whenClosed());
     },
 
     async stacked() {
-      const first = confirm('First dialog. Open a second one on top?', { title: 'Dialog 1' });
+      const first = confirm(t('stackedFirst', 'First dialog. Open a second one on top?'), {
+        title: t('stackedFirstTitle', 'Dialog 1'),
+      });
       print(
         'stacked: second',
-        await confirm('This is stacked above the first dialog.', {
-          title: 'Dialog 2',
+        await confirm(t('stackedSecond', 'This is stacked above the first dialog.'), {
+          title: t('stackedSecondTitle', 'Dialog 2'),
         }),
       );
       print('stacked: first', await first);
     },
 
     async 'no-animation'() {
-      await alert('This alert opens and closes instantly.', { animation: 'none' });
+      await alert(t('noAnimBody', 'This alert opens and closes instantly.'), { animation: 'none' });
       print('alert() animation:none', 'closed');
     },
 
     async slide() {
       print(
         'confirm() animation:slide',
-        await confirm('This dialog slides in from below.', {
+        await confirm(t('slideBody', 'This dialog slides in from below.'), {
           animation: 'slide',
         }),
       );
@@ -124,57 +139,57 @@
 
     drawer() {
       drawer({
-        title: 'Project settings',
-        message: 'A native, focus-safe right drawer.',
+        title: t('drawerTitle', 'Project settings'),
+        message: t('drawerBody', 'A native, focus-safe right drawer.'),
         side: 'right',
-        buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+        buttons: [{ text: t('done', 'Done'), role: 'primary', closesDialog: true }],
       });
     },
 
     'drawer-left'() {
       drawer({
-        title: 'Navigation',
-        message: 'The same drawer, anchored to the left.',
+        title: t('drawerLeftTitle', 'Navigation'),
+        message: t('drawerLeftBody', 'The same drawer, anchored to the left.'),
         side: 'left',
-        buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+        buttons: [{ text: t('done', 'Done'), role: 'primary', closesDialog: true }],
       });
     },
 
     sheet() {
       bottomSheet({
-        title: 'Quick actions',
-        message: 'Drag down to dismiss this sheet.',
-        buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+        title: t('sheetTitle', 'Quick actions'),
+        message: t('sheetBody', 'Drag down to dismiss this sheet.'),
+        buttons: [{ text: t('done', 'Done'), role: 'primary', closesDialog: true }],
       });
     },
 
     'toast-success'() {
-      toast('Changes saved successfully.', { tone: 'success' });
+      toast(t('toastSuccess', 'Changes saved successfully.'), { tone: 'success' });
     },
 
     'toast-error'() {
-      toast('That upload failed. Nothing was lost.', { tone: 'error' });
+      toast(t('toastError', 'That upload failed. Nothing was lost.'), { tone: 'error' });
     },
 
     'toast-action'() {
-      toast('Message archived.', {
+      toast(t('toastAction', 'Message archived.'), {
         tone: 'info',
-        actions: [{ text: 'Undo', onClick: () => print('toast action', 'undo') }],
+        actions: [{ text: t('undo', 'Undo'), onClick: () => print('toast action', 'undo') }],
       });
     },
 
     lightbox() {
       lightbox('./og-image.png', {
-        alt: 'The Forge Dialog social card',
-        caption: 'Rendered from site/icon.svg at build time.',
+        alt: t('lightboxAlt', 'The Forge Dialog social card'),
+        caption: t('lightboxCaption', 'Rendered from site/icon.svg at build time.'),
       });
     },
 
     async loading() {
-      const task = loading('Uploading…');
+      const task = loading(t('loadingUploading', 'Uploading…'));
       print('loading()', 'opened');
       await new Promise((resolve) => setTimeout(resolve, 900));
-      task.update('Processing…');
+      task.update(t('loadingProcessing', 'Processing…'));
       await new Promise((resolve) => setTimeout(resolve, 900));
       await task.close();
       print('loading()', 'closed');
@@ -184,19 +199,19 @@
       commandPalette([
         {
           id: 'theme-dark',
-          label: 'Switch to dark theme',
+          label: t('cmdDark', 'Switch to dark theme'),
           keywords: ['appearance'],
           run: () => setTheme('dark'),
         },
         {
           id: 'theme-light',
-          label: 'Switch to light theme',
+          label: t('cmdLight', 'Switch to light theme'),
           keywords: ['appearance'],
           run: () => setTheme('light'),
         },
         {
           id: 'preset-glass',
-          label: 'Use the glass preset',
+          label: t('cmdGlass', 'Use the glass preset'),
           keywords: ['theme', 'appearance'],
           run: () => setThemePreset('glass'),
         },
@@ -218,19 +233,19 @@
         'form()',
         await form(
           [
-            { name: 'email', type: 'email', label: 'Email', required: true },
+            { name: 'email', type: 'email', label: t('fieldEmail', 'Email'), required: true },
             {
               name: 'plan',
               type: 'select',
-              label: 'Plan',
+              label: t('fieldPlan', 'Plan'),
               options: [
-                { value: 'free', label: 'Free' },
-                { value: 'pro', label: 'Pro' },
+                { value: 'free', label: t('planFree', 'Free') },
+                { value: 'pro', label: t('planPro', 'Pro') },
               ],
             },
-            { name: 'notes', type: 'textarea', label: 'Notes', rows: 3 },
+            { name: 'notes', type: 'textarea', label: t('fieldNotes', 'Notes'), rows: 3 },
           ],
-          { title: 'Create an account' },
+          { title: t('formTitle', 'Create an account') },
         ),
       );
     },
@@ -241,21 +256,22 @@
         steps: [
           {
             id: 'profile',
-            title: 'Your profile',
+            title: t('wizardStep1', 'Your profile'),
             render: (el, ctx) => {
               const input = document.createElement('input');
               input.className = 'fd-input';
-              input.placeholder = 'Name';
+              input.placeholder = t('fieldName', 'Name');
               input.addEventListener('input', () => ctx.set({ name: input.value }));
               el.append(input);
             },
-            validate: (ctx) => (ctx.data.name ? true : 'Please enter your name.'),
+            validate: (ctx) =>
+              ctx.data.name ? true : t('wizardRequired', 'Please enter your name.'),
           },
           {
             id: 'review',
-            title: 'Review',
+            title: t('wizardStep2', 'Review'),
             render: (el, ctx) => {
-              el.textContent = `Ready to welcome ${ctx.data.name}.`;
+              el.textContent = `${t('wizardReview', 'Ready to welcome')} ${ctx.data.name}.`;
             },
           },
         ],
@@ -269,13 +285,22 @@
         await formWizard([
           {
             id: 'account',
-            title: 'Account',
-            fields: [{ name: 'email', type: 'email', label: 'Email', required: true }],
+            title: t('fwStep1', 'Account'),
+            fields: [
+              { name: 'email', type: 'email', label: t('fieldEmail', 'Email'), required: true },
+            ],
           },
           {
             id: 'profile',
-            title: 'Profile',
-            fields: [{ name: 'name', type: 'text', label: 'Full name', required: true }],
+            title: t('fwStep2', 'Profile'),
+            fields: [
+              {
+                name: 'name',
+                type: 'text',
+                label: t('fieldFullName', 'Full name'),
+                required: true,
+              },
+            ],
           },
         ]),
       );

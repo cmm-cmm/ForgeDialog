@@ -7,10 +7,11 @@ import { fileURLToPath } from 'node:url';
  *
  * Every failure listed here is one this repository actually shipped or nearly
  * shipped: links that pointed at `docs.html` when the server answers at
- * `/docs`, a sidebar entry aimed at a section that had been renamed, and an
- * FAQ whose structured data could drift from the visible questions. A page can
- * look right in a browser and still be wrong in all three ways, so they are
- * checked rather than eyeballed.
+ * `/docs`, a sidebar entry aimed at a section that had been renamed, an FAQ
+ * whose structured data could drift from the visible questions, and a
+ * translated page whose hreflang set did not match its counterpart's. A page
+ * can look right in a browser and still be wrong in every one of those ways,
+ * so they are checked rather than eyeballed.
  *
  * Runs at the end of `npm run site:build`, so a broken link fails the deploy
  * instead of reaching the site.
@@ -66,6 +67,8 @@ for (const file of files) {
 }
 
 const origins = new Set();
+/** canonical URL -> its declared hreflang set, for the reciprocity check. */
+const hreflang = new Map();
 
 for (const file of files) {
   const html = await readFile(file, 'utf8');
@@ -120,6 +123,21 @@ for (const file of files) {
 
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
 
+  // hreflang has to be reciprocal: a page that names a translation must be
+  // named back by it, or a search engine discards the whole annotation. That
+  // is the usual way a bilingual site gets this wrong, and it is invisible in
+  // a browser.
+  const alternates = [...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)];
+  if (alternates.length) {
+    hreflang.set(canonical, new Map(alternates.map(([, code, href]) => [code, href])));
+    if (!alternates.some(([, code]) => code === 'x-default')) {
+      fail(file, 'declares hreflang alternates but no x-default');
+    }
+    if (canonical && !alternates.some(([, , href]) => href === canonical)) {
+      fail(file, `hreflang set does not include this page's own canonical (${canonical})`);
+    }
+  }
+
   if (path.basename(file) === '404.html') {
     // A 404 answers for any address, so it has no canonical URL of its own and
     // nothing on it is worth indexing.
@@ -131,6 +149,20 @@ for (const file of files) {
     origins.add(new URL(canonical).origin);
     for (const tag of ['<title>', 'name="description"', 'property="og:image"']) {
       if (!html.includes(tag)) fail(file, `missing ${tag}`);
+    }
+  }
+}
+
+for (const [canonical, set] of hreflang) {
+  for (const [code, href] of set) {
+    if (code === 'x-default' || href === canonical) continue;
+    const other = hreflang.get(href);
+    if (!other) {
+      failures.push(
+        `${canonical} names ${href} as its "${code}" alternate, but that page declares no hreflang`,
+      );
+    } else if (![...other.values()].includes(canonical)) {
+      failures.push(`${canonical} names ${href} as its "${code}" alternate, but is not named back`);
     }
   }
 }

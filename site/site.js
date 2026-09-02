@@ -6,28 +6,45 @@
   const { alert, confirm, prompt, open } = ForgeDialog;
   const $ = (selector) => document.querySelector(selector);
 
+  // Every string this file can put on screen comes from a JSON data block in
+  // the page, so the Vietnamese page localises them without a second copy of
+  // this script. A data block is not an executable script, so `script-src
+  // 'self'` does not block it. English is the fallback.
+  const strings = JSON.parse($('#fd-strings')?.textContent ?? '{}');
+  const t = (key, fallback) => strings[key] ?? fallback;
+
   /* Hero demos ----------------------------------------------------------- */
 
   $('#try-alert').addEventListener('click', () => {
-    void alert('Focus is trapped here, and returns to the button when this closes.', {
-      title: 'Heads up',
-    });
+    void alert(
+      t('alertBody', 'Focus is trapped here, and returns to the button when this closes.'),
+      {
+        title: t('alertTitle', 'Heads up'),
+      },
+    );
   });
 
   $('#try-confirm').addEventListener('click', async () => {
-    const result = await confirm('Escape and the backdrop both resolve this to false.', {
-      title: 'Please confirm',
+    const result = await confirm(
+      t('confirmBody', 'Escape and the backdrop both resolve this to false.'),
+      { title: t('confirmTitle', 'Please confirm') },
+    );
+    void alert(`${t('confirmResult', 'confirm() resolved')} ${result}.`, {
+      title: t('resultTitle', 'Result'),
     });
-    void alert(`confirm() resolved ${result}.`, { title: 'Result' });
   });
 
   $('#try-prompt').addEventListener('click', async () => {
-    const value = await prompt('Try submitting it empty.', {
-      title: 'What should we call you?',
+    const value = await prompt(t('promptBody', 'Try submitting it empty.'), {
+      title: t('promptTitle', 'What should we call you?'),
       defaultValue: 'Ada Lovelace',
-      validate: (input) => (input.trim() ? true : 'A name is required'),
+      validate: (input) => (input.trim() ? true : t('promptRequired', 'A name is required')),
     });
-    if (value !== null) void alert(`Nice to meet you, ${value}.`, { title: 'Result' });
+    if (value !== null) {
+      void alert(`${t('promptGreeting', 'Nice to meet you,')} ${value}.`, {
+        title: t('resultTitle', 'Result'),
+      });
+    }
   });
 
   $('#try-wizard').addEventListener('click', () => openPlayground());
@@ -84,12 +101,14 @@
     }
 
     return {
-      title: 'Styled with the appearance API',
-      message:
+      title: t('playgroundTitle', 'Styled with the appearance API'),
+      message: t(
+        'playgroundBody',
         'Every colour, the corner radius, and the shadow direction come from the controls on the left. Drag me by the header.',
+      ),
       appearance,
       draggable: controls.draggable.checked ? { bounds: 'viewport' } : false,
-      buttons: [{ text: 'Close', role: 'primary', closesDialog: true }],
+      buttons: [{ text: t('closeButton', 'Close'), role: 'primary', closesDialog: true }],
     };
   }
 

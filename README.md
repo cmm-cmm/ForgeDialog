@@ -272,8 +272,8 @@ tooling and SSR imports.
 ## Website
 
 `site/` holds a dependency-free landing page with an interactive appearance playground, a live
-demo page that runs every surface the library ships, and a full API reference. Build and serve all
-three with `npm run site`. The icon, the generated `sitemap.xml` / `robots.txt` / `llms.txt`, the
+demo page that runs every surface the library ships, and a full API reference — each published in
+English and Vietnamese. Build and serve them with `npm run site`. The icon, the generated `sitemap.xml` / `robots.txt` / `llms.txt`, the
 structured data, and the Cloudflare deployment settings are covered in
 [docs/website.md](docs/website.md).
 

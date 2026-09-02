@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo trực tiếp — Forge Dialog</title>
+    <meta
+      name="description"
+      content="Chạy thử mọi thành phần của Forge Dialog ngay trong trình duyệt: hộp thoại, drawer, bottom sheet, lightbox, trạng thái tải, toast, bảng lệnh, biểu mẫu, và wizard — mỗi cái kèm đúng đoạn mã tạo ra nó."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="KonexForge" />
+    <meta property="og:title" content="Demo trực tiếp Forge Dialog" />
+    <meta
+      property="og:description"
+      content="Mọi hộp thoại, drawer, toast, bảng lệnh, biểu mẫu, và wizard chạy thật trong trang, mỗi cái kèm đúng đoạn mã tạo ra nó."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://forgedialog.konexforge.com/vi/demo" />
+    <meta property="og:site_name" content="Forge Dialog" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Forge Dialog — hộp thoại cho web, dễ tiếp cận và không phụ thuộc"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demo trực tiếp Forge Dialog" />
+    <meta
+      name="twitter:description"
+      content="Mọi hộp thoại, drawer, toast, bảng lệnh, biểu mẫu, và wizard chạy thật trong trang, mỗi cái kèm đúng đoạn mã tạo ra nó."
+    />
+    <meta name="twitter:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta name="theme-color" content="#5468e8" />
+    <link rel="canonical" href="https://forgedialog.konexforge.com/vi/demo" />
+    <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
+    <link rel="alternate" hreflang="en" href="https://forgedialog.konexforge.com/demo" />
+    <link rel="alternate" hreflang="vi" href="https://forgedialog.konexforge.com/vi/demo" />
+    <link rel="alternate" hreflang="x-default" href="https://forgedialog.konexforge.com/demo" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/vendor/index.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://forgedialog.konexforge.com/vi/demo#webpage",
+            "name": "Demo trực tiếp Forge Dialog",
+            "description": "Mọi thành phần của Forge Dialog chạy thật trong trình duyệt, mỗi cái kèm đúng đoạn mã tạo ra nó.",
+            "url": "https://forgedialog.konexforge.com/vi/demo",
+            "inLanguage": "vi",
+            "isPartOf": { "@id": "https://forgedialog.konexforge.com/#website" },
+            "about": { "@id": "https://forgedialog.konexforge.com/#software" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://forgedialog.konexforge.com/vi/demo#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Forge Dialog",
+                "item": "https://forgedialog.konexforge.com/vi/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Demo trực tiếp",
+                "item": "https://forgedialog.konexforge.com/vi/demo"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/vi/">
+          <img class="brand-mark" src="/icon.svg" alt="" width="26" height="26" />
+          Forge Dialog
+          <span class="version" id="version">…</span>
+        </a>
+        <a class="nav-link" href="/vi/#features">Tính năng</a>
+        <a class="nav-link" href="/vi/#playground">Tuỳ biến</a>
+        <a class="nav-link" href="/vi/demo" aria-current="page">Demo</a>
+        <a class="nav-link" href="/vi/docs">Tài liệu</a>
+        <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <span class="lang-switch">
+          <a href="/demo" lang="en" hreflang="en">EN</a>
+          <a href="/vi/demo" class="active" lang="vi" hreflang="vi" aria-current="true">VI</a>
+        </span>
+        <button
+          class="btn btn--sm"
+          id="theme-toggle"
+          data-label-dark="Tối"
+          data-label-light="Sáng"
+          aria-pressed="false"
+        >
+          Tối
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap hero">
+        <h1>Demo trực tiếp</h1>
+        <p class="lead">
+          Mọi thành phần Forge Dialog cung cấp, chạy thật trong trang này trên đúng bản build mà
+          phần còn lại của site đang dùng. Mỗi thẻ hiển thị đoạn mã tạo ra thứ bạn vừa thấy, nên
+          không có gì ở đây là mô phỏng.
+        </p>
+      </div>
+
+      <section id="dialogs">
+        <div class="wrap">
+          <h2>Hộp thoại</h2>
+          <p class="section-lead">
+            Bốn điểm vào thay thế hàm dựng sẵn của trình duyệt, cùng hàm tổng quát
+            <code>open()</code> mà tất cả đều dựng trên đó.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>alert()</h3>
+              <p>Một thông điệp, một nút. Trả về khi đóng.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="alert">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-alert"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-alert">await alert('Đây là một hộp thoại cảnh báo.', { title: 'Lưu ý' });</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>confirm()</h3>
+              <p>Trả về <code>true</code> hoặc <code>false</code> thay vì chặn cả trang.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="confirm">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-confirm"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-confirm">const ok = await confirm('Bạn có chắc muốn tiếp tục không?', {
+  title: 'Xin xác nhận',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>prompt()</h3>
+              <p>Trả về chuỗi đã nhập, hoặc <code>null</code> khi bị bỏ qua.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="prompt">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-prompt"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-prompt">const name = await prompt('Tên bạn là gì?', {
+  title: 'Giới thiệu bản thân',
+  defaultValue: 'Ada Lovelace',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Nhập liệu có kiểm tra</h3>
+              <p>
+                <code>validate</code> trả về <code>true</code> hoặc một chuỗi lỗi, và hộp thoại vẫn
+                mở cho tới khi hợp lệ.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="prompt-validate">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-prompt-validate"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-prompt-validate">await prompt('Nhập một số chẵn:', {
+  title: 'Nhập liệu có kiểm tra',
+  validate: (value) => {
+    const n = Number(value);
+    if (Number.isNaN(n)) return 'Vui lòng nhập một số';
+    if (n % 2 !== 0) return 'Số phải là số chẵn';
+    return true;
+  },
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>open()</h3>
+              <p>Tự dựng phần thân và quyết định mỗi nút trả về gì.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="open">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-open"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-open">const instance = open({
+  title: 'Hộp thoại tự dựng',
+  content: (container) => {
+    const p = document.createElement('p');
+    p.textContent = 'Hộp thoại này được dựng bằng hàm tổng quát open().';
+    container.append(p);
+  },
+  buttons: [
+    { text: 'Đóng', role: 'primary', autoFocus: true, onClick: (i) => i.close('done') },
+  ],
+});
+const result = await instance.whenClosed();</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Xếp chồng</h3>
+              <p>
+                Mở hộp thoại thứ hai đè lên cái đầu. Tiêu điểm, Escape, và khoá cuộn đều theo cái
+                trên cùng của chồng.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="stacked">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-stacked"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-stacked">const first = confirm('Hộp thoại thứ nhất. Mở thêm một cái đè lên nhé?', { title: 'Hộp thoại 1' });
+const second = await confirm('Cái này xếp chồng lên hộp thoại thứ nhất.', { title: 'Hộp thoại 2' });
+const firstResult = await first;</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="animations">
+        <div class="wrap">
+          <h2>Hiệu ứng</h2>
+          <p class="section-lead">
+            Đặt riêng cho từng hộp thoại. Mọi hiệu ứng đều tôn trọng
+            <code>prefers-reduced-motion</code>.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>Không hiệu ứng</h3>
+              <p>Mở và đóng tức thì.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="no-animation">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-no-animation"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-no-animation">await alert('Hộp thoại này mở và đóng tức thì.', { animation: 'none' });</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Trượt lên</h3>
+              <p>Trượt lên từ dưới thay vì phóng to.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="slide">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-slide"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-slide">await confirm('Hộp thoại này trượt lên từ phía dưới.', { animation: 'slide' });</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="presentation">
+        <div class="wrap">
+          <h2>Ngoài hộp thoại</h2>
+          <p class="section-lead">
+            Cùng một lõi, trình bày khác đi. Tất cả nằm sau
+            <code>forgedialog/presentation</code>.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>Drawer</h3>
+              <p>Bảng bên hông, xử lý tiêu điểm giống hệt hộp thoại modal.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="drawer">Phải</button>
+                <button class="btn" data-demo="drawer-left">Trái</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-drawer"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-drawer">drawer({
+  title: 'Cài đặt dự án',
+  message: 'Drawer bên phải, dùng dialog gốc và an toàn về tiêu điểm.',
+  side: 'right',
+  buttons: [{ text: 'Xong', role: 'primary', closesDialog: true }],
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Bottom sheet</h3>
+              <p>Dạng cho di động. Kéo xuống để đóng.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="sheet">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-sheet"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-sheet">bottomSheet({
+  title: 'Thao tác nhanh',
+  message: 'Kéo xuống để đóng bottom sheet này.',
+  buttons: [{ text: 'Xong', role: 'primary', closesDialog: true }],
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Toast</h3>
+              <p>Thông báo lịch sự, tự biến mất. Bốn sắc thái.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="toast-success">Thành công</button>
+                <button class="btn" data-demo="toast-error">Lỗi</button>
+                <button class="btn" data-demo="toast-action">Kèm hành động</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-toast"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-toast">toast('Đã lưu thay đổi thành công.', { tone: 'success' });</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Lightbox</h3>
+              <p>Ảnh cỡ đầy đủ, kèm chú thích và cùng cách đóng như hộp thoại.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="lightbox">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-lightbox"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-lightbox">lightbox('/og-image.png', {
+  alt: 'Ảnh chia sẻ mạng xã hội của Forge Dialog',
+  caption: 'Kết xuất từ site/icon.svg lúc build.',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Trạng thái tải</h3>
+              <p>
+                Trạng thái chặn do bạn điều khiển. <code>update()</code> đổi thông điệp,
+                <code>close()</code> kết thúc nó.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="loading">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-loading"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-loading">const task = loading('Đang tải lên…');
+task.update('Đang xử lý…');
+await task.close();</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Bảng lệnh</h3>
+              <p>Danh sách lệnh lọc được, điều hướng bằng bàn phím. Gõ để thu hẹp.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="commands">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-commands"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-commands">commandPalette([
+  { id: 'theme-dark', label: 'Chuyển sang chủ đề tối', keywords: ['appearance'],
+    run: () => setTheme('dark') },
+  { id: 'theme-light', label: 'Chuyển sang chủ đề sáng', keywords: ['appearance'],
+    run: () => setTheme('light') },
+]);</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Trung tâm thông báo</h3>
+              <p>
+                Mọi toast đã hiện trong trang này, lưu lại thành lịch sử. Bật vài toast trước rồi
+                hãy mở nó.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="notifications">Mở</button>
+                <button class="btn" data-demo="notifications-clear">Xoá lịch sử</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-notifications"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-notifications">notificationCenter();
+getNotificationHistory(); // [{ id, message, tone, createdAt }]
+clearNotificationHistory();</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="workflows">
+        <div class="wrap">
+          <h2>Biểu mẫu và wizard</h2>
+          <p class="section-lead">
+            Nằm sau <code>forgedialog/workflows</code>. Trong TypeScript, tên các trường được suy ra
+            vào kiểu kết quả, nên giá trị trả về đã có kiểu mà không cần ép.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>form()</h3>
+              <p>
+                Biểu mẫu có kiểm tra, dựng từ danh sách trường. Trả về các giá trị, hoặc
+                <code>null</code>.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="form">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-form"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-form">const values = await form(
+  [
+    { name: 'email', type: 'email', label: 'Email', required: true },
+    { name: 'plan', type: 'select', label: 'Gói', options: [
+      { value: 'free', label: 'Miễn phí' },
+      { value: 'pro', label: 'Chuyên nghiệp' },
+    ] },
+    { name: 'notes', type: 'textarea', label: 'Ghi chú', rows: 3 },
+  ],
+  { title: 'Tạo tài khoản' },
+);</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>wizard()</h3>
+              <p>Nhiều bước, kiểm tra theo từng bước và dùng chung dữ liệu.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="wizard">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-wizard"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-wizard">const flow = wizard({
+  initialData: { name: '' },
+  steps: [
+    {
+      id: 'profile',
+      title: 'Hồ sơ của bạn',
+      render: (el, ctx) => {
+        const input = document.createElement('input');
+        input.className = 'fd-input';
+        input.placeholder = 'Tên';
+        input.addEventListener('input', () => ctx.set({ name: input.value }));
+        el.append(input);
+      },
+      validate: (ctx) => (ctx.data.name ? true : 'Vui lòng nhập tên của bạn.'),
+    },
+    { id: 'review', title: 'Xem lại',
+      render: (el, ctx) => { el.textContent = `Sẵn sàng chào đón ${ctx.data.name}.`; } },
+  ],
+});
+const data = await flow.result;</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>formWizard()</h3>
+              <p>Cùng danh sách trường như <code>form()</code>, trải ra nhiều bước.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="form-wizard">Chạy</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-form-wizard"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-form-wizard">const values = await formWizard([
+  { id: 'account', title: 'Tài khoản', fields: [
+    { name: 'email', type: 'email', label: 'Email', required: true },
+  ] },
+  { id: 'profile', title: 'Hồ sơ', fields: [
+    { name: 'name', type: 'text', label: 'Họ và tên', required: true },
+  ] },
+]);</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="theming">
+        <div class="wrap">
+          <h2>Chủ đề</h2>
+          <p class="section-lead">
+            <code>setTheme()</code> điều khiển thư viện và trang này cùng lúc;
+            <code>setThemePreset()</code> đổi toàn bộ diện mạo.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>Chế độ sáng tối</h3>
+              <p>Sáng, tối, hoặc theo hệ điều hành.</p>
+              <div class="demo-actions">
+                <button class="btn" data-theme="light">Sáng</button>
+                <button class="btn" data-theme="dark">Tối</button>
+                <button class="btn" data-theme="system">Theo hệ thống</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-theme"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-theme">setTheme('dark'); // 'light' | 'dark' | 'system'</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Bộ chủ đề dựng sẵn</h3>
+              <p>Chọn một bộ, rồi mở bất kỳ demo nào ở trên để thấy nó được áp dụng.</p>
+              <div class="demo-actions">
+                <button class="btn" data-preset="default">Mặc định</button>
+                <button class="btn" data-preset="minimal">Tối giản</button>
+                <button class="btn" data-preset="glass">Kính</button>
+                <button class="btn" data-preset="material">Material</button>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-preset"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-preset">setThemePreset('glass');</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Giao diện và kéo thả</h3>
+              <p>
+                Màu sắc, bo góc, hướng đổ bóng, hover, và giới hạn kéo của từng hộp thoại có bảng
+                điều khiển riêng ở trang chủ.
+              </p>
+              <div class="demo-actions">
+                <a class="btn btn--primary" href="/vi/#playground">Mở bảng tuỳ biến</a>
+              </div>
+              <div class="snippet">
+                <button
+                  class="copy"
+                  data-copied="Đã chép"
+                  data-copy-fallback="Nhấn Ctrl+C"
+                  data-copy="#code-appearance"
+                >
+                  Chép
+                </button>
+                <pre><code id="code-appearance">open({
+  title: 'Hộp thoại đã tạo kiểu',
+  appearance: { radius: 20, shadow: { angle: 180, distance: 20, blur: 60 } },
+  draggable: { bounds: 'viewport' },
+});</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="log">
+        <div class="wrap">
+          <h2>Mỗi demo trả về gì</h2>
+          <p class="section-lead">
+            Mọi demo ở trên in kết quả xuống đây, kèm các hook vòng đời plugin mà nó kích hoạt —
+            <code>afterOpen</code> và <code>afterClose</code> từ một plugin đăng ký trên trang này.
+          </p>
+          <pre class="demo-log" id="demo-log" aria-live="polite" aria-label="Kết quả demo"></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>Giấy phép MIT. Không phụ thuộc lúc chạy.</span>
+        <span>
+          <a href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a> ·
+          <a href="https://www.npmjs.com/package/forgedialog">npm</a> ·
+          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md"
+            >Nhật ký thay đổi</a
+          >
+        </span>
+      </div>
+    </footer>
+
+    <!-- Strings for demo.js. A JSON data block, not an executable script, so
+         `script-src 'self'` allows it. -->
+    <script type="application/json" id="fd-strings">
+      {
+        "alertTitle": "Lưu ý",
+        "alertBody": "Đây là một hộp thoại cảnh báo.",
+        "confirmTitle": "Xin xác nhận",
+        "confirmBody": "Bạn có chắc muốn tiếp tục không?",
+        "promptTitle": "Giới thiệu bản thân",
+        "promptBody": "Tên bạn là gì?",
+        "validateTitle": "Nhập liệu có kiểm tra",
+        "validateBody": "Nhập một số chẵn:",
+        "validateNaN": "Vui lòng nhập một số",
+        "validateOdd": "Số phải là số chẵn",
+        "openTitle": "Hộp thoại tự dựng",
+        "openBody": "Hộp thoại này được dựng bằng hàm tổng quát open().",
+        "close": "Đóng",
+        "done": "Xong",
+        "undo": "Hoàn tác",
+        "stackedFirstTitle": "Hộp thoại 1",
+        "stackedFirst": "Hộp thoại thứ nhất. Mở thêm một cái đè lên nhé?",
+        "stackedSecondTitle": "Hộp thoại 2",
+        "stackedSecond": "Cái này xếp chồng lên hộp thoại thứ nhất.",
+        "noAnimBody": "Hộp thoại này mở và đóng tức thì.",
+        "slideBody": "Hộp thoại này trượt lên từ phía dưới.",
+        "drawerTitle": "Cài đặt dự án",
+        "drawerBody": "Drawer bên phải, dùng dialog gốc và an toàn về tiêu điểm.",
+        "drawerLeftTitle": "Điều hướng",
+        "drawerLeftBody": "Vẫn drawer đó, neo về bên trái.",
+        "sheetTitle": "Thao tác nhanh",
+        "sheetBody": "Kéo xuống để đóng bottom sheet này.",
+        "toastSuccess": "Đã lưu thay đổi thành công.",
+        "toastError": "Tải lên thất bại. Không mất dữ liệu nào.",
+        "toastAction": "Đã lưu trữ tin nhắn.",
+        "lightboxAlt": "Ảnh chia sẻ mạng xã hội của Forge Dialog",
+        "lightboxCaption": "Kết xuất từ site/icon.svg lúc build.",
+        "loadingUploading": "Đang tải lên…",
+        "loadingProcessing": "Đang xử lý…",
+        "cmdDark": "Chuyển sang chủ đề tối",
+        "cmdLight": "Chuyển sang chủ đề sáng",
+        "cmdGlass": "Dùng bộ chủ đề kính",
+        "fieldEmail": "Email",
+        "fieldPlan": "Gói",
+        "fieldNotes": "Ghi chú",
+        "fieldName": "Tên",
+        "fieldFullName": "Họ và tên",
+        "planFree": "Miễn phí",
+        "planPro": "Chuyên nghiệp",
+        "formTitle": "Tạo tài khoản",
+        "wizardStep1": "Hồ sơ của bạn",
+        "wizardStep2": "Xem lại",
+        "wizardRequired": "Vui lòng nhập tên của bạn.",
+        "wizardReview": "Sẵn sàng chào đón",
+        "fwStep1": "Tài khoản",
+        "fwStep2": "Hồ sơ",
+        "labels": {
+          "ok": "OK",
+          "cancel": "Huỷ",
+          "close": "Đóng",
+          "promptPlaceholder": "",
+          "submit": "Gửi",
+          "fieldRequired": "Trường này là bắt buộc.",
+          "notifications": "Thông báo"
+        }
+      }
+    </script>
+    <script src="/vendor/index.global.js"></script>
+    <script src="/common.js"></script>
+    <script src="/demo.js"></script>
+  </body>
+</html>

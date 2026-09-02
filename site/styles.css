@@ -716,3 +716,32 @@ pre code {
   content: 'Results from the demos above appear here.';
   opacity: 0.55;
 }
+
+/* Language switcher. Two links, not a select: a crawler follows a link. */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.lang-switch a {
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.lang-switch a:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.lang-switch a.active {
+  color: var(--accent-text);
+  background: var(--accent);
+}

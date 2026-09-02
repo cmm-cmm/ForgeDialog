@@ -19,6 +19,7 @@
     <meta property="og:url" content="https://forgedialog.konexforge.com/" />
     <meta property="og:site_name" content="Forge Dialog" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="vi_VN" />
     <meta property="og:image" content="https://forgedialog.konexforge.com/og-image.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
@@ -40,6 +41,9 @@
          and llms.txt, so changing the domain means changing these tags only. -->
     <link rel="canonical" href="https://forgedialog.konexforge.com/" />
     <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
+    <link rel="alternate" hreflang="en" href="https://forgedialog.konexforge.com/" />
+    <link rel="alternate" hreflang="vi" href="https://forgedialog.konexforge.com/vi/" />
+    <link rel="alternate" hreflang="x-default" href="https://forgedialog.konexforge.com/" />
     <link rel="icon" href="./icon.svg" type="image/svg+xml" />
     <link rel="icon" href="./favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -190,6 +194,10 @@
         <a class="nav-link" href="./demo">Demos</a>
         <a class="nav-link" href="./docs">Docs</a>
         <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <span class="lang-switch">
+          <a href="/" class="active" lang="en" hreflang="en" aria-current="true">EN</a>
+          <a href="/vi/" lang="vi" hreflang="vi">VI</a>
+        </span>
         <button class="btn btn--sm" id="theme-toggle" aria-pressed="false">Dark</button>
       </div>
     </header>

@@ -1,4 +1,6 @@
+import { execFileSync } from 'node:child_process';
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 
 /**
  * Copies the built library into the static site so the page runs the code from
@@ -32,29 +34,54 @@ const origin = new URL(canonical).origin;
 const pages = [
   {
     path: '/',
+    file: 'site/index.html',
     priority: '1.0',
     title: 'Forge Dialog',
     summary: 'What it is, live demos, and an interactive appearance playground.',
   },
   {
     path: '/docs',
+    file: 'site/docs.html',
     priority: '0.9',
     title: 'API reference',
     summary:
       'Every option, method, and entry point: dialogs, appearance, dragging, forms, wizards, toasts, theming, plugins, and framework adapters.',
   },
 ];
-const lastmod = new Date().toISOString().slice(0, 10);
+
+/**
+ * `lastmod` has to be the day the page's content actually changed. Stamping
+ * every build with today's date tells a crawler both pages change daily, which
+ * is false, and a sitemap that is wrong about it is one a crawler learns to
+ * ignore. Git knows the real answer; a shallow clone or a tarball export might
+ * not, so the entry is written without a `lastmod` rather than with a
+ * plausible-looking lie.
+ */
+function lastModified(file) {
+  try {
+    return (
+      execFileSync('git', ['log', '-1', '--format=%cs', '--', file], {
+        cwd: fileURLToPath(root),
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+      }).trim() || null
+    );
+  } catch {
+    return null;
+  }
+}
 
 await writeFile(
   new URL('sitemap.xml', site),
   `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages
-  .map(
-    (page) =>
-      `  <url>\n    <loc>${origin}${page.path}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <priority>${page.priority}</priority>\n  </url>`,
-  )
+  .map((page) => {
+    const lastmod = lastModified(page.file);
+    return `  <url>\n    <loc>${origin}${page.path}</loc>\n${
+      lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : ''
+    }    <priority>${page.priority}</priority>\n  </url>`;
+  })
   .join('\n')}
 </urlset>
 `,

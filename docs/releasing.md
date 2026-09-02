@@ -43,11 +43,10 @@ publisher with:
 | Workflow filename | `release.yml` |
 | Environment       | `npm`         |
 
-> **Check this before relying on it for the first release.** npm configures trusted publishers from
-> a package's settings page, which normally means the package has to exist first. `forgedialog` is
-> currently unpublished. If npm will not let you add a publisher for a name that has never been
-> published, do the first publish manually as described below, then come back and add the trusted
-> publisher for every release after it.
+> npm configures trusted publishers from a package's settings page, which means the package has to
+> exist first. `forgedialog` is published — 0.7.0 went out on 1 September 2026 — so that page is
+> available and this can be set up now. The manual first publish described below is history for
+> this package; it is kept because a fork starting from an unpublished name still needs it.
 
 ### 3. Enable publishing in the workflow
 
@@ -90,7 +89,8 @@ request it.
 
 ## First publish without trusted publishing
 
-Only if step 2 above turns out to require an existing package:
+Not needed here — `forgedialog` already has a published version. This is for a fork publishing a
+name that has never been published, where step 2 has no settings page to configure yet:
 
 ```sh
 npm run validate:all
@@ -106,13 +106,12 @@ delete the token you used.
 
 **The publish step was skipped.** `NPM_PUBLISH_ENABLED` is not `true`. That is the default.
 
-**`npm error code E404` on `PUT .../forgedialog`, with the tarball already built and listed in the
+**`npm error code E404` on `PUT .../<package>`, with the tarball already built and listed in the
 log.** This is not an auth or OIDC problem — npm returns 404 rather than 401/403 here specifically
-because trusted publishing has nothing to attach to yet: the package has never been published, so
-there is no packages page to hold a trusted publisher entry. This is the exact case called out
-above in "Check this before relying on it for the first release." Do the manual first publish in
-the "First publish without trusted publishing" section, then add the trusted publisher and set
-`NPM_PUBLISH_ENABLED=true`.
+because trusted publishing has nothing to attach to yet: the name has never been published, so
+there is no package settings page to hold a trusted publisher entry. It cannot happen to
+`forgedialog` any more, which has a published version; a fork hitting it should do the manual first
+publish in the section above, then add the trusted publisher and set `NPM_PUBLISH_ENABLED=true`.
 
 **`ENEEDAUTH` or an OIDC error** (distinct from the E404 above; this is for a package that already
 has at least one published version). The trusted publisher entry on npmjs.com must match the

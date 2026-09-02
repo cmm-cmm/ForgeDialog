@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/cmm-cmm/ForgeDialog.git"
   },
-  "homepage": "https://github.com/cmm-cmm/ForgeDialog#readme",
+  "homepage": "https://forgedialog.konexforge.com",
   "bugs": "https://github.com/cmm-cmm/ForgeDialog/issues",
   "engines": {
     "node": ">=20"

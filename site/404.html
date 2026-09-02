@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found — Forge Dialog</title>
+    <meta name="description" content="That page does not exist on the Forge Dialog site." />
+    <!-- A 404 has nothing worth indexing, and it has no canonical URL of its
+         own: it answers for whatever address was mistyped. -->
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#5468e8" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Root-relative, not "./": this page is served for any path, including
+         nested ones, where a relative href would resolve against that path. -->
+    <link rel="stylesheet" href="/vendor/index.css" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">
+          Forge Dialog
+          <span class="version" id="version">…</span>
+        </a>
+        <a class="nav-link" href="/#features">Features</a>
+        <a class="nav-link" href="/#playground">Playground</a>
+        <a class="nav-link" href="/docs">Docs</a>
+        <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <button class="btn btn--sm" id="theme-toggle" aria-pressed="false">Dark</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap hero">
+        <h1>That page isn&rsquo;t here.</h1>
+        <p class="lead">
+          The address you followed does not match anything on this site. The two pages that do exist
+          are the overview and the API reference.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn--primary" href="/">Back to the overview</a>
+          <a class="btn" href="/docs">Read the docs</a>
+          <a class="btn" href="https://github.com/cmm-cmm/ForgeDialog/issues"
+            >Report a broken link</a
+          >
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT licensed. Built with no runtime dependencies.</span>
+        <span>
+          <a href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a> ·
+          <a href="https://www.npmjs.com/package/forgedialog">npm</a> ·
+          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md">Changelog</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="/vendor/index.global.js"></script>
+    <script src="/common.js"></script>
+  </body>
+</html>

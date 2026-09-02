@@ -22,6 +22,7 @@ CDN, so what you see is always the build you have.
 | ----------------- | --------------------------------------------------------------------- |
 | `site/index.html` | The landing page: demos, appearance playground, facts table, and FAQ. |
 | `site/docs.html`  | The API reference, written against the reviewed report in `etc/`.     |
+| `site/404.html`   | Served for any unmatched path. Carries `noindex`.                     |
 | `site/styles.css` | Site styling. Its dark mode reads the same `data-fd-theme` attribute  |
 |                   | that the library's `setTheme()` sets, so both switch together.        |
 | `site/common.js`  | Shared chrome: version badge, theme toggle, copy buttons.             |
@@ -81,7 +82,10 @@ else** — the sitemap, `robots.txt`, and `llms.txt` follow automatically.
 
 Generated on each build, and git-ignored:
 
-- **`sitemap.xml`** — both pages with a `lastmod` date.
+- **`sitemap.xml`** — both pages, each with the date its HTML file was last committed, read from
+  `git log`. A build that cannot reach git history (a shallow clone, a tarball export) writes the
+  entry with no `lastmod` rather than stamping today's date on a page that did not change: a
+  sitemap that is wrong about `lastmod` is one a crawler learns to ignore.
 - **`robots.txt`** — allows everything, names the sitemap, and explicitly allows the answer-engine
   crawlers (ClaudeBot, GPTBot, PerplexityBot, Google-Extended, and friends). It deliberately does
   **not** disallow `/vendor/`: blocking a site's own CSS and JavaScript is what breaks rendering
@@ -142,6 +146,14 @@ The `*.workers.dev` URL stays enabled as a way to check a deploy. It serves the 
 every page carries an absolute canonical pointing at the custom domain, so search engines
 consolidate the two rather than treating them as duplicates. Set `"workers_dev": false` in
 `wrangler.jsonc` if you would rather it not answer at all.
+
+### Unmatched paths
+
+`not_found_handling: "404-page"` in `wrangler.jsonc` makes Workers serve `site/404.html` with a
+`404` status for anything that does not match a file, instead of the platform's bare response. That
+page links its stylesheets and scripts with root-relative paths (`/styles.css`, not `./styles.css`)
+because it answers for nested addresses too, where a relative path would resolve against the
+missing directory. It carries `noindex` and no canonical tag, since it has no URL of its own.
 
 ### Response headers
 

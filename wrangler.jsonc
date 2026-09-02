@@ -9,6 +9,10 @@
   // library's .mjs/.d.ts files with no index.html, which serves nothing.
   "assets": {
     "directory": "./site",
+
+    // Without this an unmatched path gets a bare, unstyled 404 from the
+    // platform. site/404.html is the site's own, and it carries noindex.
+    "not_found_handling": "404-page",
   },
 
   // Declared rather than left to the default so a deploy stops warning about

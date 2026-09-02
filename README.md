@@ -273,8 +273,8 @@ tooling and SSR imports.
 
 `site/` holds a dependency-free landing page with an interactive appearance playground, plus a
 full API reference at `site/docs.html`. Build and serve both with `npm run site`. The icon, the
-generated `sitemap.xml` / `robots.txt` / `llms.txt`, the structured data, and the Cloudflare Pages
-settings are covered in [docs/website.md](docs/website.md).
+generated `sitemap.xml` / `robots.txt` / `llms.txt`, the structured data, and the Cloudflare
+deployment settings are covered in [docs/website.md](docs/website.md).
 
 ## Contributing
 

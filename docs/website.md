@@ -28,7 +28,16 @@ CDN, so what you see is always the build you have.
 | `site/site.js`    | Landing-page demos and the appearance playground.                     |
 | `site/docs.js`    | Highlights the sidebar entry for the section being read.              |
 | `site/icon.svg`   | The mark, and the favicon browsers actually load.                     |
-| `site/_headers`   | Cloudflare Pages response headers, including a strict CSP.            |
+| `wrangler.jsonc`  | Cloudflare deployment config. Points at `site/`, not `dist/`.         |
+| `site/_headers`   | Cloudflare response headers, including a strict CSP.                  |
+
+### URLs
+
+The docs page is served at **`/docs`**, not `/docs.html`. Both Cloudflare's static-asset routing
+(`html_handling: "auto-trailing-slash"`, the default) and the `serve` used by `npm run site` drop
+the `.html` and redirect the extension form, so the extensionless URL is the one that answers with
+a `200`. Every link, canonical tag, sitemap entry, and `llms.txt` link uses it — a canonical or a
+sitemap entry that redirects is a conflicting signal to a search engine.
 
 The version badge is read from the library's own `VERSION` export at runtime, so nothing has to be
 kept in sync by hand and no build step rewrites source files.
@@ -89,27 +98,50 @@ markup and the page cannot disagree.
 The FAQ and the "At a glance" table exist for the same reason: they state the facts about Forge
 Dialog in self-contained sentences, which is what both search snippets and answer engines quote.
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare
 
-Connect the repository in the Cloudflare dashboard (**Workers & Pages → Create → Pages → Connect to
-Git**) and use:
+The site ships as a [Workers static-assets](https://developers.cloudflare.com/workers/static-assets/)
+project: no Worker script, every request answered straight from `site/`. `wrangler.jsonc` at the
+repository root is the whole configuration, so a deploy is just:
 
-| Setting                | Value                |
-| ---------------------- | -------------------- |
-| Framework preset       | None                 |
-| Build command          | `npm run site:build` |
-| Build output directory | `site`               |
-| Node version           | `20` or newer        |
+```sh
+npm run site:build
+npx wrangler deploy
+```
+
+Note that the assets directory is **`site/`, not `dist/`**. `dist/` is the compiled library —
+`.mjs`, `.cjs`, `.d.ts`, and `.css` with no `index.html` in it — so deploying that directory
+uploads ninety-odd files and still serves nothing at `/`.
+
+### Workers Builds
+
+To deploy on push, connect the repository under **Workers & Pages → Create → Workers → Import a
+repository** and set:
+
+| Setting        | Value                 |
+| -------------- | --------------------- |
+| Build command  | `npm run site:build`  |
+| Deploy command | `npx wrangler deploy` |
+| Node version   | `20` or newer         |
 
 Cloudflare runs `npm ci` before the build command, so no install step is needed. Set the Node
 version through a `NODE_VERSION` environment variable if the default is older than 20, which the
 package's `engines` field requires.
 
-The build runs the library's own `npm run build` first, so a broken build fails the deploy rather
-than shipping a stale `site/vendor/`.
+Leave the deploy command without an `--assets` flag: the flag overrides `wrangler.jsonc`, which is
+how a project ends up shipping the wrong directory. The build runs the library's own `npm run
+build` first, so a broken build fails the deploy rather than shipping a stale `site/vendor/`.
 
-Point the custom domain at the project in **Pages → Custom domains**. It has to match the canonical
-tags, or search engines will be told the page lives somewhere it does not.
+### Custom domain
+
+Attach the domain under the Worker's **Settings → Domains & Routes**. It has to match the canonical
+tags in `index.html` and `docs.html`, or search engines will be told the page lives somewhere it
+does not.
+
+The `*.workers.dev` URL stays enabled as a way to check a deploy. It serves the same pages, but
+every page carries an absolute canonical pointing at the custom domain, so search engines
+consolidate the two rather than treating them as duplicates. Set `"workers_dev": false` in
+`wrangler.jsonc` if you would rather it not answer at all.
 
 ### Response headers
 

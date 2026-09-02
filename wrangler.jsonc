@@ -1,0 +1,19 @@
+{
+  // The site is static: there is no Worker script, so every request is answered
+  // straight from the assets below and `site/_headers` supplies the CSP.
+  "name": "forge-dialog",
+  "compatibility_date": "2026-09-02",
+
+  // `site/` is what `npm run site:build` fills — the two HTML pages, the icon,
+  // and the library vendored out of `dist/`. Deploying `dist/` itself ships the
+  // library's .mjs/.d.ts files with no index.html, which serves nothing.
+  "assets": {
+    "directory": "./site",
+  },
+
+  // Declared rather than left to the default so a deploy stops warning about
+  // them. workers.dev stays on as a fallback URL for checking a deploy; the
+  // canonical tags keep search engines pointed at the custom domain.
+  "workers_dev": true,
+  "preview_urls": true,
+}

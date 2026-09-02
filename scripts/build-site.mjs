@@ -37,7 +37,7 @@ const pages = [
     summary: 'What it is, live demos, and an interactive appearance playground.',
   },
   {
-    path: '/docs.html',
+    path: '/docs',
     priority: '0.9',
     title: 'API reference',
     summary:

@@ -17,3 +17,6 @@ site/vendor
 site/robots.txt
 site/sitemap.xml
 site/llms.txt
+
+# Cloudflare Wrangler local state
+.wrangler

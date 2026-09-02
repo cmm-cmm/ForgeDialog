@@ -1,10 +1,10 @@
-# ForgeDialog 0.7
+# Forge Dialog 0.7
 
 _A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows._
 
-ForgeDialog is a next-generation dialog component built for modern web applications. It provides beautiful animations, flexible layouts, accessibility, and a powerful API while remaining lightweight, dependency-free, and framework-agnostic.
+Forge Dialog is a next-generation dialog component built for modern web applications. It provides beautiful animations, flexible layouts, accessibility, and a powerful API while remaining lightweight, dependency-free, and framework-agnostic.
 
-Designed to replace traditional browser dialogs and heavy modal libraries, ForgeDialog makes it easy to build elegant user interactions — from simple alert boxes to complex multi-step workflows.
+Designed to replace traditional browser dialogs and heavy modal libraries, Forge Dialog makes it easy to build elegant user interactions — from simple alert boxes to complex multi-step workflows.
 
 ## Highlights
 
@@ -176,7 +176,7 @@ import { alert } from 'forgedialog/alert';
 
 ## Advanced UI and workflows
 
-ForgeDialog uses the native `<dialog>` top layer and adds typed outcomes, close reasons,
+Forge Dialog uses the native `<dialog>` top layer and adds typed outcomes, close reasons,
 `AbortSignal`, drawers, bottom sheets, lightboxes, loading states, toast notifications, command
 palettes, and persisted branching wizards.
 
@@ -257,6 +257,8 @@ npm run test:consumers # build Vite, Webpack, and Node CJS fixtures
 npm run validate      # run every non-browser quality and packaging gate
 npm run validate:all  # run validate plus the cross-browser suite
 npm run demo         # build and serve the demo/ page
+npm run site         # build and serve the marketing site in site/
+npm run site:icons   # re-render the site's PNG icons from site/icon.svg
 ```
 
 Releases use Changesets (`npm run changeset`) and the protected GitHub release workflow. The
@@ -266,6 +268,13 @@ it depends on, are in [docs/releasing.md](docs/releasing.md).
 
 Supported baselines are Chrome/Edge 88+, Firefox 78+, Safari 15.4+, and Node.js 20+ for package
 tooling and SSR imports.
+
+## Website
+
+`site/` holds a dependency-free landing page with an interactive appearance playground, plus a
+full API reference at `site/docs.html`. Build and serve both with `npm run site`. The icon, the
+generated `sitemap.xml` / `robots.txt` / `llms.txt`, the structured data, and the Cloudflare
+deployment settings are covered in [docs/website.md](docs/website.md).
 
 ## Contributing
 

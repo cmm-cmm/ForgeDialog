@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/cmm-cmm/ForgeDialog.git"
   },
-  "homepage": "https://github.com/cmm-cmm/ForgeDialog#readme",
+  "homepage": "https://forgedialog.konexforge.com",
   "bugs": "https://github.com/cmm-cmm/ForgeDialog/issues",
   "engines": {
     "node": ">=20"
@@ -226,6 +226,9 @@
     "validate": "npm run typecheck && npm run lint && npm run test:coverage && npm run size && npm run test:treeshake && npm run check:package && npm run api:check && npm run api:subpaths && npm run test:consumers && npm run test:capabilities && npm run test:csp && npm run package:size",
     "validate:all": "npm run validate && npm run test:e2e",
     "demo": "npm run build && serve .",
+    "site:build": "npm run build && node scripts/build-site.mjs",
+    "site:icons": "node scripts/build-icons.mjs",
+    "site": "npm run site:build && serve site",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

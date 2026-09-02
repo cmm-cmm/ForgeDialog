@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- `homepage` now points at the documentation site rather than the README anchor, so the npm
+  page links to the reference instead of back to GitHub.
+
 ## 0.7.0
 
 - Added per-component appearance controls: `surfaceColor`, `titleColor`, `titleBackground`,

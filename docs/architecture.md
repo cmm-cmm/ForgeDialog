@@ -1,6 +1,6 @@
-# ForgeDialog Architecture
+# Forge Dialog Architecture
 
-ForgeDialog is split into a dependency-free runtime and optional presentation, workflow, and
+Forge Dialog is split into a dependency-free runtime and optional presentation, workflow, and
 framework entry points. `src/core/Dialog.ts` owns the state machine and native `<dialog>` lifecycle;
 `DialogStack` coordinates Escape handling and scroll locking. DOM construction remains isolated in
 `domBuilder` so render behavior can evolve independently from orchestration.

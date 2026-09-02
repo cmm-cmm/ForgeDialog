@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forge Dialog — accessible, dependency-free dialogs for the web</title>
+    <meta
+      name="description"
+      content="A modern, lightweight, dependency-free TypeScript dialog library: alerts, confirmations, prompts, drawers, wizards, and fully customizable appearance."
+    />
+    <meta property="og:title" content="Forge Dialog" />
+    <meta
+      property="og:description"
+      content="Accessible, dependency-free dialogs for the web. Alerts, confirmations, prompts, drawers, wizards, and fully customizable appearance."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://forgedialog.konexforge.com/" />
+    <meta property="og:site_name" content="Forge Dialog" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Forge Dialog — accessible, dependency-free dialogs for the web"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#5468e8" />
+    <!-- The canonical origin. Everything absolute on this site is derived from
+         it: the build script reads it back to write robots.txt, sitemap.xml,
+         and llms.txt, so changing the domain means changing these tags only. -->
+    <link rel="canonical" href="https://forgedialog.konexforge.com/" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="stylesheet" href="./vendor/index.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://forgedialog.konexforge.com/#website",
+            "url": "https://forgedialog.konexforge.com/",
+            "name": "Forge Dialog",
+            "description": "Accessible, dependency-free dialogs for the web.",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://forgedialog.konexforge.com/#software",
+            "name": "Forge Dialog",
+            "alternateName": "forgedialog",
+            "applicationCategory": "DeveloperApplication",
+            "description": "Forge Dialog is an open-source TypeScript library for building dialogs on the web: alerts, confirmations, prompts, drawers, bottom sheets, lightboxes, toasts, command palettes, and multi-step wizards. It has no runtime dependencies and is published on npm as forgedialog.",
+            "url": "https://forgedialog.konexforge.com/",
+            "codeRepository": "https://github.com/cmm-cmm/ForgeDialog",
+            "programmingLanguage": "TypeScript",
+            "operatingSystem": "Any (web browser)",
+            "license": "https://opensource.org/licenses/MIT",
+            "isAccessibleForFree": true,
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "downloadUrl": "https://www.npmjs.com/package/forgedialog",
+            "softwareHelp": {
+              "@type": "CreativeWork",
+              "url": "https://forgedialog.konexforge.com/docs"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://forgedialog.konexforge.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is Forge Dialog?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Forge Dialog is an open-source TypeScript library for building dialogs on the web: alerts, confirmations, prompts, drawers, bottom sheets, lightboxes, loading states, toasts, command palettes, and multi-step wizards. It is published on npm as forgedialog, licensed MIT, and has no runtime dependencies."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How large is Forge Dialog?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The complete bundle is roughly 15 KB gzipped. An application that imports only forgedialog/alert ships roughly 5.5 KB gzipped, because every entry point is tree-shakable and carries a size budget that continuous integration enforces on each pull request."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does Forge Dialog need a framework?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Forge Dialog is framework-agnostic and works with plain JavaScript or a <script> tag. Optional adapters for React, Vue, Svelte, and Web Components ship in the same package."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is Forge Dialog accessible?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. It renders the native <dialog> element, traps focus while a dialog is open and restores it to the trigger on close, wires up Escape and backdrop dismissal, and sets role=\"dialog\" or role=\"alertdialog\" automatically. Motion honours the prefers-reduced-motion setting."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How is it different from window.alert, confirm, and prompt?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The browser built-ins block the main thread, cannot be styled, and offer three fixed shapes. Forge Dialog returns promises instead of blocking, can be styled down to individual components, and covers drawers, sheets, forms, and wizards as well."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can the appearance be customised?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Colour and opacity are set independently for the surface, title, body, and border; corner radius can be set per corner; shadows are composed from an angle, distance, blur, spread, and strength; hover effects are opt-in per dialog. All of it can be changed while a dialog is open by calling update()."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which browsers and runtimes are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Chrome and Edge 88+, Firefox 78+, and Safari 15.4+, plus Node.js 20 or newer for package tooling and server-side imports. The bundle contains no eval and no new Function, so it runs under a strict Content Security Policy."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is Forge Dialog free to use commercially?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Forge Dialog is released under the MIT license, which permits commercial use, modification, and redistribution."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">
+          Forge Dialog
+          <span class="version" id="version">…</span>
+        </a>
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#playground">Playground</a>
+        <a class="nav-link" href="#examples">Examples</a>
+        <a class="nav-link" href="#faq">FAQ</a>
+        <a class="nav-link" href="./docs">Docs</a>
+        <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <button class="btn btn--sm" id="theme-toggle" aria-pressed="false">Dark</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <div class="wrap hero">
+        <h1>Dialogs that behave themselves.</h1>
+        <p class="lead">
+          <strong>Forge Dialog</strong> is a dependency-free TypeScript dialog library built on the
+          native <code>&lt;dialog&gt;</code> element. Accessible by default, themeable down to
+          individual components, and small enough that an alert-only bundle stays under 6&nbsp;KB
+          gzipped.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn--primary" id="try-alert">Try an alert</button>
+          <button class="btn" id="try-confirm">Confirm</button>
+          <button class="btn" id="try-prompt">Prompt</button>
+          <button class="btn" id="try-wizard">Styled dialog</button>
+          <a class="btn" href="./docs">Read the docs</a>
+        </div>
+
+        <div class="install">
+          <code id="install-cmd">npm install forgedialog</code>
+          <button class="copy" data-copy="#install-cmd">Copy</button>
+        </div>
+      </div>
+
+      <section id="features">
+        <div class="wrap">
+          <h2>What you get</h2>
+          <p class="section-lead">
+            Everything below is in the published package — no plugins to install, no peer
+            dependencies to satisfy.
+          </p>
+
+          <div class="features">
+            <article class="feature">
+              <h3>Accessible by default</h3>
+              <p>
+                Focus is trapped and restored, Escape and backdrop clicks are wired up, and ARIA
+                roles are set for you. Focus detection skips targets that only look focusable.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Styled per component</h3>
+              <p>
+                Colour and opacity for the surface, title, body, and border. Corner radius per
+                corner. Shadows composed from an angle, distance, blur, and strength.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Hover, drag, and gestures</h3>
+              <p>
+                Opt-in hover restyling with lift and scale. Draggable dialogs with axis locks,
+                bounds, keyboard movement, and persisted positions. Swipe-to-dismiss sheets.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>More than alerts</h3>
+              <p>
+                Drawers, bottom sheets, lightboxes, loading states, toasts, a command palette, and
+                persisted branching wizards — all from the same core.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Honest bundles</h3>
+              <p>
+                Tree-shakable entry points with enforced gzip budgets. Import
+                <code>forgedialog/alert</code> and you pay for an alert, not the whole library.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Fits your stack</h3>
+              <p>
+                ESM, CJS, and a browser global, with adapters for React, Vue, Svelte, and Web
+                Components. Typed throughout, SSR-safe, and clean under a strict CSP.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="playground">
+        <div class="wrap">
+          <h2>Playground</h2>
+          <p class="section-lead">
+            Change anything below and the dialog restyles live. The code updates with it — copy it
+            and you have the same dialog in your app.
+          </p>
+
+          <div class="playground">
+            <form class="controls" id="controls" aria-label="Dialog appearance controls">
+              <div class="control">
+                <label for="c-surface">Surface colour</label>
+                <input type="color" id="c-surface" value="#ffffff" />
+              </div>
+              <div class="control">
+                <label for="c-title">Title colour</label>
+                <input type="color" id="c-title" value="#4c5fd7" />
+              </div>
+              <div class="control">
+                <label for="c-title-bg">Header background</label>
+                <input type="color" id="c-title-bg" value="#eef0ff" />
+              </div>
+              <label class="control--row">
+                <input type="checkbox" id="c-title-bg-on" checked />
+                Use header background
+              </label>
+              <div class="control">
+                <label for="c-border">Border colour</label>
+                <input type="color" id="c-border" value="#4c5fd7" />
+              </div>
+              <div class="control">
+                <label for="c-border-width"
+                  >Border width <output id="o-border-width"></output
+                ></label>
+                <input type="range" id="c-border-width" min="0" max="6" step="1" value="2" />
+              </div>
+              <div class="control">
+                <label for="c-radius">Corner radius <output id="o-radius"></output></label>
+                <input type="range" id="c-radius" min="0" max="36" step="2" value="14" />
+              </div>
+              <div class="control">
+                <label for="c-angle">Shadow angle <output id="o-angle"></output></label>
+                <input type="range" id="c-angle" min="0" max="360" step="15" value="180" />
+              </div>
+              <div class="control">
+                <label for="c-distance">Shadow distance <output id="o-distance"></output></label>
+                <input type="range" id="c-distance" min="0" max="48" step="2" value="18" />
+              </div>
+              <div class="control">
+                <label for="c-strength">Shadow strength <output id="o-strength"></output></label>
+                <input type="range" id="c-strength" min="0" max="1" step="0.05" value="0.3" />
+              </div>
+              <label class="control--row">
+                <input type="checkbox" id="c-hover" checked />
+                Hover effect (lift and recolour)
+              </label>
+              <label class="control--row">
+                <input type="checkbox" id="c-draggable" checked />
+                Draggable by the header
+              </label>
+              <button class="btn btn--primary" type="button" id="open-playground">
+                Open the dialog
+              </button>
+            </form>
+
+            <div class="snippet">
+              <button class="copy" data-copy="#playground-code">Copy</button>
+              <pre><code id="playground-code"></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="examples">
+        <div class="wrap">
+          <h2>Examples</h2>
+          <p class="section-lead">
+            The everyday calls. Each returns a promise, so there is no callback nesting.
+          </p>
+
+          <div class="examples">
+            <article class="example">
+              <h3>Replace the browser built-ins</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-basic">Copy</button>
+                <pre><code id="ex-basic">import { alert, confirm, prompt } from 'forgedialog';
+import 'forgedialog/style.css';
+
+await alert('Saved successfully.', { title: 'Success' });
+
+const ok = await confirm('Delete this item?');
+
+const name = await prompt('What is your name?', {
+  validate: (value) =&gt; value.trim() ? true : 'Name is required',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Build your own dialog</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-open">Copy</button>
+                <pre><code id="ex-open">import { open } from 'forgedialog';
+
+const dialog = open({
+  title: 'Custom dialog',
+  content: (container) =&gt; container.append(renderForm()),
+  buttons: [
+    { text: 'Cancel', onClick: (i) =&gt; i.close(null) },
+    { text: 'Save', role: 'primary', onClick: (i) =&gt; i.close(read()) },
+  ],
+});
+
+const result = await dialog.whenClosed();</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Pay only for what you use</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-entries">Copy</button>
+                <pre><code id="ex-entries">// Just an alert, and nothing else.
+import { alert } from 'forgedialog/alert';
+import 'forgedialog/style/core.css';
+
+// Opt into the richer appearance options on a focused entry.
+import 'forgedialog/appearance';</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Beyond dialogs</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-more">Copy</button>
+                <pre><code id="ex-more">import { drawer, toast, wizard } from 'forgedialog';
+
+// A duration of 0 keeps the toast until dismiss() is called.
+const upload = toast('Uploading…', { duration: 0 });
+
+drawer({ title: 'Settings', side: 'right', content: renderSettings });
+
+const data = await wizard({ steps }).result;</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="at-a-glance">
+        <div class="wrap">
+          <h2>At a glance</h2>
+          <p class="section-lead">
+            The short, factual version — the numbers come from the size budgets enforced on every
+            pull request.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <tbody>
+                <tr>
+                  <th scope="row">Name</th>
+                  <td>Forge Dialog</td>
+                </tr>
+                <tr>
+                  <th scope="row">npm package</th>
+                  <td><code>forgedialog</code></td>
+                </tr>
+                <tr>
+                  <th scope="row">License</th>
+                  <td>MIT</td>
+                </tr>
+                <tr>
+                  <th scope="row">Runtime dependencies</th>
+                  <td>None</td>
+                </tr>
+                <tr>
+                  <th scope="row">Size</th>
+                  <td>
+                    ≈15&nbsp;KB gzipped for the full bundle; ≈5.5&nbsp;KB for an alert-only build
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Written in</th>
+                  <td>TypeScript, with types for both ESM and CommonJS</td>
+                </tr>
+                <tr>
+                  <th scope="row">Browsers</th>
+                  <td>Chrome/Edge&nbsp;88+, Firefox&nbsp;78+, Safari&nbsp;15.4+</td>
+                </tr>
+                <tr>
+                  <th scope="row">Node.js</th>
+                  <td>20 or newer, for package tooling and SSR imports</td>
+                </tr>
+                <tr>
+                  <th scope="row">Frameworks</th>
+                  <td>Works standalone; adapters for React, Vue, Svelte, and Web Components</td>
+                </tr>
+                <tr>
+                  <th scope="row">Source</th>
+                  <td>
+                    <a href="https://github.com/cmm-cmm/ForgeDialog"
+                      >github.com/cmm-cmm/ForgeDialog</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="wrap">
+          <h2>Frequently asked questions</h2>
+
+          <div class="faq">
+            <h3>What is Forge Dialog?</h3>
+            <p>
+              Forge Dialog is an open-source TypeScript library for building dialogs on the web:
+              alerts, confirmations, prompts, drawers, bottom sheets, lightboxes, loading states,
+              toasts, command palettes, and multi-step wizards. It is published on npm as
+              <code>forgedialog</code>, licensed MIT, and has no runtime dependencies.
+            </p>
+
+            <h3>How large is Forge Dialog?</h3>
+            <p>
+              The complete bundle is roughly 15&nbsp;KB gzipped. An application that imports only
+              <code>forgedialog/alert</code> ships roughly 5.5&nbsp;KB gzipped, because every entry
+              point is tree-shakable and carries a size budget that continuous integration enforces
+              on each pull request.
+            </p>
+
+            <h3>Does Forge Dialog need a framework?</h3>
+            <p>
+              No. Forge Dialog is framework-agnostic and works with plain JavaScript or a
+              <code>&lt;script&gt;</code> tag. Optional adapters for React, Vue, Svelte, and Web
+              Components ship in the same package.
+            </p>
+
+            <h3>Is Forge Dialog accessible?</h3>
+            <p>
+              Yes. It renders the native <code>&lt;dialog&gt;</code> element, traps focus while a
+              dialog is open and restores it to the trigger on close, wires up Escape and backdrop
+              dismissal, and sets <code>role="dialog"</code> or
+              <code>role="alertdialog"</code> automatically. Motion honours the
+              <code>prefers-reduced-motion</code> setting.
+            </p>
+
+            <h3>How is it different from window.alert, confirm, and prompt?</h3>
+            <p>
+              The browser built-ins block the main thread, cannot be styled, and offer three fixed
+              shapes. Forge Dialog returns promises instead of blocking, can be styled down to
+              individual components, and covers drawers, sheets, forms, and wizards as well.
+            </p>
+
+            <h3>Can the appearance be customised?</h3>
+            <p>
+              Yes. Colour and opacity are set independently for the surface, title, body, and
+              border; corner radius can be set per corner; shadows are composed from an angle,
+              distance, blur, spread, and strength; hover effects are opt-in per dialog. All of it
+              can be changed while a dialog is open by calling <code>update()</code>.
+            </p>
+
+            <h3>Which browsers and runtimes are supported?</h3>
+            <p>
+              Chrome and Edge 88+, Firefox 78+, and Safari 15.4+, plus Node.js 20 or newer for
+              package tooling and server-side imports. The bundle contains no <code>eval</code> and
+              no <code>new Function</code>, so it runs under a strict Content Security Policy.
+            </p>
+
+            <h3>Is Forge Dialog free to use commercially?</h3>
+            <p>
+              Yes. Forge Dialog is released under the MIT license, which permits commercial use,
+              modification, and redistribution.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT licensed. Built with no runtime dependencies.</span>
+        <span>
+          <a href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a> ·
+          <a href="https://www.npmjs.com/package/forgedialog">npm</a> ·
+          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md">Changelog</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="./vendor/index.global.js"></script>
+    <script src="./common.js"></script>
+    <script src="./site.js"></script>
+  </body>
+</html>

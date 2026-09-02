@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>API reference — Forge Dialog</title>
+    <meta
+      name="description"
+      content="Complete API reference for Forge Dialog: alert, confirm, prompt, open, appearance and shadow options, dragging, drawers, forms, wizards, toasts, theming, plugins, and framework adapters."
+    />
+    <meta property="og:title" content="Forge Dialog API reference" />
+    <meta
+      property="og:description"
+      content="Every option, method, and entry point in Forge Dialog, on one page."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://forgedialog.konexforge.com/docs" />
+    <meta property="og:site_name" content="Forge Dialog" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Forge Dialog — accessible, dependency-free dialogs for the web"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#5468e8" />
+    <link rel="canonical" href="https://forgedialog.konexforge.com/docs" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="stylesheet" href="./vendor/index.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "TechArticle",
+            "@id": "https://forgedialog.konexforge.com/docs#article",
+            "headline": "Forge Dialog API reference",
+            "description": "Complete API reference for Forge Dialog: alert, confirm, prompt, open, appearance and shadow options, dragging, drawers, forms, wizards, toasts, theming, plugins, and framework adapters.",
+            "url": "https://forgedialog.konexforge.com/docs",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://forgedialog.konexforge.com/#website"
+            },
+            "about": {
+              "@id": "https://forgedialog.konexforge.com/#software"
+            },
+            "proficiencyLevel": "Beginner"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Forge Dialog",
+                "item": "https://forgedialog.konexforge.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "API reference",
+                "item": "https://forgedialog.konexforge.com/docs"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="./">
+          Forge Dialog
+          <span class="version" id="version">…</span>
+        </a>
+        <a class="nav-link" href="./#features">Features</a>
+        <a class="nav-link" href="./#playground">Playground</a>
+        <a class="nav-link" href="./docs" aria-current="page">Docs</a>
+        <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <button class="btn btn--sm" id="theme-toggle" aria-pressed="false">Dark</button>
+      </div>
+    </header>
+
+    <div class="wrap docs-layout">
+      <aside class="docs-nav">
+        <nav aria-label="Documentation sections">
+          <p class="docs-nav__group">Getting started</p>
+          <a href="#install">Installation</a>
+          <a href="#entry-points">Entry points</a>
+          <a href="#stylesheets">Stylesheets</a>
+
+          <p class="docs-nav__group">Dialogs</p>
+          <a href="#dialogs">alert, confirm, prompt</a>
+          <a href="#open">open()</a>
+          <a href="#options">DialogOptions</a>
+          <a href="#instance">DialogInstance</a>
+
+          <p class="docs-nav__group">Appearance</p>
+          <a href="#appearance">appearance</a>
+          <a href="#shadows">Shadows</a>
+          <a href="#radius">Corner radius</a>
+          <a href="#hover">Hover</a>
+          <a href="#dragging">Dragging</a>
+
+          <p class="docs-nav__group">Beyond dialogs</p>
+          <a href="#presentation">Drawers and sheets</a>
+          <a href="#forms">Forms</a>
+          <a href="#wizards">Wizards</a>
+          <a href="#toasts">Toasts</a>
+          <a href="#command">Command palette</a>
+
+          <p class="docs-nav__group">Customisation</p>
+          <a href="#theming">Theming</a>
+          <a href="#tokens">CSS variables</a>
+          <a href="#i18n">Labels and i18n</a>
+          <a href="#plugins">Plugins and hooks</a>
+
+          <p class="docs-nav__group">Integration</p>
+          <a href="#frameworks">Frameworks</a>
+          <a href="#typescript">TypeScript, SSR, CSP</a>
+        </nav>
+      </aside>
+
+      <main class="docs-body">
+        <h1>API reference</h1>
+        <p class="docs-lead">
+          Forge Dialog is a dependency-free TypeScript dialog library built on the native
+          <code>&lt;dialog&gt;</code> element. Everything on this page is in the published package —
+          there are no plugins to install and no peer dependencies to satisfy.
+        </p>
+
+        <section id="install">
+          <h2>Installation</h2>
+          <p>Install from npm. The package name is one word; the library is called Forge Dialog.</p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-install">Copy</button>
+            <pre><code id="code-install">npm install forgedialog</code></pre>
+          </div>
+          <p>Import the API and a stylesheet:</p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-import">Copy</button>
+            <pre><code id="code-import">import { alert, confirm, prompt, open } from 'forgedialog';
+import 'forgedialog/style.css';</code></pre>
+          </div>
+          <p>
+            Or load the browser build directly. It defines the global
+            <code>ForgeDialog</code> — a JavaScript identifier, so it stays one word.
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-cdn">Copy</button>
+            <pre><code id="code-cdn">&lt;link rel="stylesheet" href="https://unpkg.com/forgedialog/dist/index.css" /&gt;
+&lt;script src="https://unpkg.com/forgedialog/dist/index.global.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  ForgeDialog.alert('Hello!');
+&lt;/script&gt;</code></pre>
+          </div>
+          <p class="note">
+            Requires Chrome/Edge 88+, Firefox 78+, Safari 15.4+, or Node.js 20+ for package tooling
+            and server-side imports.
+          </p>
+        </section>
+
+        <section id="entry-points">
+          <h2>Entry points</h2>
+          <p>
+            Every entry point is tree-shakable and has its own gzip budget enforced in CI. Import
+            the narrowest one that covers what you need.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Import</th>
+                  <th>Contains</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>forgedialog</code></td>
+                  <td>
+                    Everything, with dragging, animations, and the full appearance applier already
+                    enabled.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/core</code></td>
+                  <td>
+                    <code>open()</code>, <code>alert</code>, <code>confirm</code>,
+                    <code>prompt</code>, theming, labels, plugins, and the full appearance applier.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/alert</code></td>
+                  <td><code>alert()</code> alone.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/confirm</code></td>
+                  <td><code>confirm()</code> alone.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/prompt</code></td>
+                  <td><code>prompt()</code> alone.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/presentation</code></td>
+                  <td>
+                    <code>drawer</code>, <code>bottomSheet</code>, <code>lightbox</code>,
+                    <code>loading</code>, <code>toast</code>, <code>commandPalette</code>,
+                    <code>notificationCenter</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/workflows</code></td>
+                  <td><code>form</code>, <code>formWizard</code>, <code>wizard</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/interactions</code></td>
+                  <td>The draggable controller. Side-effectful: importing it enables dragging.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/animations</code></td>
+                  <td>Animation presets. Side-effectful: importing it enables animations.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/appearance</code></td>
+                  <td>
+                    The full appearance applier. Side-effectful: importing it upgrades the focused
+                    entries.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/react</code></td>
+                  <td><code>useForgeDialog()</code> for React.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/vue</code></td>
+                  <td><code>useForgeDialog()</code> for Vue.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/svelte</code></td>
+                  <td>The <code>dialogTrigger</code> action.</td>
+                </tr>
+                <tr>
+                  <td><code>forgedialog/web-component</code></td>
+                  <td><code>defineForgeDialog()</code> and <code>ForgeDialogElement</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>Capability imports</h3>
+          <p>
+            The single-purpose entries (<code>/alert</code>, <code>/confirm</code>,
+            <code>/prompt</code>) ship a lightweight appearance applier covering surface opacity,
+            backdrop, border, and shadow presets. Add capabilities by importing them for their side
+            effect:
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-caps">Copy</button>
+            <pre><code id="code-caps">import 'forgedialog/appearance';   // per-component colour, radius, hover
+import 'forgedialog/interactions'; // dragging
+import 'forgedialog/animations';   // animation presets
+import { alert } from 'forgedialog/alert';</code></pre>
+          </div>
+          <p class="note">
+            <code>forgedialog</code> and <code>forgedialog/core</code> already include the full
+            appearance applier, so those imports are only needed alongside a focused entry.
+          </p>
+        </section>
+
+        <section id="stylesheets">
+          <h2>Stylesheets</h2>
+          <p>
+            <code>forgedialog/style.css</code> is the all-in-one sheet. To ship less CSS, compose
+            only the layers a page uses — <code>core.css</code> is always required.
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-css">Copy</button>
+            <pre><code id="code-css">import 'forgedialog/style/core.css';      // required
+import 'forgedialog/style/forms.css';     // form fields and file dropzones
+import 'forgedialog/style/workflows.css'; // wizard stepper
+import 'forgedialog/style/toast.css';
+import 'forgedialog/style/lightbox.css';
+import 'forgedialog/style/command.css';
+import 'forgedialog/style/draggable.css';</code></pre>
+          </div>
+          <p>
+            All rules live in the <code>forgedialog</code> cascade layer, so your own unlayered CSS
+            wins without needing <code>!important</code>.
+          </p>
+        </section>
+
+        <section id="dialogs">
+          <h2>alert, confirm, prompt</h2>
+          <p>Promise-returning replacements for the browser built-ins.</p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Signature</th>
+                  <th>Resolves to</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>alert(message, options?)</code></td>
+                  <td><code>Promise&lt;void&gt;</code></td>
+                </tr>
+                <tr>
+                  <td><code>confirm(message, options?)</code></td>
+                  <td>
+                    <code>Promise&lt;boolean&gt;</code> — <code>false</code> on Escape or backdrop
+                    close
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>prompt(message, options?)</code></td>
+                  <td>
+                    <code>Promise&lt;string | null&gt;</code> — <code>null</code> when cancelled
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-basics">Copy</button>
+            <pre><code id="code-basics">await alert('Saved successfully.', { title: 'Success' });
+
+const ok = await confirm('Delete this item?', { title: 'Please confirm' });
+
+const name = await prompt('What is your name?', {
+  defaultValue: 'Ada Lovelace',
+  inputType: 'text',
+  inputLabel: 'Full name',
+  placeholder: 'Type a name',
+  validate: (value) =&gt; (value.trim() ? true : 'Name is required'),
+});</code></pre>
+          </div>
+          <p>
+            <code>alert</code> and <code>confirm</code> get
+            <code>role="alertdialog"</code> automatically. <code>prompt</code> accepts the extra
+            options above on top of every <a href="#options">DialogOptions</a> field.
+          </p>
+        </section>
+
+        <section id="open">
+          <h2>open()</h2>
+          <p>
+            The low-level API. It returns a <a href="#instance">DialogInstance</a> immediately
+            rather than a promise, so the dialog can be updated, moved, or closed from anywhere.
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-open">Copy</button>
+            <pre><code id="code-open">import { open } from 'forgedialog';
+
+const dialog = open({
+  title: 'Custom dialog',
+  content: (container) =&gt; container.append(renderForm()),
+  buttons: [
+    { text: 'Cancel', onClick: (i) =&gt; i.close(null) },
+    { text: 'Save', role: 'primary', autoFocus: true, onClick: (i) =&gt; i.close(read()) },
+  ],
+});
+
+const result = await dialog.whenClosed();          // the result, or undefined
+const { result: r, reason } = await dialog.whenSettled(); // result plus why it closed</code></pre>
+          </div>
+          <h3>Content and untrusted HTML</h3>
+          <p>
+            <code>content</code> accepts a string (rendered as <strong>text</strong>), an element,
+            or a builder function. Markup needs an explicit decision:
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-html">Copy</button>
+            <pre><code id="code-html">// Untrusted markup: pass a sanitizer.
+open({ html: userContent, sanitizeHtml: (h) =&gt; DOMPurify.sanitize(h) });
+
+// Markup you already trust.
+open({ unsafeHtml: '&lt;p&gt;Generated by us&lt;/p&gt;' });</code></pre>
+          </div>
+          <h3>Close reasons</h3>
+          <p>
+            Every close carries a reason: <code>'button'</code>, <code>'escape'</code>,
+            <code>'backdrop'</code>, <code>'api'</code>, <code>'abort'</code>, or
+            <code>'destroy'</code>. Read it with <code>whenSettled()</code>.
+          </p>
+        </section>
+
+        <section id="options">
+          <h2>DialogOptions</h2>
+          <p>Accepted by <code>open()</code> and by every helper built on it.</p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Option</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>title</code></td>
+                  <td><code>string</code></td>
+                  <td>
+                    Header text. Omitted titles fall back to a visually hidden label so the dialog
+                    stays named for assistive technology.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>message</code></td>
+                  <td><code>string | HTMLElement</code></td>
+                  <td>Body text or element.</td>
+                </tr>
+                <tr>
+                  <td><code>content</code></td>
+                  <td><code>string | HTMLElement | (container) =&gt; void</code></td>
+                  <td>Body content. Strings render as text.</td>
+                </tr>
+                <tr>
+                  <td><code>html</code></td>
+                  <td><code>string</code></td>
+                  <td>Markup, rendered only when <code>sanitizeHtml</code> is also supplied.</td>
+                </tr>
+                <tr>
+                  <td><code>unsafeHtml</code></td>
+                  <td><code>string</code></td>
+                  <td>Markup inserted as-is. Only for content you control.</td>
+                </tr>
+                <tr>
+                  <td><code>sanitizeHtml</code></td>
+                  <td><code>(html: string) =&gt; string</code></td>
+                  <td>Sanitizer applied to <code>html</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>buttons</code></td>
+                  <td><code>ButtonConfig[]</code></td>
+                  <td>Footer buttons. See below.</td>
+                </tr>
+                <tr>
+                  <td><code>type</code></td>
+                  <td>
+                    <code>'alert' | 'confirm' | 'prompt' | 'form' | 'wizard' | 'custom'</code>
+                  </td>
+                  <td>
+                    Semantic kind. <code>alert</code> and <code>confirm</code> default to
+                    <code>role="alertdialog"</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>role</code></td>
+                  <td><code>'dialog' | 'alertdialog'</code></td>
+                  <td>Overrides the role derived from <code>type</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>size</code></td>
+                  <td><code>'sm' | 'md' | 'lg' | 'xl' | 'fullscreen'</code></td>
+                  <td>Width preset.</td>
+                </tr>
+                <tr>
+                  <td><code>presentation</code></td>
+                  <td>
+                    <code
+                      >'modal' | 'drawer-left' | 'drawer-right' | 'bottom-sheet' | 'lightbox'</code
+                    >
+                  </td>
+                  <td>How the dialog enters and where it sits.</td>
+                </tr>
+                <tr>
+                  <td><code>animation</code></td>
+                  <td>
+                    <code>'fade' | 'scale' | 'slide' | 'spring' | 'bounce' | 'blur' | 'none'</code>
+                  </td>
+                  <td>
+                    Requires the animations capability. Honours <code>prefers-reduced-motion</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>appearance</code></td>
+                  <td><code>DialogAppearance</code></td>
+                  <td>Per-dialog styling. See <a href="#appearance">Appearance</a>.</td>
+                </tr>
+                <tr>
+                  <td><code>draggable</code></td>
+                  <td><code>boolean | DraggableOptions</code></td>
+                  <td>See <a href="#dragging">Dragging</a>.</td>
+                </tr>
+                <tr>
+                  <td><code>closable</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Shows the header close button. Default <code>true</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>closeOnEscape</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Default <code>true</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>closeOnOverlayClick</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Default <code>true</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>initialFocus</code></td>
+                  <td><code>string | HTMLElement | (root) =&gt; HTMLElement | null</code></td>
+                  <td>What receives focus on open. Defaults to the first tabbable element.</td>
+                </tr>
+                <tr>
+                  <td><code>restoreFocus</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Returns focus to the trigger on close. Default <code>true</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>portalTarget</code></td>
+                  <td><code>HTMLElement</code></td>
+                  <td>Where the dialog mounts. Defaults to <code>document.body</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>className</code></td>
+                  <td><code>string</code></td>
+                  <td>Extra classes on the dialog element.</td>
+                </tr>
+                <tr>
+                  <td><code>labels</code></td>
+                  <td><code>Partial&lt;DialogLabels&gt;</code></td>
+                  <td>Per-dialog label overrides.</td>
+                </tr>
+                <tr>
+                  <td><code>signal</code></td>
+                  <td><code>AbortSignal</code></td>
+                  <td>Aborting closes the dialog with reason <code>'abort'</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>data</code></td>
+                  <td><code>unknown</code></td>
+                  <td>Arbitrary payload, readable from hooks.</td>
+                </tr>
+                <tr>
+                  <td><code>onOpen</code></td>
+                  <td><code>(instance) =&gt; void | Promise&lt;void&gt;</code></td>
+                  <td>After the dialog opens.</td>
+                </tr>
+                <tr>
+                  <td><code>onBeforeClose</code></td>
+                  <td><code>(instance, result) =&gt; boolean | void | Promise&lt;…&gt;</code></td>
+                  <td>Return <code>false</code> to keep it open.</td>
+                </tr>
+                <tr>
+                  <td><code>onClose</code></td>
+                  <td><code>(instance, result) =&gt; void | Promise&lt;void&gt;</code></td>
+                  <td>After the dialog closes.</td>
+                </tr>
+                <tr>
+                  <td><code>onError</code></td>
+                  <td><code>(error, instance) =&gt; void</code></td>
+                  <td>Observes lifecycle failures, which are cleaned up automatically.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>ButtonConfig</h3>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>text</code></td>
+                  <td><code>string</code></td>
+                  <td>Label. Required.</td>
+                </tr>
+                <tr>
+                  <td><code>role</code></td>
+                  <td><code>'primary' | 'secondary' | 'danger'</code></td>
+                  <td>Visual weight.</td>
+                </tr>
+                <tr>
+                  <td><code>onClick</code></td>
+                  <td><code>(instance) =&gt; void | Promise&lt;void&gt;</code></td>
+                  <td>Click handler.</td>
+                </tr>
+                <tr>
+                  <td><code>closesDialog</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Closes the dialog after <code>onClick</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>result</code></td>
+                  <td><code>TResult</code></td>
+                  <td>Value the dialog resolves with when this button closes it.</td>
+                </tr>
+                <tr>
+                  <td><code>autoFocus</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Receives focus on open.</td>
+                </tr>
+                <tr>
+                  <td><code>disabled</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Renders the button disabled.</td>
+                </tr>
+                <tr>
+                  <td><code>id</code></td>
+                  <td><code>string</code></td>
+                  <td>Element id, useful for tests.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="instance">
+          <h2>DialogInstance</h2>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Returns</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>open()</code></td>
+                  <td><code>Promise&lt;void&gt;</code></td>
+                  <td>Opens a dialog that is not open yet.</td>
+                </tr>
+                <tr>
+                  <td><code>close(result?, reason?)</code></td>
+                  <td><code>Promise&lt;void&gt;</code></td>
+                  <td>Closes with a result.</td>
+                </tr>
+                <tr>
+                  <td><code>cancel(reason?)</code></td>
+                  <td><code>Promise&lt;void&gt;</code></td>
+                  <td>Closes without a result.</td>
+                </tr>
+                <tr>
+                  <td><code>destroy()</code></td>
+                  <td><code>Promise&lt;void&gt;</code></td>
+                  <td>Closes and removes the element and its listeners.</td>
+                </tr>
+                <tr>
+                  <td><code>update(partialOptions)</code></td>
+                  <td><code>void</code></td>
+                  <td>Restyles or re-renders a dialog in place, while it is open.</td>
+                </tr>
+                <tr>
+                  <td><code>whenClosed()</code></td>
+                  <td><code>Promise&lt;TResult | undefined&gt;</code></td>
+                  <td>Resolves with the result.</td>
+                </tr>
+                <tr>
+                  <td><code>whenSettled()</code></td>
+                  <td><code>Promise&lt;{ result, reason }&gt;</code></td>
+                  <td>Resolves with the result and the close reason.</td>
+                </tr>
+                <tr>
+                  <td><code>isOpen()</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Whether it is currently open.</td>
+                </tr>
+                <tr>
+                  <td><code>getState()</code></td>
+                  <td><code>DialogState</code></td>
+                  <td>
+                    <code>'idle' | 'opening' | 'open' | 'closing' | 'closed' | 'destroyed'</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>getPosition()</code></td>
+                  <td><code>{ x, y }</code></td>
+                  <td>Current drag offset.</td>
+                </tr>
+                <tr>
+                  <td><code>setPosition({ x, y })</code></td>
+                  <td><code>{ x, y }</code></td>
+                  <td>Moves the dialog, clamped to its bounds.</td>
+                </tr>
+                <tr>
+                  <td><code>resetPosition()</code></td>
+                  <td><code>void</code></td>
+                  <td>Returns it to centre.</td>
+                </tr>
+                <tr>
+                  <td><code>element</code></td>
+                  <td><code>HTMLElement</code></td>
+                  <td>The dialog element.</td>
+                </tr>
+                <tr>
+                  <td><code>id</code></td>
+                  <td><code>string</code></td>
+                  <td>Unique id.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="appearance">
+          <h2>Appearance</h2>
+          <p>
+            Appearance overrides are scoped to one dialog and can be changed at runtime with
+            <code>update()</code>. Opacity values are clamped to <code>0..1</code>; plain numbers
+            for widths, radii, and blur are read as pixels.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Type</th>
+                  <th>Applies to</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>opacity</code></td>
+                  <td><code>number</code></td>
+                  <td>The whole dialog surface.</td>
+                </tr>
+                <tr>
+                  <td><code>surfaceColor</code></td>
+                  <td><code>string</code></td>
+                  <td>Dialog background.</td>
+                </tr>
+                <tr>
+                  <td><code>overlayOpacity</code></td>
+                  <td><code>number</code></td>
+                  <td>The backdrop behind it.</td>
+                </tr>
+                <tr>
+                  <td><code>backdropBlur</code></td>
+                  <td><code>number | string</code></td>
+                  <td>Backdrop blur radius.</td>
+                </tr>
+                <tr>
+                  <td><code>titleColor</code></td>
+                  <td><code>string</code></td>
+                  <td>Header text.</td>
+                </tr>
+                <tr>
+                  <td><code>titleBackground</code></td>
+                  <td><code>string</code></td>
+                  <td>Header fill. Transparent by default and clipped by the dialog's corners.</td>
+                </tr>
+                <tr>
+                  <td><code>titleOpacity</code></td>
+                  <td><code>number</code></td>
+                  <td>Header.</td>
+                </tr>
+                <tr>
+                  <td><code>contentColor</code></td>
+                  <td><code>string</code></td>
+                  <td>Body text.</td>
+                </tr>
+                <tr>
+                  <td><code>contentOpacity</code></td>
+                  <td><code>number</code></td>
+                  <td>Body.</td>
+                </tr>
+                <tr>
+                  <td><code>borderColor</code></td>
+                  <td><code>string</code></td>
+                  <td>Border.</td>
+                </tr>
+                <tr>
+                  <td><code>borderOpacity</code></td>
+                  <td><code>number</code></td>
+                  <td>Border.</td>
+                </tr>
+                <tr>
+                  <td><code>borderWidth</code></td>
+                  <td><code>number | string</code></td>
+                  <td>Border.</td>
+                </tr>
+                <tr>
+                  <td><code>borderStyle</code></td>
+                  <td><code>'none' | 'solid' | 'dashed' | 'dotted' | 'double'</code></td>
+                  <td>Border.</td>
+                </tr>
+                <tr>
+                  <td><code>radius</code></td>
+                  <td><code>number | string | DialogCornerRadius</code></td>
+                  <td>Corners. See <a href="#radius">Corner radius</a>.</td>
+                </tr>
+                <tr>
+                  <td><code>shadow</code></td>
+                  <td><code>ShadowPreset | string | DialogShadowConfig</code></td>
+                  <td>See <a href="#shadows">Shadows</a>.</td>
+                </tr>
+                <tr>
+                  <td><code>hover</code></td>
+                  <td><code>DialogHoverAppearance</code></td>
+                  <td>See <a href="#hover">Hover</a>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-appearance">Copy</button>
+            <pre><code id="code-appearance">open({
+  title: 'Styled',
+  appearance: {
+    opacity: 0.96,
+    surfaceColor: '#12141a',
+    overlayOpacity: 0.55,
+    backdropBlur: 12,
+    titleColor: '#ffd166',
+    titleBackground: '#1b1740',
+    contentColor: '#c8ccd4',
+    borderColor: '#7c5cff',
+    borderWidth: 2,
+    radius: 20,
+    shadow: { angle: 135, distance: 24, blur: 60, opacity: 0.45 },
+  },
+});</code></pre>
+          </div>
+          <p class="note">
+            The full applier ships with <code>forgedialog</code> and <code>forgedialog/core</code>.
+            On a focused entry, add <code>import 'forgedialog/appearance'</code> — without it the
+            richer fields are ignored rather than throwing.
+          </p>
+        </section>
+
+        <section id="shadows">
+          <h2>Shadows</h2>
+          <p><code>shadow</code> takes three shapes.</p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Form</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A preset</td>
+                  <td>
+                    <code>shadow: 'xl'</code> — one of <code>none</code>, <code>sm</code>,
+                    <code>md</code>, <code>lg</code>, <code>xl</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Any CSS box-shadow</td>
+                  <td><code>shadow: '0 10px 40px rgb(0 0 0 / 30%)'</code></td>
+                </tr>
+                <tr>
+                  <td>Composed from parts</td>
+                  <td><code>shadow: { angle: 90, distance: 18, blur: 48, opacity: 0.3 }</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Part</th>
+                  <th>Type</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>angle</code></td>
+                  <td><code>number</code></td>
+                  <td>
+                    Direction the shadow falls, in degrees: <code>0</code> up,
+                    <code>90</code> right, <code>180</code> down (the default),
+                    <code>270</code> left.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>distance</code></td>
+                  <td><code>number | string</code></td>
+                  <td>How far it is thrown.</td>
+                </tr>
+                <tr>
+                  <td><code>blur</code></td>
+                  <td><code>number | string</code></td>
+                  <td>Softness.</td>
+                </tr>
+                <tr>
+                  <td><code>spread</code></td>
+                  <td><code>number | string</code></td>
+                  <td>Growth before blurring.</td>
+                </tr>
+                <tr>
+                  <td><code>color</code></td>
+                  <td><code>string</code></td>
+                  <td>Shadow colour.</td>
+                </tr>
+                <tr>
+                  <td><code>opacity</code></td>
+                  <td><code>number</code></td>
+                  <td>Strength, <code>0..1</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>inset</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Casts the shadow inwards.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="radius">
+          <h2>Corner radius</h2>
+          <p>
+            <code>radius</code> takes one value for every corner, any CSS
+            <code>border-radius</code> string, or a per-corner object. Corners left out of that
+            object keep the theme radius rather than collapsing to zero.
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-radius">Copy</button>
+            <pre><code id="code-radius">appearance: { radius: 20 }
+appearance: { radius: '20px 20px 4px 4px' }
+appearance: { radius: { topLeft: 24, topRight: 24, bottomRight: 4, bottomLeft: 4 } }</code></pre>
+          </div>
+          <p>
+            Drawers stay square and bottom sheets round only their top corners unless
+            <code>radius</code> says otherwise.
+          </p>
+        </section>
+
+        <section id="hover">
+          <h2>Hover</h2>
+          <p>
+            <code>hover</code> restyles a dialog only while the pointer is over it, and only for
+            dialogs that ask for it — every other dialog stays completely static. It reuses the
+            colour, radius, and shadow fields and adds three of its own.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>lift</code></td>
+                  <td><code>number | string</code></td>
+                  <td>How far the dialog rises.</td>
+                </tr>
+                <tr>
+                  <td><code>scale</code></td>
+                  <td><code>number</code></td>
+                  <td>Scale factor, e.g. <code>1.02</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>duration</code></td>
+                  <td><code>number | string</code></td>
+                  <td>Transition length.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Hover transforms honour <code>prefers-reduced-motion</code> and are suspended while a
+            dialog is being dragged, so they cannot push it outside its bounds.
+          </p>
+        </section>
+
+        <section id="dragging">
+          <h2>Dragging</h2>
+          <p>
+            <code>draggable: true</code> is enough to move a dialog by its header. The object form
+            adds constraints, keyboard support, and persistence. Dragging needs the interactions
+            capability, which <code>forgedialog</code> enables for you.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Option</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>handle</code></td>
+                  <td><code>'header' | string | HTMLElement</code></td>
+                  <td>What starts a drag. Defaults to the header.</td>
+                </tr>
+                <tr>
+                  <td><code>axis</code></td>
+                  <td><code>'both' | 'x' | 'y'</code></td>
+                  <td>Locks movement to one axis.</td>
+                </tr>
+                <tr>
+                  <td><code>bounds</code></td>
+                  <td><code>'viewport' | HTMLElement | DOMRect</code></td>
+                  <td>Area the dialog is clamped to.</td>
+                </tr>
+                <tr>
+                  <td><code>initialPosition</code></td>
+                  <td><code>{ x, y }</code></td>
+                  <td>Starting offset.</td>
+                </tr>
+                <tr>
+                  <td><code>keyboard</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Arrow-key movement when the handle has focus.</td>
+                </tr>
+                <tr>
+                  <td><code>keyboardStep</code></td>
+                  <td><code>number</code></td>
+                  <td>Pixels per key press.</td>
+                </tr>
+                <tr>
+                  <td><code>persistKey</code></td>
+                  <td><code>string</code></td>
+                  <td>Remembers the position across sessions under this key.</td>
+                </tr>
+                <tr>
+                  <td><code>onDragStart</code> / <code>onDrag</code> / <code>onDragEnd</code></td>
+                  <td><code>(event) =&gt; void</code></td>
+                  <td>Each receives <code>{ position, originalEvent }</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">
+            Bottom sheets keep their own swipe-to-dismiss gesture and ignore general dragging.
+          </p>
+        </section>
+
+        <section id="presentation">
+          <h2>Drawers, sheets, lightboxes, loading</h2>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-presentation">Copy</button>
+            <pre><code id="code-presentation">import { drawer, bottomSheet, lightbox, loading } from 'forgedialog';
+
+drawer({ title: 'Settings', side: 'right', content: renderSettings });
+
+bottomSheet({ title: 'Share', content: renderShare });
+
+lightbox('/photo.jpg', { alt: 'A photo', caption: 'Taken in 2026' });
+
+const task = loading('Uploading…');
+task.update('Almost there…');
+await task.close();</code></pre>
+          </div>
+          <p>
+            These are <code>open()</code> with a <code>presentation</code> preset, so every
+            <a href="#options">DialogOptions</a> field still applies.
+          </p>
+        </section>
+
+        <section id="forms">
+          <h2>Forms</h2>
+          <p>
+            <code>form()</code> builds a validated dialog from a field list and resolves with the
+            values, or <code>null</code> if cancelled. Field names are inferred into the result
+            type, so <code>values.email</code> is typed without a cast.
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-form">Copy</button>
+            <pre><code id="code-form">import { form } from 'forgedialog';
+
+const values = await form(
+  [
+    { name: 'email', type: 'email', label: 'Email', required: true },
+    { name: 'plan', type: 'select', label: 'Plan', options: [
+      { value: 'free', label: 'Free' },
+      { value: 'pro', label: 'Pro' },
+    ] },
+    { name: 'notes', type: 'textarea', label: 'Notes', rows: 4 },
+  ],
+  { title: 'Sign up', submitText: 'Create account' },
+);</code></pre>
+          </div>
+          <p>
+            Field types: <code>text</code>, <code>password</code>, <code>email</code>,
+            <code>number</code>, <code>date</code>, <code>textarea</code>, <code>select</code>,
+            <code>checkbox</code>, <code>radio</code>, <code>file</code>. Each field takes
+            <code>label</code>, <code>defaultValue</code>, <code>placeholder</code>,
+            <code>helpText</code>, <code>required</code>, and a <code>validate</code> function;
+            numbers add <code>min</code>, <code>max</code>, <code>step</code>, and files add
+            <code>accept</code>, <code>multiple</code>, <code>maxFiles</code>, and
+            <code>maxSizeBytes</code>.
+          </p>
+          <p>
+            <code>formWizard(steps, options?)</code> spreads the same fields over several steps,
+            with <code>nextText</code>, <code>backText</code>, <code>finishText</code>, and an
+            <code>onStepChange</code> callback.
+          </p>
+        </section>
+
+        <section id="wizards">
+          <h2>Wizards</h2>
+          <p>
+            <code>wizard()</code> is the general form: each step renders whatever it likes, can
+            validate, and can choose the next step from the data collected so far.
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-wizard">Copy</button>
+            <pre><code id="code-wizard">import { wizard } from 'forgedialog';
+
+const flow = wizard({
+  initialData: { email: '', plan: 'free' },
+  persistKey: 'signup',      // resumes where the user left off
+  confirmUnsaved: true,      // asks before discarding progress
+  steps: [
+    { id: 'account', title: 'Account', render: renderAccount, validate: validateAccount },
+    { id: 'plan', title: 'Plan', render: renderPlan,
+      next: (data) =&gt; (data.plan === 'pro' ? 'billing' : 'review') },
+    { id: 'billing', title: 'Billing', render: renderBilling },
+    { id: 'review', title: 'Review', render: renderReview },
+  ],
+});
+
+const data = await flow.result; // the data, or null if cancelled</code></pre>
+          </div>
+          <p>
+            The controller also exposes <code>next()</code>, <code>back()</code>,
+            <code>goTo(stepId)</code>, <code>getData()</code>, and the underlying
+            <code>instance</code>.
+          </p>
+        </section>
+
+        <section id="toasts">
+          <h2>Toasts and notifications</h2>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-toast">Copy</button>
+            <pre><code id="code-toast">import { toast, notificationCenter, getNotificationHistory } from 'forgedialog';
+
+toast('Saved', { tone: 'success' });
+
+// A duration of 0 or Infinity keeps it up until dismiss() is called.
+const upload = toast('Uploading…', { duration: 0 });
+upload.dismiss();
+
+toast('Message sent', { action: { text: 'Undo', onClick: undoSend } });
+
+notificationCenter();          // a dialog listing past toasts
+getNotificationHistory();      // the same list as data</code></pre>
+          </div>
+          <p>
+            Tones are <code>info</code>, <code>success</code>, <code>warning</code>, and
+            <code>danger</code>. <code>clearNotificationHistory()</code> empties the log.
+          </p>
+        </section>
+
+        <section id="command">
+          <h2>Command palette</h2>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-command">Copy</button>
+            <pre><code id="code-command">import { commandPalette } from 'forgedialog';
+
+commandPalette([
+  { id: 'new', label: 'New document', shortcut: '⌘N', run: createDocument },
+  { id: 'search', label: 'Search', keywords: ['find', 'filter'], run: openSearch },
+]);</code></pre>
+          </div>
+          <p>
+            Typing filters on the label and on <code>keywords</code>; the palette resolves with the
+            id of the command that ran.
+          </p>
+        </section>
+
+        <section id="theming">
+          <h2>Theming</h2>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-theme">Copy</button>
+            <pre><code id="code-theme">import { setTheme, getTheme, setThemePreset } from 'forgedialog';
+
+setTheme('dark');    // 'light' | 'dark' | 'system'
+getTheme();
+
+setThemePreset('glass'); // 'default' | 'minimal' | 'glass' | 'material'</code></pre>
+          </div>
+          <p>
+            <code>setTheme()</code> writes <code>data-fd-theme</code> on <code>&lt;html&gt;</code>.
+            Your own stylesheet can read the same attribute so the page and the dialogs switch
+            together — that is exactly what this site does.
+          </p>
+        </section>
+
+        <section id="tokens">
+          <h2>CSS custom properties</h2>
+          <p>
+            Everything visual is a variable on <code>:root</code>, so a theme can be written without
+            touching JavaScript.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>--fd-color-surface</code></td>
+                  <td><code>#ffffff</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-color-text</code></td>
+                  <td><code>#1a1d23</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-color-text-muted</code></td>
+                  <td><code>#5b6270</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-color-border</code></td>
+                  <td><code>#e2e4e9</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-color-overlay</code></td>
+                  <td><code>rgba(15, 17, 21, 0.5)</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-color-primary</code> / <code>--fd-color-primary-text</code></td>
+                  <td><code>#315fce</code> / <code>#ffffff</code></td>
+                </tr>
+                <tr>
+                  <td>
+                    <code>--fd-color-secondary</code> / <code>--fd-color-secondary-text</code>
+                  </td>
+                  <td><code>#eceef2</code> / <code>#1a1d23</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-color-danger</code> / <code>--fd-color-danger-text</code></td>
+                  <td><code>#e5484d</code> / <code>#ffffff</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-radius</code></td>
+                  <td><code>10px</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-shadow</code></td>
+                  <td><code>0 20px 60px rgba(15, 17, 21, 0.25)</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-spacing-sm</code> / <code>md</code> / <code>lg</code></td>
+                  <td><code>8px</code> / <code>16px</code> / <code>24px</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-font-family</code></td>
+                  <td>system UI stack</td>
+                </tr>
+                <tr>
+                  <td><code>--fd-duration-fast</code> / <code>--fd-duration-normal</code></td>
+                  <td><code>120ms</code> / <code>200ms</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-easing</code></td>
+                  <td><code>cubic-bezier(0.16, 1, 0.3, 1)</code></td>
+                </tr>
+                <tr>
+                  <td><code>--fd-z-index-base</code></td>
+                  <td><code>1000</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            The per-dialog variables the appearance API writes (<code>--fd-dialog-radius</code>,
+            <code>--fd-dialog-shadow</code>, <code>--fd-dialog-title-background</code>, and the
+            rest) can also be set by hand if you would rather style in CSS than in JavaScript.
+          </p>
+        </section>
+
+        <section id="i18n">
+          <h2>Labels and i18n</h2>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-i18n">Copy</button>
+            <pre><code id="code-i18n">import { setLabels, getLabels } from 'forgedialog';
+
+setLabels({
+  ok: 'Đồng ý',
+  cancel: 'Huỷ',
+  close: 'Đóng',
+  submit: 'Gửi',
+  fieldRequired: 'Bắt buộc',
+  promptPlaceholder: 'Nhập nội dung',
+  notifications: 'Thông báo',
+});</code></pre>
+          </div>
+          <p>
+            Labels set this way apply everywhere; a single dialog can override them with its own
+            <code>labels</code> option.
+          </p>
+        </section>
+
+        <section id="plugins">
+          <h2>Plugins and hooks</h2>
+          <p>
+            Five lifecycle hooks fire for every dialog: <code>beforeOpen</code>,
+            <code>afterOpen</code>, <code>beforeClose</code>, <code>afterClose</code>, and
+            <code>beforeDestroy</code>.
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-plugins">Copy</button>
+            <pre><code id="code-plugins">import { on, off, registerPlugin } from 'forgedialog';
+
+// A single hook.
+on('afterOpen', ({ instance, options }) =&gt; track('dialog', options.title));
+
+// Or a plugin bundling several.
+registerPlugin({
+  name: 'analytics',
+  install: (api) =&gt; api.on('afterClose', ({ reason }) =&gt; track('close', reason)),
+  hooks: {
+    beforeClose: ({ preventClose, result }) =&gt; {
+      if (result === undefined) preventClose?.();
+    },
+  },
+});</code></pre>
+          </div>
+          <p>
+            A hook receives <code>{ instance, options, result, reason, preventClose }</code>.
+            Calling <code>preventClose()</code> in <code>beforeClose</code> keeps the dialog open.
+          </p>
+        </section>
+
+        <section id="frameworks">
+          <h2>Framework adapters</h2>
+          <p>
+            Each adapter is a thin wrapper over <code>open()</code> that ties a dialog's lifetime to
+            the component's, so nothing is left mounted after unmount.
+          </p>
+          <div class="snippet">
+            <button class="copy" data-copy="#code-frameworks">Copy</button>
+            <pre><code id="code-frameworks">// React and Vue share the same hook shape.
+import { useForgeDialog } from 'forgedialog/react';
+const { open } = useForgeDialog();
+await open({ title: 'Hi' }).whenClosed();
+
+// Svelte: an action on the triggering element.
+import { dialogTrigger } from 'forgedialog/svelte';
+// &lt;button use:dialogTrigger={{ title: 'Hi' }}&gt;Open&lt;/button&gt;
+
+// Web component.
+import { defineForgeDialog } from 'forgedialog/web-component';
+defineForgeDialog(); // &lt;forge-dialog open title="Hi" message="…" size="md"&gt;</code></pre>
+          </div>
+        </section>
+
+        <section id="typescript">
+          <h2>TypeScript, SSR, and CSP</h2>
+          <ul>
+            <li>
+              Types ship for both ESM and CJS. <code>open&lt;T&gt;()</code> threads its result type
+              through <code>buttons</code>, <code>whenClosed()</code>, and the hooks.
+            </li>
+            <li>
+              Importing the package on a server does not touch the DOM, so it is safe in SSR builds;
+              the dialog is only created when you call the API in a browser.
+            </li>
+            <li>
+              The bundle contains no <code>eval</code> and no <code>new Function</code>, which is
+              enforced in CI, so it runs under a strict Content Security Policy. This site is served
+              under one.
+            </li>
+            <li>Every entry point has an enforced gzip budget, checked on each pull request.</li>
+          </ul>
+        </section>
+
+        <p class="docs-footer-note">
+          Something missing or wrong here?
+          <a href="https://github.com/cmm-cmm/ForgeDialog/issues">Open an issue</a> — the reference
+          is written against the reviewed public API report in the repository.
+        </p>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT licensed. Built with no runtime dependencies.</span>
+        <span>
+          <a href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a> ·
+          <a href="https://www.npmjs.com/package/forgedialog">npm</a> ·
+          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md">Changelog</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="./vendor/index.global.js"></script>
+    <script src="./common.js"></script>
+    <script src="./docs.js"></script>
+  </body>
+</html>

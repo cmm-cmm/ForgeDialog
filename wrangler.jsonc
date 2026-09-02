@@ -1,6 +1,9 @@
 {
   // The site is static: there is no Worker script, so every request is answered
   // straight from the assets below and `site/_headers` supplies the CSP.
+  //
+  // No "$schema" key: it would have to point into node_modules, and wrangler is
+  // deliberately not a dependency here — deploys run it through npx.
   "name": "forge-dialog",
   "compatibility_date": "2026-09-02",
 

@@ -8,6 +8,8 @@
       name="description"
       content="A modern, lightweight, dependency-free TypeScript dialog library: alerts, confirmations, prompts, drawers, wizards, and fully customizable appearance."
     />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="KonexForge" />
     <meta property="og:title" content="Forge Dialog" />
     <meta
       property="og:description"
@@ -16,8 +18,10 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://forgedialog.konexforge.com/" />
     <meta property="og:site_name" content="Forge Dialog" />
-    <meta property="og:locale" content="en" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="vi_VN" />
     <meta property="og:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
@@ -25,12 +29,23 @@
       content="Forge Dialog — accessible, dependency-free dialogs for the web"
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Forge Dialog" />
+    <meta
+      name="twitter:description"
+      content="Accessible, dependency-free dialogs for the web. Alerts, confirmations, prompts, drawers, wizards, and fully customizable appearance."
+    />
+    <meta name="twitter:image" content="https://forgedialog.konexforge.com/og-image.png" />
     <meta name="theme-color" content="#5468e8" />
     <!-- The canonical origin. Everything absolute on this site is derived from
          it: the build script reads it back to write robots.txt, sitemap.xml,
          and llms.txt, so changing the domain means changing these tags only. -->
     <link rel="canonical" href="https://forgedialog.konexforge.com/" />
+    <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
+    <link rel="alternate" hreflang="en" href="https://forgedialog.konexforge.com/" />
+    <link rel="alternate" hreflang="vi" href="https://forgedialog.konexforge.com/vi/" />
+    <link rel="alternate" hreflang="x-default" href="https://forgedialog.konexforge.com/" />
     <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
     <link rel="stylesheet" href="./vendor/index.css" />
     <link rel="stylesheet" href="./styles.css" />
@@ -39,12 +54,21 @@
         "@context": "https://schema.org",
         "@graph": [
           {
+            "@type": "Organization",
+            "@id": "https://konexforge.com/#organization",
+            "name": "KonexForge",
+            "url": "https://konexforge.com/"
+          },
+          {
             "@type": "WebSite",
             "@id": "https://forgedialog.konexforge.com/#website",
             "url": "https://forgedialog.konexforge.com/",
             "name": "Forge Dialog",
             "description": "Accessible, dependency-free dialogs for the web.",
-            "inLanguage": "en"
+            "inLanguage": "en",
+            "publisher": {
+              "@id": "https://konexforge.com/#organization"
+            }
           },
           {
             "@type": "SoftwareApplication",
@@ -55,6 +79,9 @@
             "description": "Forge Dialog is an open-source TypeScript library for building dialogs on the web: alerts, confirmations, prompts, drawers, bottom sheets, lightboxes, toasts, command palettes, and multi-step wizards. It has no runtime dependencies and is published on npm as forgedialog.",
             "url": "https://forgedialog.konexforge.com/",
             "codeRepository": "https://github.com/cmm-cmm/ForgeDialog",
+            "author": {
+              "@id": "https://konexforge.com/#organization"
+            },
             "programmingLanguage": "TypeScript",
             "operatingSystem": "Any (web browser)",
             "license": "https://opensource.org/licenses/MIT",
@@ -137,6 +164,14 @@
                   "@type": "Answer",
                   "text": "Yes. Forge Dialog is released under the MIT license, which permits commercial use, modification, and redistribution."
                 }
+              },
+              {
+                "@type": "Question",
+                "name": "How does Forge Dialog compare to SweetAlert2 and Bootstrap modals?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Forge Dialog builds on the browser's native dialog element, so focus trapping, the top layer, and inert backgrounds come from the platform rather than from JavaScript. It has no runtime dependencies, where a Bootstrap modal needs Bootstrap's CSS and JavaScript. Every entry point is tree-shakable, so an application that only needs an alert ships about 5.5 KB gzipped rather than the whole library. It is written in TypeScript and ships types for both ESM and CommonJS."
+                }
               }
             ]
           }
@@ -148,6 +183,7 @@
     <header class="site-header">
       <div class="wrap">
         <a class="brand" href="#top">
+          <img class="brand-mark" src="./icon.svg" alt="" width="26" height="26" />
           Forge Dialog
           <span class="version" id="version">…</span>
         </a>
@@ -155,14 +191,22 @@
         <a class="nav-link" href="#playground">Playground</a>
         <a class="nav-link" href="#examples">Examples</a>
         <a class="nav-link" href="#faq">FAQ</a>
+        <a class="nav-link" href="./demo">Demos</a>
         <a class="nav-link" href="./docs">Docs</a>
         <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <span class="lang-switch">
+          <a href="/" class="active" lang="en" hreflang="en" aria-current="true">EN</a>
+          <a href="/vi/" lang="vi" hreflang="vi">VI</a>
+        </span>
         <button class="btn btn--sm" id="theme-toggle" aria-pressed="false">Dark</button>
       </div>
     </header>
 
     <main id="top">
       <div class="wrap hero">
+        <p class="hero-eyebrow">
+          Open source &middot; MIT licensed &middot; Zero runtime dependencies
+        </p>
         <h1>Dialogs that behave themselves.</h1>
         <p class="lead">
           <strong>Forge Dialog</strong> is a dependency-free TypeScript dialog library built on the
@@ -513,6 +557,16 @@ const data = await wizard({ steps }).result;</code></pre>
             <p>
               Yes. Forge Dialog is released under the MIT license, which permits commercial use,
               modification, and redistribution.
+            </p>
+
+            <h3>How does Forge Dialog compare to SweetAlert2 and Bootstrap modals?</h3>
+            <p>
+              Forge Dialog builds on the browser&#39;s native <code>&lt;dialog&gt;</code> element,
+              so focus trapping, the top layer, and inert backgrounds come from the platform rather
+              than from JavaScript. It has no runtime dependencies, where a Bootstrap modal needs
+              Bootstrap&#39;s CSS and JavaScript. Every entry point is tree-shakable, so an
+              application that only needs an alert ships about 5.5&nbsp;KB gzipped rather than the
+              whole library. It is written in TypeScript and ships types for both ESM and CommonJS.
             </p>
           </div>
         </div>

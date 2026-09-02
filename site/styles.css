@@ -99,11 +99,20 @@ a {
     flex: 1 0 100%;
     margin-inline-end: 0;
   }
+
+  /* The mark carries no information the adjacent wordmark does not, so it is
+   decorative: alt="" keeps a screen reader from announcing the name twice. */
+  .brand-mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    flex: none;
+  }
 }
 
 .brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   font-weight: 700;
   font-size: 1.05rem;
@@ -176,6 +185,15 @@ a {
 .hero {
   padding: 72px 0 56px;
   text-align: center;
+}
+
+.hero-eyebrow {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .hero h1 {
@@ -637,4 +655,93 @@ pre code {
   letter-spacing: 0;
   font-size: 0.88rem;
   color: var(--text);
+}
+
+/* Demo page. Each card pairs a control that really runs with the code behind
+   it, so the page doubles as documentation for what it demonstrates. */
+.demos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: 20px;
+}
+
+.demo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.demo-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.demo-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.demo-card .snippet {
+  margin-top: auto;
+}
+
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.demo-log {
+  margin: 0;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  color: var(--code-text);
+  font: 0.86rem/1.65 var(--mono);
+  white-space: pre-wrap;
+  overflow-x: auto;
+  min-height: 120px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.demo-log:empty::after {
+  content: 'Results from the demos above appear here.';
+  opacity: 0.55;
+}
+
+/* Language switcher. Two links, not a select: a crawler follows a link. */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.lang-switch a {
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.lang-switch a:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.lang-switch a.active {
+  color: var(--accent-text);
+  background: var(--accent);
 }

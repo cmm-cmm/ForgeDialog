@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forge Dialog — hộp thoại cho web, dễ tiếp cận và không phụ thuộc</title>
+    <meta
+      name="description"
+      content="Thư viện hộp thoại TypeScript hiện đại, nhẹ, không phụ thuộc: alert, confirm, prompt, drawer, wizard, và giao diện tuỳ biến hoàn toàn."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="KonexForge" />
+    <meta property="og:title" content="Forge Dialog" />
+    <meta
+      property="og:description"
+      content="Hộp thoại cho web, dễ tiếp cận và không phụ thuộc. Alert, confirm, prompt, drawer, wizard, và giao diện tuỳ biến hoàn toàn."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://forgedialog.konexforge.com/vi/" />
+    <meta property="og:site_name" content="Forge Dialog" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Forge Dialog — hộp thoại cho web, dễ tiếp cận và không phụ thuộc"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Forge Dialog" />
+    <meta
+      name="twitter:description"
+      content="Hộp thoại cho web, dễ tiếp cận và không phụ thuộc. Alert, confirm, prompt, drawer, wizard, và giao diện tuỳ biến hoàn toàn."
+    />
+    <meta name="twitter:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta name="theme-color" content="#5468e8" />
+    <!-- The canonical origin. Everything absolute on this site is derived from
+         it: the build script reads it back to write robots.txt, sitemap.xml,
+         and llms.txt, so changing the domain means changing these tags only. -->
+    <link rel="canonical" href="https://forgedialog.konexforge.com/vi/" />
+    <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
+    <link rel="alternate" hreflang="en" href="https://forgedialog.konexforge.com/" />
+    <link rel="alternate" hreflang="vi" href="https://forgedialog.konexforge.com/vi/" />
+    <link rel="alternate" hreflang="x-default" href="https://forgedialog.konexforge.com/" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/vendor/index.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://forgedialog.konexforge.com/vi/#webpage",
+            "url": "https://forgedialog.konexforge.com/vi/",
+            "name": "Forge Dialog — hộp thoại cho web, dễ tiếp cận và không phụ thuộc",
+            "description": "Thư viện hộp thoại TypeScript hiện đại, nhẹ, không phụ thuộc, xây trên phần tử <dialog> của trình duyệt.",
+            "inLanguage": "vi",
+            "isPartOf": { "@id": "https://forgedialog.konexforge.com/#website" },
+            "about": { "@id": "https://forgedialog.konexforge.com/#software" }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://forgedialog.konexforge.com/vi/#faq",
+            "inLanguage": "vi",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Forge Dialog là gì?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Forge Dialog là thư viện TypeScript mã nguồn mở để dựng hộp thoại trên web: alert, confirm, prompt, drawer, bottom sheet, lightbox, trạng thái tải, toast, bảng lệnh, và wizard nhiều bước. Nó không có phụ thuộc lúc chạy và được phát hành trên npm với tên forgedialog."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Forge Dialog nặng bao nhiêu?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Bản đầy đủ khoảng 15 KB sau gzip. Ứng dụng chỉ import forgedialog/alert thì chỉ tốn khoảng 5,5 KB sau gzip, vì mọi điểm vào đều tree-shake được và đều có hạn mức kích thước được kiểm tra tự động ở mỗi pull request."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Forge Dialog có cần framework không?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Không. Nó chạy độc lập bằng JavaScript thuần, và có sẵn adapter cho React, Vue, Svelte, và Web Components nếu bạn muốn dùng."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Forge Dialog có dễ tiếp cận không?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Có. Nó dùng phần tử <dialog> của trình duyệt, giữ tiêu điểm bên trong hộp thoại rồi trả về phần tử đã mở nó, xử lý Escape và click nền, và tự đặt role=\"dialog\" hoặc role=\"alertdialog\" tuỳ loại."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Nó khác gì window.alert, confirm, và prompt?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Các hàm dựng sẵn của trình duyệt chặn luồng chính, không tạo kiểu được, và chỉ có ba hình dạng cố định. Forge Dialog trả về promise thay vì chặn, tạo kiểu được tới từng thành phần, và còn có drawer, bottom sheet, biểu mẫu, và wizard."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Có tuỳ biến được giao diện không?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Có. Màu và độ mờ đặt riêng cho nền, tiêu đề, nội dung, và viền; bo góc theo từng góc; đổ bóng ghép từ góc chiếu, khoảng cách, độ nhoè, và độ đậm; cùng hiệu ứng hover tự chọn có nhấc lên và phóng to."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Hỗ trợ những trình duyệt và môi trường nào?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Chrome và Edge 88+, Firefox 78+, Safari 15.4+, cùng Node.js 20 trở lên cho công cụ đóng gói và import phía máy chủ. Bản build không chứa eval hay new Function, nên chạy được dưới Content Security Policy nghiêm ngặt."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Forge Dialog có dùng thương mại miễn phí không?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Có. Forge Dialog phát hành theo giấy phép MIT, cho phép dùng thương mại, sửa đổi, và phân phối lại."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Forge Dialog so với SweetAlert2 và Bootstrap modal thì thế nào?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Forge Dialog xây trên phần tử <dialog> của trình duyệt, nên việc giữ tiêu điểm, lớp trên cùng, và vô hiệu hoá nền là do nền tảng lo chứ không phải JavaScript. Nó không có phụ thuộc lúc chạy, trong khi Bootstrap modal cần CSS và JavaScript của Bootstrap. Mọi điểm vào đều tree-shake được, nên ứng dụng chỉ cần alert chỉ tốn khoảng 5,5 KB sau gzip thay vì cả thư viện. Nó viết bằng TypeScript và có kiểu cho cả ESM lẫn CommonJS."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">
+          <img class="brand-mark" src="/icon.svg" alt="" width="26" height="26" />
+          Forge Dialog
+          <span class="version" id="version">…</span>
+        </a>
+        <a class="nav-link" href="#features">Tính năng</a>
+        <a class="nav-link" href="#playground">Tuỳ biến</a>
+        <a class="nav-link" href="#examples">Ví dụ</a>
+        <a class="nav-link" href="#faq">Hỏi đáp</a>
+        <a class="nav-link" href="/vi/demo">Demo</a>
+        <a class="nav-link" href="/vi/docs">Tài liệu</a>
+        <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <span class="lang-switch">
+          <a href="/" lang="en" hreflang="en">EN</a>
+          <a href="/vi/" class="active" lang="vi" hreflang="vi" aria-current="true">VI</a>
+        </span>
+        <button
+          class="btn btn--sm"
+          id="theme-toggle"
+          data-label-dark="Tối"
+          data-label-light="Sáng"
+          aria-pressed="false"
+        >
+          Tối
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <div class="wrap hero">
+        <p class="hero-eyebrow">
+          Mã nguồn mở &middot; Giấy phép MIT &middot; Không phụ thuộc lúc chạy
+        </p>
+        <h1>Hộp thoại biết cư xử.</h1>
+        <p class="lead">
+          <strong>Forge Dialog</strong> là thư viện hộp thoại TypeScript không phụ thuộc, xây trên
+          phần tử <code>&lt;dialog&gt;</code> của trình duyệt. Dễ tiếp cận từ đầu, tuỳ biến được tới
+          từng thành phần, và nhẹ tới mức bản chỉ có alert vẫn dưới 6&nbsp;KB sau gzip.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn--primary" id="try-alert">Thử một alert</button>
+          <button class="btn" id="try-confirm">Xác nhận</button>
+          <button class="btn" id="try-prompt">Nhập liệu</button>
+          <button class="btn" id="try-wizard">Hộp thoại đã tạo kiểu</button>
+          <a class="btn" href="/vi/docs">Đọc tài liệu</a>
+        </div>
+
+        <div class="install">
+          <code id="install-cmd">npm install forgedialog</code>
+          <button
+            class="copy"
+            data-copy="#install-cmd"
+            data-copied="Đã chép"
+            data-copy-fallback="Nhấn Ctrl+C"
+          >
+            Chép
+          </button>
+        </div>
+      </div>
+
+      <section id="features">
+        <div class="wrap">
+          <h2>Bạn nhận được gì</h2>
+          <p class="section-lead">
+            Mọi thứ dưới đây đều nằm trong gói đã phát hành — không plugin phải cài, không peer
+            dependency phải thoả mãn.
+          </p>
+
+          <div class="features">
+            <article class="feature">
+              <h3>Dễ tiếp cận từ đầu</h3>
+              <p>
+                Tiêu điểm được giữ trong hộp thoại rồi trả về chỗ cũ, Escape và click nền đã nối
+                sẵn, vai trò ARIA được đặt giúp bạn. Bộ dò tiêu điểm bỏ qua những phần tử chỉ trông
+                như nhận được tiêu điểm.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Tạo kiểu theo từng thành phần</h3>
+              <p>
+                Màu và độ mờ riêng cho nền, tiêu đề, nội dung, và viền. Bo góc theo từng góc. Đổ
+                bóng ghép từ góc chiếu, khoảng cách, độ nhoè, và độ đậm.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Hover, kéo thả, và cử chỉ</h3>
+              <p>
+                Đổi kiểu khi hover (tự chọn bật) kèm nhấc lên và phóng to. Hộp thoại kéo được, có
+                khoá trục, giới hạn vùng, di chuyển bằng bàn phím, và nhớ vị trí. Bottom sheet vuốt
+                để đóng.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Nhiều hơn alert</h3>
+              <p>
+                Drawer, bottom sheet, lightbox, trạng thái tải, toast, bảng lệnh, và wizard phân
+                nhánh có lưu trạng thái — tất cả từ cùng một lõi.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Kích thước trung thực</h3>
+              <p>
+                Các điểm vào tree-shake được, có hạn mức gzip bắt buộc. Import
+                <code>forgedialog/alert</code> thì bạn trả cho một alert, không phải cả thư viện.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Hợp với stack của bạn</h3>
+              <p>
+                ESM, CJS, và biến toàn cục cho trình duyệt, kèm adapter cho React, Vue, Svelte, và
+                Web Components. Có kiểu đầy đủ, an toàn với SSR, và chạy sạch dưới CSP nghiêm ngặt.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="playground">
+        <div class="wrap">
+          <h2>Bảng tuỳ biến</h2>
+          <p class="section-lead">
+            Đổi bất cứ thứ gì bên dưới và hộp thoại đổi kiểu ngay. Đoạn mã cập nhật theo — chép nó
+            là bạn có đúng hộp thoại đó trong ứng dụng của mình.
+          </p>
+
+          <div class="playground">
+            <form class="controls" id="controls" aria-label="Các điều khiển giao diện hộp thoại">
+              <div class="control">
+                <label for="c-surface">Màu nền</label>
+                <input type="color" id="c-surface" value="#ffffff" />
+              </div>
+              <div class="control">
+                <label for="c-title">Màu tiêu đề</label>
+                <input type="color" id="c-title" value="#4c5fd7" />
+              </div>
+              <div class="control">
+                <label for="c-title-bg">Nền thanh tiêu đề</label>
+                <input type="color" id="c-title-bg" value="#eef0ff" />
+              </div>
+              <label class="control--row">
+                <input type="checkbox" id="c-title-bg-on" checked />
+                Dùng nền thanh tiêu đề
+              </label>
+              <div class="control">
+                <label for="c-border">Màu viền</label>
+                <input type="color" id="c-border" value="#4c5fd7" />
+              </div>
+              <div class="control">
+                <label for="c-border-width"
+                  >Độ dày viền <output id="o-border-width"></output
+                ></label>
+                <input type="range" id="c-border-width" min="0" max="6" step="1" value="2" />
+              </div>
+              <div class="control">
+                <label for="c-radius">Bo góc <output id="o-radius"></output></label>
+                <input type="range" id="c-radius" min="0" max="36" step="2" value="14" />
+              </div>
+              <div class="control">
+                <label for="c-angle">Góc đổ bóng <output id="o-angle"></output></label>
+                <input type="range" id="c-angle" min="0" max="360" step="15" value="180" />
+              </div>
+              <div class="control">
+                <label for="c-distance">Khoảng cách bóng <output id="o-distance"></output></label>
+                <input type="range" id="c-distance" min="0" max="48" step="2" value="18" />
+              </div>
+              <div class="control">
+                <label for="c-strength">Độ đậm bóng <output id="o-strength"></output></label>
+                <input type="range" id="c-strength" min="0" max="1" step="0.05" value="0.3" />
+              </div>
+              <label class="control--row">
+                <input type="checkbox" id="c-hover" checked />
+                Hiệu ứng hover (nhấc lên và đổi màu)
+              </label>
+              <label class="control--row">
+                <input type="checkbox" id="c-draggable" checked />
+                Kéo được bằng thanh tiêu đề
+              </label>
+              <button class="btn btn--primary" type="button" id="open-playground">
+                Mở hộp thoại
+              </button>
+            </form>
+
+            <div class="snippet">
+              <button
+                class="copy"
+                data-copy="#playground-code"
+                data-copied="Đã chép"
+                data-copy-fallback="Nhấn Ctrl+C"
+              >
+                Chép
+              </button>
+              <pre><code id="playground-code"></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="examples">
+        <div class="wrap">
+          <h2>Ví dụ</h2>
+          <p class="section-lead">
+            The everyday calls. Each returns a promise, so there is no callback nesting.
+          </p>
+
+          <div class="examples">
+            <article class="example">
+              <h3>Thay thế hàm dựng sẵn của trình duyệt</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-basic">Copy</button>
+                <pre><code id="ex-basic">import { alert, confirm, prompt } from 'forgedialog';
+import 'forgedialog/style.css';
+
+await alert('Saved successfully.', { title: 'Success' });
+
+const ok = await confirm('Delete this item?');
+
+const name = await prompt('What is your name?', {
+  validate: (value) =&gt; value.trim() ? true : 'Name is required',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Tự dựng hộp thoại</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-open">Copy</button>
+                <pre><code id="ex-open">import { open } from 'forgedialog';
+
+const dialog = open({
+  title: 'Custom dialog',
+  content: (container) =&gt; container.append(renderForm()),
+  buttons: [
+    { text: 'Cancel', onClick: (i) =&gt; i.close(null) },
+    { text: 'Save', role: 'primary', onClick: (i) =&gt; i.close(read()) },
+  ],
+});
+
+const result = await dialog.whenClosed();</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Chỉ trả cho phần bạn dùng</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-entries">Copy</button>
+                <pre><code id="ex-entries">// Just an alert, and nothing else.
+import { alert } from 'forgedialog/alert';
+import 'forgedialog/style/core.css';
+
+// Opt into the richer appearance options on a focused entry.
+import 'forgedialog/appearance';</code></pre>
+              </div>
+            </article>
+
+            <article class="example">
+              <h3>Ngoài hộp thoại</h3>
+              <div class="snippet">
+                <button class="copy" data-copy="#ex-more">Copy</button>
+                <pre><code id="ex-more">import { drawer, toast, wizard } from 'forgedialog';
+
+// A duration of 0 keeps the toast until dismiss() is called.
+const upload = toast('Uploading…', { duration: 0 });
+
+drawer({ title: 'Settings', side: 'right', content: renderSettings });
+
+const data = await wizard({ steps }).result;</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="at-a-glance">
+        <div class="wrap">
+          <h2>Tóm tắt nhanh</h2>
+          <p class="section-lead">
+            Bản ngắn gọn, thuần dữ kiện — các con số lấy từ hạn mức kích thước được kiểm tra ở mỗi
+            pull request.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <tbody>
+                <tr>
+                  <th scope="row">Tên</th>
+                  <td>Forge Dialog</td>
+                </tr>
+                <tr>
+                  <th scope="row">Gói npm</th>
+                  <td><code>forgedialog</code></td>
+                </tr>
+                <tr>
+                  <th scope="row">Giấy phép</th>
+                  <td>MIT</td>
+                </tr>
+                <tr>
+                  <th scope="row">Phụ thuộc lúc chạy</th>
+                  <td>Không có</td>
+                </tr>
+                <tr>
+                  <th scope="row">Kích thước</th>
+                  <td>≈15&nbsp;KB sau gzip cho bản đầy đủ; ≈5.5&nbsp;KB cho bản chỉ có alert</td>
+                </tr>
+                <tr>
+                  <th scope="row">Viết bằng</th>
+                  <td>TypeScript, có kiểu cho cả ESM lẫn CommonJS</td>
+                </tr>
+                <tr>
+                  <th scope="row">Trình duyệt</th>
+                  <td>Chrome/Edge&nbsp;88+, Firefox&nbsp;78+, Safari&nbsp;15.4+</td>
+                </tr>
+                <tr>
+                  <th scope="row">Node.js</th>
+                  <td>20 trở lên, cho công cụ đóng gói và import phía máy chủ</td>
+                </tr>
+                <tr>
+                  <th scope="row">Framework</th>
+                  <td>Chạy độc lập; có adapter cho React, Vue, Svelte, và Web Components</td>
+                </tr>
+                <tr>
+                  <th scope="row">Mã nguồn</th>
+                  <td>
+                    <a href="https://github.com/cmm-cmm/ForgeDialog"
+                      >github.com/cmm-cmm/ForgeDialog</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="wrap">
+          <h2>Câu hỏi thường gặp</h2>
+
+          <div class="faq">
+            <h3>Forge Dialog là gì?</h3>
+            <p>
+              Forge Dialog là thư viện TypeScript mã nguồn mở để dựng hộp thoại trên web: alert,
+              confirm, prompt, drawer, bottom sheet, lightbox, trạng thái tải, toast, bảng lệnh, và
+              wizard nhiều bước. Nó không có phụ thuộc lúc chạy và được phát hành trên npm với tên
+              forgedialog.
+            </p>
+
+            <h3>Forge Dialog nặng bao nhiêu?</h3>
+            <p>
+              Bản đầy đủ khoảng 15 KB sau gzip. Ứng dụng chỉ import forgedialog/alert thì chỉ tốn
+              khoảng 5,5 KB sau gzip, vì mọi điểm vào đều tree-shake được và đều có hạn mức kích
+              thước được kiểm tra tự động ở mỗi pull request.
+            </p>
+
+            <h3>Forge Dialog có cần framework không?</h3>
+            <p>
+              Không. Nó chạy độc lập bằng JavaScript thuần, và có sẵn adapter cho React, Vue,
+              Svelte, và Web Components nếu bạn muốn dùng.
+            </p>
+
+            <h3>Forge Dialog có dễ tiếp cận không?</h3>
+            <p>
+              Có. Nó dùng phần tử <code>&lt;dialog&gt;</code> của trình duyệt, giữ tiêu điểm bên
+              trong hộp thoại rồi trả về phần tử đã mở nó, xử lý Escape và click nền, và tự đặt
+              role="dialog" hoặc role="alertdialog" tuỳ loại.
+            </p>
+
+            <h3>Nó khác gì window.alert, confirm, và prompt?</h3>
+            <p>
+              Các hàm dựng sẵn của trình duyệt chặn luồng chính, không tạo kiểu được, và chỉ có ba
+              hình dạng cố định. Forge Dialog trả về promise thay vì chặn, tạo kiểu được tới từng
+              thành phần, và còn có drawer, bottom sheet, biểu mẫu, và wizard.
+            </p>
+
+            <h3>Có tuỳ biến được giao diện không?</h3>
+            <p>
+              Có. Màu và độ mờ đặt riêng cho nền, tiêu đề, nội dung, và viền; bo góc theo từng góc;
+              đổ bóng ghép từ góc chiếu, khoảng cách, độ nhoè, và độ đậm; cùng hiệu ứng hover tự
+              chọn có nhấc lên và phóng to.
+            </p>
+
+            <h3>Hỗ trợ những trình duyệt và môi trường nào?</h3>
+            <p>
+              Chrome và Edge 88+, Firefox 78+, Safari 15.4+, cùng Node.js 20 trở lên cho công cụ
+              đóng gói và import phía máy chủ. Bản build không chứa eval hay new Function, nên chạy
+              được dưới Content Security Policy nghiêm ngặt.
+            </p>
+
+            <h3>Forge Dialog có dùng thương mại miễn phí không?</h3>
+            <p>
+              Có. Forge Dialog phát hành theo giấy phép MIT, cho phép dùng thương mại, sửa đổi, và
+              phân phối lại.
+            </p>
+
+            <h3>Forge Dialog so với SweetAlert2 và Bootstrap modal thì thế nào?</h3>
+            <p>
+              Forge Dialog xây trên phần tử <code>&lt;dialog&gt;</code> của trình duyệt, nên việc
+              giữ tiêu điểm, lớp trên cùng, và vô hiệu hoá nền là do nền tảng lo chứ không phải
+              JavaScript. Nó không có phụ thuộc lúc chạy, trong khi Bootstrap modal cần CSS và
+              JavaScript của Bootstrap. Mọi điểm vào đều tree-shake được, nên ứng dụng chỉ cần alert
+              chỉ tốn khoảng 5,5 KB sau gzip thay vì cả thư viện. Nó viết bằng TypeScript và có kiểu
+              cho cả ESM lẫn CommonJS.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>Giấy phép MIT. Không phụ thuộc lúc chạy.</span>
+        <span>
+          <a href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a> ·
+          <a href="https://www.npmjs.com/package/forgedialog">npm</a> ·
+          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md"
+            >Nhật ký thay đổi</a
+          >
+        </span>
+      </div>
+    </footer>
+
+    <!-- Strings for site.js. A JSON data block, not an executable script, so
+         `script-src 'self'` allows it. -->
+    <script type="application/json" id="fd-strings">
+      {
+        "alertTitle": "Lưu ý",
+        "alertBody": "Tiêu điểm bị giữ trong hộp thoại này, và trả về nút bấm khi nó đóng lại.",
+        "confirmTitle": "Xin xác nhận",
+        "confirmBody": "Cả Escape lẫn click ra nền đều làm hàm này trả về false.",
+        "confirmResult": "confirm() trả về",
+        "resultTitle": "Kết quả",
+        "promptTitle": "Chúng tôi nên gọi bạn là gì?",
+        "promptBody": "Thử bấm gửi khi để trống.",
+        "promptRequired": "Cần nhập tên",
+        "promptGreeting": "Rất vui được gặp",
+        "playgroundTitle": "Tạo kiểu bằng appearance API",
+        "playgroundBody": "Mọi màu sắc, độ bo góc, và hướng đổ bóng đều đến từ các điều khiển bên trái. Kéo tôi bằng thanh tiêu đề.",
+        "closeButton": "Đóng",
+        "labels": {
+          "ok": "OK",
+          "cancel": "Huỷ",
+          "close": "Đóng",
+          "promptPlaceholder": "",
+          "submit": "Gửi",
+          "fieldRequired": "Trường này là bắt buộc.",
+          "notifications": "Thông báo"
+        }
+      }
+    </script>
+    <script src="/vendor/index.global.js"></script>
+    <script src="/common.js"></script>
+    <script src="/site.js"></script>
+  </body>
+</html>

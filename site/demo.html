@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Live demos — Forge Dialog</title>
+    <meta
+      name="description"
+      content="Run every Forge Dialog surface in the browser: alerts, confirmations, prompts, drawers, bottom sheets, lightboxes, loading states, toasts, command palettes, forms, and wizards, each beside the code that produced it."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="KonexForge" />
+    <meta property="og:title" content="Forge Dialog live demos" />
+    <meta
+      property="og:description"
+      content="Every dialog, drawer, toast, palette, form, and wizard running in the page, each beside the code that produced it."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://forgedialog.konexforge.com/demo" />
+    <meta property="og:site_name" content="Forge Dialog" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="vi_VN" />
+    <meta property="og:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Forge Dialog — accessible, dependency-free dialogs for the web"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Forge Dialog live demos" />
+    <meta
+      name="twitter:description"
+      content="Every dialog, drawer, toast, palette, form, and wizard running in the page, each beside the code that produced it."
+    />
+    <meta name="twitter:image" content="https://forgedialog.konexforge.com/og-image.png" />
+    <meta name="theme-color" content="#5468e8" />
+    <link rel="canonical" href="https://forgedialog.konexforge.com/demo" />
+    <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
+    <link rel="alternate" hreflang="en" href="https://forgedialog.konexforge.com/demo" />
+    <link rel="alternate" hreflang="vi" href="https://forgedialog.konexforge.com/vi/demo" />
+    <link rel="alternate" hreflang="x-default" href="https://forgedialog.konexforge.com/demo" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="stylesheet" href="./vendor/index.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://forgedialog.konexforge.com/demo#webpage",
+            "name": "Forge Dialog live demos",
+            "description": "Every Forge Dialog surface running in the browser, each beside the code that produced it.",
+            "url": "https://forgedialog.konexforge.com/demo",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://forgedialog.konexforge.com/#website"
+            },
+            "about": {
+              "@id": "https://forgedialog.konexforge.com/#software"
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://forgedialog.konexforge.com/demo#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Forge Dialog",
+                "item": "https://forgedialog.konexforge.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Live demos",
+                "item": "https://forgedialog.konexforge.com/demo"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="./">
+          <img class="brand-mark" src="./icon.svg" alt="" width="26" height="26" />
+          Forge Dialog
+          <span class="version" id="version">…</span>
+        </a>
+        <a class="nav-link" href="./#features">Features</a>
+        <a class="nav-link" href="./#playground">Playground</a>
+        <a class="nav-link" href="./demo" aria-current="page">Demos</a>
+        <a class="nav-link" href="./docs">Docs</a>
+        <a class="nav-link" href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a>
+        <span class="lang-switch">
+          <a href="/demo" class="active" lang="en" hreflang="en" aria-current="true">EN</a>
+          <a href="/vi/demo" lang="vi" hreflang="vi">VI</a>
+        </span>
+        <button class="btn btn--sm" id="theme-toggle" aria-pressed="false">Dark</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap hero">
+        <h1>Live demos</h1>
+        <p class="lead">
+          Every surface Forge Dialog ships, running in this page against the same build the rest of
+          the site uses. Each card shows the code that produced what you just saw, so nothing here
+          is a mock-up.
+        </p>
+      </div>
+
+      <section id="dialogs">
+        <div class="wrap">
+          <h2>Dialogs</h2>
+          <p class="section-lead">
+            The four entry points that replace the browser built-ins, plus the generic
+            <code>open()</code> they are all built on.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>alert()</h3>
+              <p>One message, one button. Resolves when it closes.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="alert">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-alert">Copy</button>
+                <pre><code id="code-alert">await alert('This is an alert dialog.', { title: 'Heads up' });</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>confirm()</h3>
+              <p>Resolves <code>true</code> or <code>false</code> rather than blocking the page.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="confirm">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-confirm">Copy</button>
+                <pre><code id="code-confirm">const ok = await confirm('Are you sure you want to continue?', {
+  title: 'Please confirm',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>prompt()</h3>
+              <p>Resolves the typed string, or <code>null</code> when dismissed.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="prompt">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-prompt">Copy</button>
+                <pre><code id="code-prompt">const name = await prompt('What is your name?', {
+  title: 'Introduce yourself',
+  defaultValue: 'Ada Lovelace',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Validated prompt</h3>
+              <p>
+                <code>validate</code> returns <code>true</code> or an error string, and the dialog
+                stays open until it passes.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="prompt-validate">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-prompt-validate">Copy</button>
+                <pre><code id="code-prompt-validate">await prompt('Enter an even number:', {
+  title: 'Validated prompt',
+  validate: (value) => {
+    const n = Number(value);
+    if (Number.isNaN(n)) return 'Please enter a number';
+    if (n % 2 !== 0) return 'Number must be even';
+    return true;
+  },
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>open()</h3>
+              <p>Build the body yourself and decide what each button resolves with.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="open">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-open">Copy</button>
+                <pre><code id="code-open">const instance = open({
+  title: 'Custom dialog',
+  content: (container) => {
+    const p = document.createElement('p');
+    p.textContent = 'Built with the generic open() API.';
+    container.append(p);
+  },
+  buttons: [
+    { text: 'Close', role: 'primary', autoFocus: true, onClick: (i) => i.close('done') },
+  ],
+});
+const result = await instance.whenClosed();</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Stacking</h3>
+              <p>
+                Open a second dialog over the first. Focus, Escape, and scroll locking follow the
+                top of the stack.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="stacked">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-stacked">Copy</button>
+                <pre><code id="code-stacked">const first = confirm('First dialog. Open a second one on top?', { title: 'Dialog 1' });
+const second = await confirm('This is stacked above the first dialog.', { title: 'Dialog 2' });
+const firstResult = await first;</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="animations">
+        <div class="wrap">
+          <h2>Animations</h2>
+          <p class="section-lead">
+            Set per dialog. Every animation honours <code>prefers-reduced-motion</code>.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>No animation</h3>
+              <p>Opens and closes instantly.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="no-animation">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-no-animation">Copy</button>
+                <pre><code id="code-no-animation">await alert('This alert opens and closes instantly.', { animation: 'none' });</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Slide</h3>
+              <p>Slides in from below instead of scaling.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="slide">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-slide">Copy</button>
+                <pre><code id="code-slide">await confirm('This dialog slides in from below.', { animation: 'slide' });</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="presentation">
+        <div class="wrap">
+          <h2>Beyond dialogs</h2>
+          <p class="section-lead">
+            The same core, presented differently. All of these live behind
+            <code>forgedialog/presentation</code>.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>Drawer</h3>
+              <p>A side panel with the same focus handling as a modal.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="drawer">Right</button>
+                <button class="btn" data-demo="drawer-left">Left</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-drawer">Copy</button>
+                <pre><code id="code-drawer">drawer({
+  title: 'Project settings',
+  message: 'A native, focus-safe drawer.',
+  side: 'right',
+  buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Bottom sheet</h3>
+              <p>The mobile shape. Drag it down to dismiss.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="sheet">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-sheet">Copy</button>
+                <pre><code id="code-sheet">bottomSheet({
+  title: 'Quick actions',
+  message: 'Drag down to dismiss this sheet.',
+  buttons: [{ text: 'Done', role: 'primary', closesDialog: true }],
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Toast</h3>
+              <p>Announced politely, dismissed on its own. Four tones.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="toast-success">Success</button>
+                <button class="btn" data-demo="toast-error">Error</button>
+                <button class="btn" data-demo="toast-action">With action</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-toast">Copy</button>
+                <pre><code id="code-toast">toast('Changes saved successfully.', { tone: 'success' });</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Lightbox</h3>
+              <p>An image at full size, with a caption and the same dismissal rules.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="lightbox">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-lightbox">Copy</button>
+                <pre><code id="code-lightbox">lightbox('/og-image.png', {
+  alt: 'The Forge Dialog social card',
+  caption: 'Rendered from site/icon.svg at build time.',
+});</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Loading</h3>
+              <p>
+                A blocking state you control. <code>update()</code> changes the message,
+                <code>close()</code> ends it.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="loading">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-loading">Copy</button>
+                <pre><code id="code-loading">const task = loading('Uploading…');
+task.update('Processing…');
+await task.close();</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Command palette</h3>
+              <p>Filterable commands with keyboard navigation. Type to narrow.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="commands">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-commands">Copy</button>
+                <pre><code id="code-commands">commandPalette([
+  { id: 'theme-dark', label: 'Switch to dark theme', keywords: ['appearance'],
+    run: () => setTheme('dark') },
+  { id: 'theme-light', label: 'Switch to light theme', keywords: ['appearance'],
+    run: () => setTheme('light') },
+]);</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Notification centre</h3>
+              <p>
+                Every toast raised in this page, kept in history. Raise a few toasts first, then
+                open it.
+              </p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="notifications">Open</button>
+                <button class="btn" data-demo="notifications-clear">Clear history</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-notifications">Copy</button>
+                <pre><code id="code-notifications">notificationCenter();
+getNotificationHistory(); // [{ id, message, tone, createdAt }]
+clearNotificationHistory();</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="workflows">
+        <div class="wrap">
+          <h2>Forms and wizards</h2>
+          <p class="section-lead">
+            Behind <code>forgedialog/workflows</code>. In TypeScript the field names are inferred
+            into the result type, so the values come back typed without a cast.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>form()</h3>
+              <p>A validated form from a field list. Resolves the values, or <code>null</code>.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="form">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-form">Copy</button>
+                <pre><code id="code-form">const values = await form(
+  [
+    { name: 'email', type: 'email', label: 'Email', required: true },
+    { name: 'plan', type: 'select', label: 'Plan', options: [
+      { value: 'free', label: 'Free' },
+      { value: 'pro', label: 'Pro' },
+    ] },
+    { name: 'notes', type: 'textarea', label: 'Notes', rows: 3 },
+  ],
+  { title: 'Create an account' },
+);</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>wizard()</h3>
+              <p>Multi-step, with per-step validation and shared data.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="wizard">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-wizard">Copy</button>
+                <pre><code id="code-wizard">const flow = wizard({
+  initialData: { name: '' },
+  steps: [
+    {
+      id: 'profile',
+      title: 'Your profile',
+      render: (el, ctx) => {
+        const input = document.createElement('input');
+        input.className = 'fd-input';
+        input.placeholder = 'Name';
+        input.addEventListener('input', () => ctx.set({ name: input.value }));
+        el.append(input);
+      },
+      validate: (ctx) => (ctx.data.name ? true : 'Please enter your name.'),
+    },
+    { id: 'review', title: 'Review',
+      render: (el, ctx) => { el.textContent = `Ready to welcome ${ctx.data.name}.`; } },
+  ],
+});
+const data = await flow.result;</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>formWizard()</h3>
+              <p>The same field list as <code>form()</code>, spread over steps.</p>
+              <div class="demo-actions">
+                <button class="btn btn--primary" data-demo="form-wizard">Run</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-form-wizard">Copy</button>
+                <pre><code id="code-form-wizard">const values = await formWizard([
+  { id: 'account', title: 'Account', fields: [
+    { name: 'email', type: 'email', label: 'Email', required: true },
+  ] },
+  { id: 'profile', title: 'Profile', fields: [
+    { name: 'name', type: 'text', label: 'Full name', required: true },
+  ] },
+]);</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="theming">
+        <div class="wrap">
+          <h2>Theming</h2>
+          <p class="section-lead">
+            <code>setTheme()</code> drives the library and this page together;
+            <code>setThemePreset()</code> swaps the whole look.
+          </p>
+
+          <div class="demos">
+            <article class="demo-card">
+              <h3>Theme</h3>
+              <p>Light, dark, or follow the operating system.</p>
+              <div class="demo-actions">
+                <button class="btn" data-theme="light">Light</button>
+                <button class="btn" data-theme="dark">Dark</button>
+                <button class="btn" data-theme="system">System</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-theme">Copy</button>
+                <pre><code id="code-theme">setTheme('dark'); // 'light' | 'dark' | 'system'</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Presets</h3>
+              <p>Pick one, then open any demo above to see it applied.</p>
+              <div class="demo-actions">
+                <button class="btn" data-preset="default">Default</button>
+                <button class="btn" data-preset="minimal">Minimal</button>
+                <button class="btn" data-preset="glass">Glass</button>
+                <button class="btn" data-preset="material">Material</button>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-preset">Copy</button>
+                <pre><code id="code-preset">setThemePreset('glass');</code></pre>
+              </div>
+            </article>
+
+            <article class="demo-card">
+              <h3>Appearance and dragging</h3>
+              <p>
+                Per-dialog colour, radius, shadow direction, hover, and drag bounds have their own
+                interactive builder on the landing page.
+              </p>
+              <div class="demo-actions">
+                <a class="btn btn--primary" href="./#playground">Open the playground</a>
+              </div>
+              <div class="snippet">
+                <button class="copy" data-copy="#code-appearance">Copy</button>
+                <pre><code id="code-appearance">open({
+  title: 'Styled dialog',
+  appearance: { radius: 20, shadow: { angle: 180, distance: 20, blur: 60 } },
+  draggable: { bounds: 'viewport' },
+});</code></pre>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="log">
+        <div class="wrap">
+          <h2>What each demo returned</h2>
+          <p class="section-lead">
+            Every demo above prints its result here, along with the plugin lifecycle hooks it fired
+            — <code>afterOpen</code> and <code>afterClose</code> from a plugin registered on this
+            page.
+          </p>
+          <pre class="demo-log" id="demo-log" aria-live="polite" aria-label="Demo results"></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT licensed. Built with no runtime dependencies.</span>
+        <span>
+          <a href="https://github.com/cmm-cmm/ForgeDialog">GitHub</a> ·
+          <a href="https://www.npmjs.com/package/forgedialog">npm</a> ·
+          <a href="https://github.com/cmm-cmm/ForgeDialog/blob/main/CHANGELOG.md">Changelog</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="./vendor/index.global.js"></script>
+    <script src="./common.js"></script>
+    <script src="./demo.js"></script>
+  </body>
+</html>

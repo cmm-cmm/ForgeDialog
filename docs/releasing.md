@@ -47,6 +47,22 @@ publisher with:
 > exist first. `forgedialog` is published — 0.7.0 went out on 1 September 2026 — so that page is
 > available and this can be set up now. The manual first publish described below is history for
 > this package; it is kept because a fork starting from an unpublished name still needs it.
+>
+> **`forgedialog-react` and `forgedialog-vue` have not been published yet**, so neither has a
+> settings page and neither can have a trusted publisher configured. Their first release has to be
+> the manual publish described below; after that, add the same publisher entry to each of them and
+> every later release goes through Actions with the core.
+
+### 2b. One trusted publisher per package
+
+A release publishes three packages — `forgedialog`, `forgedialog-react`, and `forgedialog-vue` —
+and npm scopes trusted publishing to a single package. The same entry from step 2 has to be added
+on **each** package's settings page; the workflow filename and environment are identical for all
+three, only the package differs.
+
+Miss one and the release half-succeeds: the core goes out, then `npm publish --workspaces` fails on
+the wrapper, leaving a published core beside wrappers that never shipped. `npm run check:release`
+does not catch this — it checks versions, not npm's publisher configuration.
 
 ### 3. Enable publishing in the workflow
 
@@ -95,8 +111,12 @@ name that has never been published, where step 2 has no settings page to configu
 ```sh
 npm run validate:all
 npm run check:release
-npm publish   # prompts for auth; use a granular access token scoped to this package
+npm publish                 # the core first: the wrappers depend on it
+npm publish --workspaces    # forgedialog-react and forgedialog-vue
 ```
+
+The order matters. A consumer who installs `forgedialog-react` the moment it appears has to find
+the core version it asks for already on the registry.
 
 `publishConfig.access` is already `public`, so no `--access` flag is needed. Afterwards, add the
 trusted publisher and set `NPM_PUBLISH_ENABLED=true` so later releases go through Actions, and

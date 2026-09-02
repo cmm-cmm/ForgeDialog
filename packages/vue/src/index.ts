@@ -1,6 +1,5 @@
 import { onUnmounted, shallowRef } from 'vue';
-import { open } from '../api/open';
-import type { DialogInstance, DialogOptions } from '../types';
+import { open, type DialogInstance, type DialogOptions } from 'forgedialog';
 
 export function useForgeDialog<TResult = unknown>() {
   const active = shallowRef<DialogInstance<TResult> | null>(null);

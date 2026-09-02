@@ -45,9 +45,15 @@ jobs:
           name: forgedialog-sbom
           path: forgedialog-sbom.json
 
+      # The core first: the wrapper packages depend on it, so a consumer who
+      # installs one of them the moment it appears must find the core already
+      # there. `--workspaces` publishes forgedialog-react and forgedialog-vue,
+      # each of which needs its own trusted publisher entry on npmjs.com.
       - name: Publish to npm with OIDC
         if: vars.NPM_PUBLISH_ENABLED == 'true'
-        run: npm publish
+        run: |
+          npm publish
+          npm publish --workspaces
       - name: Skip npm publishing until trusted publishing is enabled
         if: vars.NPM_PUBLISH_ENABLED != 'true'
         run: |

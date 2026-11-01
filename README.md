@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="site/logo-dark.svg" />
+    <img src="site/logo.svg" alt="Forge Dialog" width="360" />
+  </picture>
+</p>
+
 # Forge Dialog 0.7
 
 _A modern, lightweight, and highly customizable JavaScript dialog library for alerts, confirmations, modals, drawers, and interactive workflows._
@@ -271,7 +278,6 @@ npm run validate      # run every non-browser quality and packaging gate
 npm run validate:all  # run validate plus the cross-browser suite
 npm run demo         # build and serve the demo/ page
 npm run site         # build and serve the marketing site in site/
-npm run site:icons   # re-render the site's PNG icons from site/icon.svg
 ```
 
 Releases use Changesets (`npm run changeset`) and the protected GitHub release workflow. The

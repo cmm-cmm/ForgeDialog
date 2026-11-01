@@ -9,9 +9,10 @@
          own: it answers for whatever address was mistyped. -->
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#5468e8" />
-    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <!-- Root-relative, not "./": this page is served for any path, including
          nested ones, where a relative href would resolve against that path. -->
     <link rel="stylesheet" href="/vendor/index.css" />
@@ -21,7 +22,24 @@
     <header class="site-header">
       <div class="wrap">
         <a class="brand" href="/">
-          <img class="brand-mark" src="/icon.svg" alt="" width="26" height="26" />
+          <svg
+            class="brand-mark"
+            viewBox="0 0 320 256"
+            width="30"
+            height="24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              class="brand-mark-frame"
+              d="M24 168V84Q24 40 68 40H248A16 16 0 0 1 248 72H68Q56 72 56 84V168A16 16 0 0 1 24 168Z"
+            />
+            <path
+              class="brand-mark-frame"
+              d="M296 88V172Q296 216 252 216H96A16 16 0 0 1 96 184H252Q264 184 264 172V88A16 16 0 0 1 296 88Z"
+            />
+            <rect class="brand-mark-action" x="100" y="120" width="120" height="40" rx="20" />
+          </svg>
           Forge Dialog
           <span class="version" id="version">…</span>
         </a>

@@ -1,0 +1,22 @@
+{
+  "brand": "Forge Dialog",
+  "concept": "03 - Focus Frame",
+  "colors": {
+    "indigo": "#5468E8",
+    "amber": "#FF9F1C",
+    "ink": "#14171C",
+    "paper": "#F6F7F9",
+    "dark_indigo": "#8896FF",
+    "dark_amber": "#FFAF23"
+  },
+  "geometry": {
+    "viewBox": [0, 0, 320, 256],
+    "stroke": 32,
+    "clear_space": 32
+  },
+  "wordmark": {
+    "font": "DejaVu Sans",
+    "weight": 700,
+    "production": "Outlined vector paths"
+  }
+}

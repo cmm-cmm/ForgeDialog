@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" role="img" aria-labelledby="logo-title">
+<title id="logo-title">Forge Dialog - Focus Frame</title>
+<defs>
+ <linearGradient id="indigo" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#626EFF"/><stop offset="1" stop-color="#4257DF"/></linearGradient>
+ <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFAF23"/><stop offset="1" stop-color="#FF9F1C"/></linearGradient>
+</defs><style>@media(prefers-color-scheme:dark){#focus-frame{fill:#8896FF}}</style><g transform="translate(0 32)"><g id="focus-frame" fill="#5468E8">
+ <path d="M24 168V84Q24 40 68 40H248A16 16 0 0 1 248 72H68Q56 72 56 84V168A16 16 0 0 1 24 168Z"/>
+ <path d="M296 88V172Q296 216 252 216H96A16 16 0 0 1 96 184H252Q264 184 264 172V88A16 16 0 0 1 296 88Z"/>
+</g><rect id="primary-action" x="100" y="120" width="120" height="40" rx="20" fill="#FF9F1C"/></g></svg>

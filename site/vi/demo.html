@@ -41,9 +41,10 @@
     <link rel="alternate" hreflang="en" href="https://forgedialog.konexforge.com/demo" />
     <link rel="alternate" hreflang="vi" href="https://forgedialog.konexforge.com/vi/demo" />
     <link rel="alternate" hreflang="x-default" href="https://forgedialog.konexforge.com/demo" />
-    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/vendor/index.css" />
     <link rel="stylesheet" href="/styles.css" />
     <script type="application/ld+json">
@@ -86,7 +87,24 @@
     <header class="site-header">
       <div class="wrap">
         <a class="brand" href="/vi/">
-          <img class="brand-mark" src="/icon.svg" alt="" width="26" height="26" />
+          <svg
+            class="brand-mark"
+            viewBox="0 0 320 256"
+            width="30"
+            height="24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              class="brand-mark-frame"
+              d="M24 168V84Q24 40 68 40H248A16 16 0 0 1 248 72H68Q56 72 56 84V168A16 16 0 0 1 24 168Z"
+            />
+            <path
+              class="brand-mark-frame"
+              d="M296 88V172Q296 216 252 216H96A16 16 0 0 1 96 184H252Q264 184 264 172V88A16 16 0 0 1 296 88Z"
+            />
+            <rect class="brand-mark-action" x="100" y="120" width="120" height="40" rx="20" />
+          </svg>
           Forge Dialog
           <span class="version" id="version">…</span>
         </a>
@@ -424,7 +442,7 @@ const firstResult = await first;</code></pre>
                 </button>
                 <pre><code id="code-lightbox">lightbox('/og-image.png', {
   alt: 'Ảnh chia sẻ mạng xã hội của Forge Dialog',
-  caption: 'Kết xuất từ site/icon.svg lúc build.',
+  caption: 'Biểu tượng Focus Frame: khung hộp thoại bao quanh nút hành động chính.',
 });</code></pre>
               </div>
             </article>
@@ -754,7 +772,7 @@ const data = await flow.result;</code></pre>
         "toastError": "Tải lên thất bại. Không mất dữ liệu nào.",
         "toastAction": "Đã lưu trữ tin nhắn.",
         "lightboxAlt": "Ảnh chia sẻ mạng xã hội của Forge Dialog",
-        "lightboxCaption": "Kết xuất từ site/icon.svg lúc build.",
+        "lightboxCaption": "Biểu tượng Focus Frame: khung hộp thoại bao quanh nút hành động chính.",
         "loadingUploading": "Đang tải lên…",
         "loadingProcessing": "Đang xử lý…",
         "cmdDark": "Chuyển sang chủ đề tối",

@@ -18,21 +18,21 @@ CDN, so what you see is always the build you have.
 
 ## How it is put together
 
-| File              | Role                                                                  |
-| ----------------- | --------------------------------------------------------------------- |
+| File | Role |
+| ----------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | `site/index.html` | The landing page: demos, appearance playground, facts table, and FAQ. |
-| `site/demo.html`  | Live demos: every surface running, each beside its code.              |
-| `site/docs.html`  | The API reference, written against the reviewed report in `etc/`.     |
-| `site/404.html`   | Served for any unmatched path. Carries `noindex`.                     |
-| `site/styles.css` | Site styling. Its dark mode reads the same `data-fd-theme` attribute  |
-|                   | that the library's `setTheme()` sets, so both switch together.        |
-| `site/common.js`  | Shared chrome: version badge, theme toggle, copy buttons.             |
-| `site/site.js`    | Landing-page demos and the appearance playground.                     |
-| `site/docs.js`    | Highlights the sidebar entry for the section being read.              |
-| `site/demo.js`    | Runs the demos. One delegated listener, no inline handlers.           |
-| `site/icon.svg`   | The mark: the favicon, and the logo in every page header.             |
-| `wrangler.jsonc`  | Cloudflare deployment config. Points at `site/`, not `dist/`.         |
-| `site/_headers`   | Cloudflare response headers, including a strict CSP.                  |
+| `site/demo.html` | Live demos: every surface running, each beside its code. |
+| `site/docs.html` | The API reference, written against the reviewed report in `etc/`. |
+| `site/404.html` | Served for any unmatched path. Carries `noindex`. |
+| `site/styles.css` | Site styling. Its dark mode reads the same `data-fd-theme` attribute |
+| | that the library's `setTheme()` sets, so both switch together. |
+| `site/common.js` | Shared chrome: version badge, theme toggle, copy buttons. |
+| `site/site.js` | Landing-page demos and the appearance playground. |
+| `site/docs.js` | Highlights the sidebar entry for the section being read. |
+| `site/demo.js` | Runs the demos. One delegated listener, no inline handlers. |
+| `site/\*.svg      | png` | Logo, favicons, and social card, copied from `brand/`. See Icons. |
+| `wrangler.jsonc` | Cloudflare deployment config. Points at `site/`, not `dist/`. |
+| `site/_headers` | Cloudflare response headers, including a strict CSP. |
 
 ### URLs
 
@@ -77,28 +77,33 @@ page the visual regression test drives. That one loads `../dist/` directly and i
 
 ## Icons
 
-`site/icon.svg` is the source of truth. It is what browsers load as the favicon and what every page
-header shows beside the wordmark — with `alt=""`, since the adjacent text already names the product
-and a screen reader should not announce it twice. Two bitmaps are committed beside it because SVG
-is not enough everywhere:
+The logo is **Concept 03 — Focus Frame**: two open corners of a dialog frame around an amber
+primary-action pill. Its source files, colour tokens, and usage rules live in
+[`brand/`](../brand/README.md); the site carries copies of the web exports, and nothing in this
+repository renders them. When the logo changes, replace the files below with the new kit's `web/`
+exports rather than redrawing them.
 
-| File                        | Size     | Used by                                        |
-| --------------------------- | -------- | ---------------------------------------------- |
-| `site/favicon.ico`          | 32×32    | Clients that request `/favicon.ico` regardless |
-| `site/apple-touch-icon.png` | 180×180  | iOS home screens                               |
-| `site/og-image.png`         | 1200×630 | Link previews and social cards                 |
+| File                                  | Size     | Used by                                         |
+| ------------------------------------- | -------- | ----------------------------------------------- |
+| `site/favicon.svg`                    | vector   | The favicon; turns the frame light in dark mode |
+| `site/favicon.ico`                    | 16–256   | Clients that request `/favicon.ico` regardless  |
+| `site/apple-touch-icon.png`           | 180×180  | iOS home screens                                |
+| `site/android-chrome-{192,512}*.png`  | 192, 512 | `site.webmanifest`                              |
+| `site/maskable-icon-512.png`          | 512×512  | `site.webmanifest`, adaptive Android icons      |
+| `site/site.webmanifest`               | —        | Install name, icons, and theme colour           |
+| `site/og-image.png`                   | 1200×630 | Link previews and social cards                  |
+| `site/icon.svg`                       | vector   | The plain mark, for anyone linking to it        |
+| `site/logo.svg`, `site/logo-dark.svg` | 1185×256 | The full logo; the README shows it              |
 
-Both are rendered from `icon.svg` through Chromium, which is already a dev dependency:
+Every page header draws the mark **inline** rather than as an `<img>`. An SVG loaded as an image
+only sees the operating system's colour scheme, not the site's own theme toggle, so it would stay
+indigo-on-dark after a reader switched themes by hand. Inline, its two fills read `--brand-frame`
+and `--brand-action` from `styles.css`, which switch with everything else: `#5468e8` and `#ff9f1c`
+in light, `#8896ff` and `#ffaf23` in dark. The mark is `aria-hidden`, since the wordmark beside it
+already names the product and a screen reader should not announce it twice.
 
-```sh
-npm run site:icons
-```
-
-Run it only when the icon changes; neither the site build nor a deploy runs it. The apple-touch
-variant squares off the mark's ground (via `#ground { rx: 0 }`) because iOS applies its own rounded
-mask and would otherwise round it twice. The `.ico` is a 32×32 PNG wrapped in an ICO container,
-which every browser since Vista accepts and which needs no bitmap encoder — the whole file is about
-1.2 KB.
+The CSP in `site/_headers` starts from `default-src 'none'`, so it carries `manifest-src 'self'`;
+without it the browser refuses to load `site.webmanifest`.
 
 ## Vietnamese
 

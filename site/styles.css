@@ -11,6 +11,9 @@
   --border: #e0e3e9;
   --accent: #4c5fd7;
   --accent-text: #ffffff;
+  /* The Focus Frame mark's colours, from brand/brand-tokens.css. */
+  --brand-frame: #5468e8;
+  --brand-action: #ff9f1c;
   --code-bg: #14161d;
   --code-text: #e6e8ef;
   --radius: 12px;
@@ -29,6 +32,8 @@
     --border: #2b303a;
     --accent: #8896ff;
     --accent-text: #0e1014;
+    --brand-frame: #8896ff;
+    --brand-action: #ffaf23;
   }
 }
 
@@ -41,6 +46,8 @@
   --border: #2b303a;
   --accent: #8896ff;
   --accent-text: #0e1014;
+  --brand-frame: #8896ff;
+  --brand-action: #ffaf23;
 }
 
 * {
@@ -99,15 +106,24 @@ a {
     flex: 1 0 100%;
     margin-inline-end: 0;
   }
+}
 
-  /* The mark carries no information the adjacent wordmark does not, so it is
-   decorative: alt="" keeps a screen reader from announcing the name twice. */
-  .brand-mark {
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    flex: none;
-  }
+/* The mark carries no information the adjacent wordmark does not, so it is
+ decorative: aria-hidden keeps a screen reader from announcing the name twice.
+ It is inline rather than an <img> so its colours follow the site's own theme
+ toggle, which an SVG loaded as an image cannot see. */
+.brand-mark {
+  width: 30px;
+  height: 24px;
+  flex: none;
+}
+
+.brand-mark-frame {
+  fill: var(--brand-frame);
+}
+
+.brand-mark-action {
+  fill: var(--brand-action);
 }
 
 .brand {

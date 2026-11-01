@@ -181,7 +181,10 @@
     lightbox() {
       lightbox('./og-image.png', {
         alt: t('lightboxAlt', 'The Forge Dialog social card'),
-        caption: t('lightboxCaption', 'Rendered from site/icon.svg at build time.'),
+        caption: t(
+          'lightboxCaption',
+          'The Focus Frame mark: a dialog frame around its primary action.',
+        ),
       });
     },
 

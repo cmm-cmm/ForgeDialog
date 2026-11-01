@@ -39,13 +39,10 @@ export default defineConfig([
       appearance: 'src/appearance-entry.ts',
       presentation: 'src/presentation-entry.ts',
       workflows: 'src/workflows-entry.ts',
-      react: 'src/adapters/react.ts',
-      vue: 'src/adapters/vue.ts',
       svelte: 'src/adapters/svelte.ts',
       'web-component': 'src/adapters/web-component.ts',
     },
     format: ['esm', 'cjs'],
-    external: ['react', 'vue'],
     clean: false,
   },
   {

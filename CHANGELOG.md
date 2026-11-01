@@ -1,9 +1,38 @@
 # Changelog
 
-## Unreleased
+## 0.8.0
 
-- `homepage` now points at the documentation site rather than the README anchor, so the npm
-  page links to the reference instead of back to GitHub.
+### Breaking
+
+- The React and Vue adapters are no longer part of this package. `forgedialog/react` and
+  `forgedialog/vue` are gone; install [`forgedialog-react`](https://www.npmjs.com/package/forgedialog-react)
+  or [`forgedialog-vue`](https://www.npmjs.com/package/forgedialog-vue) instead. The hook itself is
+  unchanged, so the migration is the import:
+
+  ```diff
+  - import { useForgeDialog } from 'forgedialog/react';
+  + import { useForgeDialog } from 'forgedialog-react';
+  ```
+
+  ```sh
+  npm install forgedialog-react   # or forgedialog-vue
+  ```
+
+- `forgedialog` no longer declares `react` or `vue` as peer dependencies. They were optional, but
+  they still put two frameworks in the dependency tree of a library that advertises having none,
+  and every tool that reads peer dependencies had to be told to ignore them.
+
+`forgedialog/svelte` and `forgedialog/web-component` are unchanged and stay in the core: neither
+needs a framework runtime, so neither costs a peer dependency.
+
+### Other
+
+- The published tarball is smaller: 63 files and 117.6 KiB, down from 71 files and 120.3 KiB,
+  because the React and Vue builds are no longer in it.
+- `npm run check:release` now checks every package a release publishes, including that each
+  wrapper's dependency range on the core is one this release satisfies.
+- `homepage` now points at the documentation site rather than the README anchor, so the npm page
+  links to the reference instead of back to GitHub.
 
 ## 0.7.0
 

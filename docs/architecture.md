@@ -26,7 +26,10 @@ Public consumers should import only what they need:
 - `forgedialog/interactions` and `/animations` to opt into advanced runtime capabilities.
 - `forgedialog/presentation` for drawers, sheets, lightboxes, loading, toast, and commands.
 - `forgedialog/workflows` for branching async wizards.
-- `forgedialog/react`, `/vue`, `/svelte`, or `/web-component` for lifecycle adapters.
+- `forgedialog/svelte` or `/web-component` for lifecycle adapters that need no framework
+  runtime. The React and Vue adapters are the separate `forgedialog-react` and `forgedialog-vue`
+  packages, in `packages/` — a wrapper that needs a peer dependency does not belong in a core that
+  advertises having none.
 
 The main `forgedialog` entry includes the complete API and default CSS. Subpath entries are
 side-effect free; styles can be loaded explicitly from `forgedialog/style.css`.

@@ -203,8 +203,21 @@ const data = await flow.result;
 Tree-shakable entry points are available at `forgedialog/core`, `forgedialog/interactions`,
 `forgedialog/animations`, `forgedialog/appearance`,
 `forgedialog/presentation`, and `forgedialog/workflows`. `forgedialog/interactions` exposes the
-standalone draggable controller without pulling in dialog APIs. Framework integrations are exported from `forgedialog/react`,
-`forgedialog/vue`, `forgedialog/svelte`, and `forgedialog/web-component`.
+standalone draggable controller without pulling in dialog APIs.
+
+React and Vue integrations are separate packages, so installing `forgedialog` never asks a project
+about a framework it does not use:
+
+```sh
+npm install forgedialog forgedialog-react   # or forgedialog-vue
+```
+
+```ts
+import { useForgeDialog } from 'forgedialog-react';
+```
+
+Svelte and Web Components need nothing beyond the browser, so they stay in the core as
+`forgedialog/svelte` and `forgedialog/web-component`.
 
 Single-purpose entry points minimize simple dialogs further:
 

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { open } from '../api/open';
-import type { DialogInstance, DialogOptions } from '../types';
+import { open, type DialogInstance, type DialogOptions } from 'forgedialog';
 
 export function useForgeDialog<TResult = unknown>() {
   const active = useRef<DialogInstance<TResult> | null>(null);
